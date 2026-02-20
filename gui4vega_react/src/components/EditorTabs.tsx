@@ -17,7 +17,7 @@ const EditorTabs: React.FC<EditorTabsProps> = ({ code, onChange }) => {
             children: (
                 <CodeMirror
                     value={code}
-                    height="100%"
+                    height="calc(600px - 54px)"
                     extensions={[json()]}
                     onChange={onChange}
                 />
@@ -34,8 +34,8 @@ const EditorTabs: React.FC<EditorTabsProps> = ({ code, onChange }) => {
         <Tabs
             defaultActiveKey="spec"
             items={tabItems}
-            style={{ height: '100%' }}
-            styles={{ content: { height: 'calc(100% - 46px)', overflow: 'auto' } }}
+            style={{ height: '600px' }}
+            styles={{ content: { height: 'calc(600px - 46px)', overflow: 'hidden' } }}
         />
     );
 };

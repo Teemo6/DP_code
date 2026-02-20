@@ -23,11 +23,11 @@ const VegaEditor: React.FC = () => {
 
     return (
         <ConfigProvider>
-            <div style={{ display: 'flex', height: '100vh', gap: 8, padding: 8, backgroundColor: '#f5f5f5' }}>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', height: '600px', gap: 0, backgroundColor: '#f5f5f5' }}>
+                <div style={{ width: '50%', height: '100%', overflow: 'hidden' }}>
                     <EditorTabs code={code} onChange={setCode} />
                 </div>
-                <div style={{ flex: 1, backgroundColor: '#fff', borderRadius: 4, padding: 16, overflow: 'hidden' }}>
+                <div style={{ width: '50%', height: '100%', padding: 16, overflow: 'hidden', backgroundColor: '#fff' }}>
                     <div ref={vegaContainerRef} style={{ width: '100%', height: '100%' }} />
                 </div>
             </div>

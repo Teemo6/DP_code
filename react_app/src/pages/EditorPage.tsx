@@ -1,24 +1,41 @@
 import { VegaEditor } from 'gui4vega_react'
-import { useNavigate } from 'react-router-dom'
-import { Layout, Typography } from 'antd'
-import './EditorPage.css'
+import { Layout, Typography, theme } from 'antd'
+import AppHeader from '../components/AppHeader'
+import AppFooter from '../components/AppFooter'
 
-const { Header, Content } = Layout
-const { Text } = Typography
+const { Sider, Content } = Layout
+const { Title, Paragraph } = Typography
 
 export default function EditorPage() {
-    const navigate = useNavigate()
+    const { token } = theme.useToken()
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
-            <Header style={{ display: 'flex', alignItems: 'center', background: '#fff', borderBottom: '1px solid #e8e8e8', padding: '0 2rem' }}>
-                <Text strong style={{ fontSize: '0.95rem', cursor: 'pointer' }} onClick={() => navigate('/')}>
-                    Vega GUI
-                </Text>
-            </Header>
-            <Content style={{ display: 'flex', flex: 1 }}>
-                <VegaEditor />
-            </Content>
+        <Layout>
+            <AppHeader />
+            <Layout.Content>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 8,
+                    padding: '1.5rem 2rem 1rem',
+                    borderBottom: `1px solid ${token.colorBorderSecondary}`,
+                }}>
+                    <Title level={3} style={{ margin: 0 }}>Visual Specification Editor</Title>
+                    <Paragraph type="secondary" style={{ margin: 0, maxWidth: 600, textAlign: 'center' }}>
+                        Write and preview Vega grammar specifications in real time.
+                        Edit the JSON spec on the left and see the rendered visualization on the right.
+                    </Paragraph>
+                </div>
+                <Layout>
+                    <Sider width={32} style={{ background: token.colorBgLayout, borderRight: `1px solid ${token.colorBorderSecondary}` }} />
+                    <Content>
+                        <VegaEditor />
+                    </Content>
+                    <Sider width={32} style={{ background: token.colorBgLayout, borderLeft: `1px solid ${token.colorBorderSecondary}` }} />
+                </Layout>
+            </Layout.Content>
+            <AppFooter />
         </Layout>
     )
 }
