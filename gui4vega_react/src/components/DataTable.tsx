@@ -1,21 +1,15 @@
 import React from 'react';
 import { Table, Typography } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
 import type { VegaDataset } from '../types/vega';
+import { buildColumns } from './DataTableColumns';
 
 interface DataTableProps {
     dataset: VegaDataset;
+    onCellChange: (rowIndex: number, col: string, newValue: unknown) => void;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ dataset }) => {
-    const columns: ColumnsType<Record<string, unknown>> = Object.keys(dataset.values[0] ?? {}).map(col => ({
-        title: col,
-        dataIndex: col,
-        key: col,
-        render: (val: unknown) =>
-            val !== null && typeof val === 'object' ? JSON.stringify(val) : String(val ?? ''),
-    }));
-
+const DataTable: React.FC<DataTableProps> = ({ dataset, onCellChange }) => {
+    const columns = buildColumns(dataset.values[0] ?? {}, onCellChange);
     const dataSource = dataset.values.map((row, i) => ({ ...row, _rowKey: i }));
 
     return (

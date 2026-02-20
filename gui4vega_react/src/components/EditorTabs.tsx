@@ -26,7 +26,7 @@ const EditorTabs: React.FC<EditorTabsProps> = ({ code, onChange }) => {
         {
             key: 'data',
             label: 'Data',
-            children: <DataView code={code} />,
+            children: <DataView code={code} onCodeChange={onChange} />,
         },
     ];
 
