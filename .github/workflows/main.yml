@@ -1,0 +1,24 @@
+name: Node.js Package
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish-gpr:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: gui4vega_react
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+          scope: '@Teemo6'
+      - run: npm install
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
