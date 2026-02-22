@@ -1,6 +1,6 @@
 {
   "name": "@teemo6/gui4vega_react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@Teemo6",
