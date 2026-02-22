@@ -1,25 +1,23 @@
-# DP Code
+### Install and build library
 
-React application `react_app` using the `gui4vega_react` component library for Vega visualization editor.
-
-## Installation
-
-1) Build the `gui4vega_react` library:
-```sh
+```bash
 cd gui4vega_react
 npm install
 npm run build
 ```
 
-2) Install dependencies for `react_app`:
-```sh
+### Run demo
+
+```bash
 cd react_app
 npm install
-```
-
-3) Run from root:
-```sh
 npm run dev
-```
+ ```
 
-The app will be available at `http://localhost:5173`.
+### Push to npm @teemo6/gui4vega_react
+
+```bash
+cd gui4vega_react
+npm run release:patch
+# token to bump is required
+```
