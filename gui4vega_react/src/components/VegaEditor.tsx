@@ -3,6 +3,7 @@ import vegaEmbed from 'vega-embed';
 import { ConfigProvider, Alert } from 'antd';
 import defaultSpec from '../json/default.json';
 import EditorTabs from './EditorTabs';
+import SpecLoader from './SpecLoader';
 
 const VegaEditor: React.FC = () => {
     const [code, setCode] = useState(JSON.stringify(defaultSpec, null, 2));
@@ -23,8 +24,15 @@ const VegaEditor: React.FC = () => {
         renderVega();
     }, [code]);
 
+    const handleSpecLoad = (spec: unknown) => {
+        setCode(JSON.stringify(spec, null, 2));
+    };
+
     return (
         <ConfigProvider>
+            <div>
+                <SpecLoader onLoad={handleSpecLoad} />
+            </div>
             <div style={{ display: 'flex', height: '600px', gap: 0, backgroundColor: '#f5f5f5' }}>
                 <div style={{ width: '50%', height: '100%', overflow: 'hidden' }}>
                     <EditorTabs code={code} onChange={setCode} />
@@ -34,7 +42,7 @@ const VegaEditor: React.FC = () => {
                         <Alert
                             type="error"
                             showIcon
-                            message="Invalid Vega Specification"
+                            title="Invalid Vega Specification"
                             description={error}
                             style={{ marginBottom: 16 }}
                         />
