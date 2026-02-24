@@ -9,13 +9,24 @@ interface VegaViewProps {
 const VegaView: React.FC<VegaViewProps> = ({ code }) => {
     const [error, setError] = useState<string | null>(null);
     const vegaContainerRef = useRef<HTMLDivElement>(null);
+    const vegaViewRef = useRef<{ view?: { finalize?: () => void } } | null>(null);
 
     useEffect(() => {
         const renderVega = async () => {
             if (!vegaContainerRef.current) return;
             try {
+                // cleanup previous view if present
+                if (vegaViewRef.current && typeof vegaViewRef.current.view?.finalize === 'function') {
+                    try {
+                        vegaViewRef.current.view!.finalize();
+                    } catch {
+                        // ignore cleanup errors
+                    }
+                    vegaViewRef.current = null;
+                }
+
                 const spec = JSON.parse(code);
-                await vegaEmbed(vegaContainerRef.current, spec, { actions: true });
+                vegaViewRef.current = await vegaEmbed(vegaContainerRef.current, spec, { actions: true }) as unknown as { view?: { finalize?: () => void } };
                 setError(null);
             } catch (err) {
                 setError(err instanceof Error ? err.message : String(err));
@@ -25,18 +36,20 @@ const VegaView: React.FC<VegaViewProps> = ({ code }) => {
     }, [code]);
 
     return (
-        <div style={{ padding: 16 }}>
-            <div
-                ref={vegaContainerRef}
-            />
+        <div style={{ height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ flex: 1, minHeight: 0, overflow: 'auto', width: '100%' }}>
+                <div ref={vegaContainerRef} />
+            </div>
+
             {error && (
-                <Alert
-                    type="error"
-                    showIcon
-                    title="Invalid Vega Specification"
-                    description={error}
-                    style={{ marginBottom: 16 }}
-                />
+                <div style={{ flex: 'none' }}>
+                    <Alert
+                        type="error"
+                        showIcon
+                        title="Invalid Vega Specification"
+                        description={error}
+                    />
+                </div>
             )}
         </div>
     );

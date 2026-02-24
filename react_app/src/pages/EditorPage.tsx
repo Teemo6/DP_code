@@ -30,7 +30,7 @@ export default function EditorPage() {
                 <Layout>
                     <Sider width={32} style={{ background: token.colorBgLayout, borderRight: `1px solid ${token.colorBorderSecondary}` }} />
                     <Content>
-                        <VegaEditor />
+                        <VegaEditor height="700px" />
                     </Content>
                     <Sider width={32} style={{ background: token.colorBgLayout, borderLeft: `1px solid ${token.colorBorderSecondary}` }} />
                 </Layout>

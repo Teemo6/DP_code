@@ -2,6 +2,10 @@
   "name": "@teemo6/gui4vega_react",
   "version": "0.0.4",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Teemo6/DP_code.git"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@Teemo6",
     "access": "restricted"
