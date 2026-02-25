@@ -1,7 +1,7 @@
 import { Layout, Typography, theme } from 'antd'
 
 const { Footer } = Layout
-const { Text, Link } = Typography
+const { Text } = Typography
 
 export default function AppFooter() {
     const { token } = theme.useToken()
@@ -14,9 +14,7 @@ export default function AppFooter() {
             borderTop: `1px solid ${token.colorBorderSecondary}`,
         }}>
             <Text type="secondary" style={{ fontSize: '0.8rem' }}>
-                {new Date().getFullYear()} - {' '}
-                <Link href="https://vega.github.io/vega/" target="_blank">Vega</Link>
-                {' '}Specification Editor
+                Demo of importing <code>gui4vega_react</code>
             </Text>
         </Footer>
     )

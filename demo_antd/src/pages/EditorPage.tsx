@@ -4,7 +4,7 @@ import AppHeader from '../components/AppHeader'
 import AppFooter from '../components/AppFooter'
 
 // import spec from '../../json/invalid.json'
-import spec from '../../json/anti/02_too_long_sprint.json'
+import spec from '../../../json/anti/02_too_long_sprint.json'
 
 const { Sider, Content } = Layout
 const { Title, Paragraph } = Typography
