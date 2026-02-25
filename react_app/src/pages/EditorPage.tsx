@@ -3,6 +3,9 @@ import { Layout, Typography, theme } from 'antd'
 import AppHeader from '../components/AppHeader'
 import AppFooter from '../components/AppFooter'
 
+// import spec from '../../json/invalid.json'
+import spec from '../../json/anti/02_too_long_sprint.json'
+
 const { Sider, Content } = Layout
 const { Title, Paragraph } = Typography
 
@@ -30,7 +33,10 @@ export default function EditorPage() {
                 <Layout>
                     <Sider width={32} style={{ background: token.colorBgLayout, borderRight: `1px solid ${token.colorBorderSecondary}` }} />
                     <Content>
-                        <VegaEditor height="700px" />
+                        <VegaEditor
+                            height="700px"
+                            initialSchema={spec}
+                        />
                     </Content>
                     <Sider width={32} style={{ background: token.colorBgLayout, borderLeft: `1px solid ${token.colorBorderSecondary}` }} />
                 </Layout>
