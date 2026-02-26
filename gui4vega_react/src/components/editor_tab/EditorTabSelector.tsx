@@ -12,7 +12,7 @@ const EditorTabSelector: React.FC<EditorTabSelectorProps> = ({ activeTab, onChan
     const tabItems = [
         {
             key: 'spec',
-            label: 'Spec',
+            label: 'Specification',
         },
         {
             key: 'data',

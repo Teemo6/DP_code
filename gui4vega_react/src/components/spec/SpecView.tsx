@@ -2,20 +2,19 @@ import React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 
-interface SpecEditorProps {
+interface SpecViewProps {
     code: string;
     onChange: (value: string) => void;
 }
 
-const SpecEditor: React.FC<SpecEditorProps> = ({ code, onChange }: SpecEditorProps) => {
+const SpecView: React.FC<SpecViewProps> = ({ code, onChange }: SpecViewProps) => {
     return (
         <CodeMirror
             value={code}
-            height={'100%'}
             extensions={[json()]}
             onChange={onChange}
         />
     );
 };
 
-export default SpecEditor;
+export default SpecView;

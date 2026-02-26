@@ -1,5 +1,5 @@
 import React from 'react';
-import SpecEditor from '../spec/SpecEditor.tsx';
+import SpecView from '../spec/SpecView.tsx';
 import DataView from '../data/DataView';
 import PropertiesView from '../properties/PropertiesView';
 import type { EditorTabKey } from './EditorTabSelector';
@@ -13,7 +13,7 @@ interface EditorContentProps {
 const EditorTabContent: React.FC<EditorContentProps> = ({ activeTab, code, onChange }: EditorContentProps) => {
     switch (activeTab) {
         case 'spec':
-            return <SpecEditor code={code} onChange={onChange} />;
+            return <SpecView code={code} onChange={onChange} />;
         case 'data':
             return <DataView code={code} onCodeChange={onChange} />;
         case 'properties':
