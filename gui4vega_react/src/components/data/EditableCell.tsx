@@ -43,10 +43,10 @@ const EditableCell: React.FC<EditableCellProps> = ({ value, onSave }) => {
     return (
         <span
             onClick={() => { setInputVal(display); setEditing(true); }}
-            style={{ cursor: 'pointer', display: 'block', minWidth: 80 }}
+            style={{ cursor: 'pointer', display: 'block', minWidth: 80, color: display === '' ? '#aaa' : undefined }}
             title="Click to edit"
         >
-            {display}
+            {display === '' ? <em>Click to edit</em> : display}
         </span>
     );
 };
