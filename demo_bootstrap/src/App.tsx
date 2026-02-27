@@ -42,11 +42,11 @@ function App() {
             </div>
           </Col>
 
-          <Col md={9} className="p-3">
+          <Col md={7} className="p-3">
             <h2>Vega Editor Integration</h2>
             <p className="text-muted">A minimal example showing the VegaEditor component from <code>gui4vega_react</code>.</p>
 
-            <div className="border rounded p-2 bg-white" style={{ height: '70vh' }}>
+            <div className="border rounded p-2 bg-white" style={{ height: '75vh', width: '70vw' }}>
               <VegaEditor height="100%" />
             </div>
           </Col>
