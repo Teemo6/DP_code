@@ -21,12 +21,9 @@ const EditableDatasetHeader: React.FC<EditableDatasetHeaderProps> = (props) => (
             size="small"
             title={props.tableVisible ? 'Hide Table' : 'Show Table'}
         />
-        <Typography.Title level={5} style={{ marginBottom: 0 }}>
-            {props.datasetName}
-            <Typography.Text type="secondary" style={{ fontWeight: 400, marginLeft: 8, fontSize: 13 }}>
-                ({props.rowCount} rows)
-            </Typography.Text>
-        </Typography.Title>
+        <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+            {props.rowCount} rows
+        </Typography.Text>
         {props.tableVisible && (
             <>
                 <Button size="small" type="primary" onClick={props.onAddRow}>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Space } from 'antd';
+import { Table, Space, Empty } from 'antd';
 import type { VegaDataset } from '../../types/vega';
 import { buildColumns } from './DataTableColumns';
 import DeleteDataButton from './DeleteDataButton.tsx';
@@ -90,14 +90,20 @@ const DataTable: React.FC<DataTableProps> = (props) => {
                 onToggleTable={() => setTableVisible(v => !v)}
             />
             {tableVisible && (
-                <Table
-                    columns={columnsWithDelete}
-                    dataSource={dataSource}
-                    rowKey="_rowKey"
-                    size="small"
-                    pagination={false}
-                    scroll={{ x: 'max-content' }}
-                />
+                props.dataset.values.length === 0 ? (
+                    <div style={{ padding: '24px 0', textAlign: 'center', width: '100%' }}>
+                        <Empty description="No data. Click 'Add Row' to insert the first row." />
+                    </div>
+                ) : (
+                    <Table
+                        columns={columnsWithDelete}
+                        dataSource={dataSource}
+                        rowKey="_rowKey"
+                        size="small"
+                        pagination={false}
+                        scroll={{ x: 'max-content' }}
+                    />
+                )
             )}
         </Space>
     );
