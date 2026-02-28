@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Tag, Typography, Table, Empty } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import type { VegaMark } from '../../types/marks';
+import type { VegaMark } from './helper/markEdit.ts';
 
 interface MarkCardProps {
     mark: VegaMark;

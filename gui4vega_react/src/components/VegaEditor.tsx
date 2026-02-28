@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ConfigProvider, Splitter, Layout, theme } from 'antd';
-import defaultSpec from '../json/default.json';
+import defaultSpec from '../assets/default.json';
 import EditorTab from './editor_tab/EditorTab.tsx';
-import SpecLoader from './loader/SpecLoader';
-import VegaView from './viewer/VegaView';
-import type { VegaEditorProps } from '../types';
+import SpecLoader from './loader/SpecLoader.tsx';
+import VegaView from './viewer/VegaView.tsx';
+
+export interface VegaEditorProps {
+    initialSchema?: Record<string, unknown>;
+    height: string;
+    width?: string;
+}
 
 const VegaEditor: React.FC<VegaEditorProps> = (props: VegaEditorProps) => {
     // Access Ant Design theme token

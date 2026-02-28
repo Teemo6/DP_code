@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Typography } from 'antd';
-import { parseMarks, updateMarkProperty } from '../../types/marks';
+import { parseMarks, updateMarkProperty } from './helper/markEdit.ts';
 import MarkCard from './MarkCard';
 
 interface PropertiesViewProps {
