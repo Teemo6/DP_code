@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { VegaEditor } from 'gui4vega_react'
-import type { VegaDataset } from 'gui4vega_react'
+import type { VegaDataset, VegaSignal } from 'gui4vega_react'
 import { Layout, Typography, theme, Flex } from 'antd'
 import AppHeader from '../components/AppHeader'
 import AppFooter from '../components/AppFooter'
@@ -29,6 +29,11 @@ const datasets: VegaDataset[] = [
     }
 ];
 
+const signals: VegaSignal[] = [
+    { name: "initialSignal1", value: 5 },
+    { name: "initialSignal2", value: 6 },
+];
+
 export default function EditorPage() {
     // Access Ant Design theme token
     const { token } = theme.useToken()
@@ -55,6 +60,7 @@ export default function EditorPage() {
                             height="700px"
                             initialSchema={spec}
                             initialDatasets={datasets}
+                            initialSignals={signals}
                             onExport={setExported}
                         />
 

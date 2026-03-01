@@ -1,49 +1,60 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import defaultSpec from '../assets/default.json';
 import type { VegaDataset } from './data/helper/datasetEdit.ts';
+
+export interface VegaSignal {
+    name: string;
+    value: unknown;
+}
 
 interface useVegaEditorProps {
     initialSchema?: Record<string, unknown>;
     initialDatasets?: VegaDataset[];
-    height: string;
+    initialSignals?: VegaSignal[];
 }
 
 export const useVegaEditor = (props: useVegaEditorProps) => {
-    // Validate that the height prop is provided and is a string
-    useEffect(() => {
-        if (!props.height) {
-            throw new Error('gui4vega - VegaEditor: prop "height" is required.');
-        }
-    }, [props.height]);
-
     // State to hold the current Vega specification code
     const [code, setCode] = useState<string>(() => {
+        // Start with the provided initial schema or fall back to the default spec
         const baseSpec = props.initialSchema ?? defaultSpec;
+        const specWithData = { ...baseSpec };
 
-        // Append initial datasets to the specification if provided
+        // If provided, add initial datasets to the beginning of the data block
         if (props.initialDatasets && Array.isArray(props.initialDatasets) && props.initialDatasets.length > 0) {
-            const specWithData = { ...baseSpec };
-
+            // Ensure the data block exists and is an array
             if (!Array.isArray(specWithData.data)) {
                 specWithData.data = [];
             }
 
-            props.initialDatasets.forEach((dataset) => {
-                const existingIndex = (specWithData.data as VegaDataset[]).findIndex(
-                    (d) => d.name === dataset.name
-                );
+            // Remove any existing datasets with the same name as those in initialDatasets
+            const initialDatasetNames = props.initialDatasets.map((ds) => ds.name);
+            const filteredData = (specWithData.data as VegaDataset[]).filter(
+                (d) => !initialDatasetNames.includes(d.name)
+            );
 
-                if (existingIndex !== -1) {
-                    (specWithData.data as VegaDataset[])[existingIndex] = dataset;
-                } else {
-                    (specWithData.data as VegaDataset[]).push(dataset);
-                }
-            });
-
-            return JSON.stringify(specWithData, null, 2);
+            // Prepend initialDatasets to the beginning of the data array
+            specWithData.data = [...props.initialDatasets, ...filteredData];
         }
 
-        return JSON.stringify(baseSpec, null, 2);
+        // If provided, add initial signals to the beginning of the signals block
+        if (props.initialSignals && Array.isArray(props.initialSignals) && props.initialSignals.length > 0) {
+            // Ensure the signals block exists and is an array
+            if (!Array.isArray(specWithData.signals)) {
+                specWithData.signals = [];
+            }
+
+            // Remove any existing signals with the same name as those in initialSignals
+            const initialSignalNames = props.initialSignals.map((sgn) => sgn.name);
+            const filteredSignals = (specWithData.signals as VegaSignal[]).filter(
+                (s) => !initialSignalNames.includes(s.name)
+            );
+
+            // Prepend initialSignals to the beginning of the signals array
+            specWithData.signals = [...props.initialSignals, ...filteredSignals];
+        }
+
+        return JSON.stringify(specWithData, null, 2);
     });
 
     // Handler for when a new spec is loaded from the SpecLoader component

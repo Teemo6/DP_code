@@ -3,6 +3,22 @@
   "width": 500,
   "height": 300,
 
+  "signals": [
+    {
+      "name": "TLS1",
+      "value": 9
+    },
+    {
+      "name": "TLS2",
+      "value": 3
+    },
+    {
+      "name": "threshold",
+      "value": 50,
+      "bind": {"input": "range", "min": 0, "max": 100, "step": 1}
+    }
+  ],
+
   "data": [
     {
       "name": "table",

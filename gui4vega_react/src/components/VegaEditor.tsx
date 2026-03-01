@@ -6,13 +6,14 @@ import VegaView from './viewer/VegaView.tsx';
 import SpecExporter from './exporter/SpecExporter.tsx';
 import type { ExportedData } from "./exporter/helper/exportData.ts";
 import type { VegaDataset } from './data/helper/datasetEdit.ts';
-import { useVegaEditor } from "./useVegaEditor.ts";
+import { useVegaEditor, type VegaSignal } from "./useVegaEditor.ts";
 
 export interface VegaEditorProps {
-    initialSchema?: Record<string, unknown>;
-    initialDatasets?: VegaDataset[];
     height: string;
     width?: string;
+    initialSchema?: Record<string, unknown>;
+    initialDatasets?: VegaDataset[];
+    initialSignals?: VegaSignal[];
     onExport?: (data: ExportedData) => void;
 }
 
@@ -20,16 +21,19 @@ const VegaEditor: React.FC<VegaEditorProps> = (props: VegaEditorProps) => {
     // Access Ant Design theme token
     const { token: antdToken } = theme.useToken();
 
+    // Manage if user somehow bypasses height requirement
+    const height = props.height || '700px';
+
     // Call useVegaEditor hook
     const { code, setCode, handleSpecLoad } = useVegaEditor({
         initialSchema: props.initialSchema,
         initialDatasets: props.initialDatasets,
-        height: props.height
+        initialSignals: props.initialSignals,
     });
 
     return (
         <ConfigProvider>
-            <Layout style={{ width: props.width, height: props.height, background: antdToken.colorBgContainer }}>
+            <Layout style={{ width: props.width, height: height, background: antdToken.colorBgContainer }}>
                 <Layout.Header style={{
                     padding: antdToken.padding,
                     background: antdToken.colorBgContainer,
