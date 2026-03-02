@@ -4,7 +4,7 @@ import EditorTab from './editor_tab/EditorTab.tsx';
 import SpecLoader from './loader/SpecLoader.tsx';
 import VegaView from './viewer/VegaView.tsx';
 import SpecExporter from './exporter/SpecExporter.tsx';
-import type { ExportedData } from "./exporter/helper/exportData.ts";
+import type { ExportedData } from "./exporter/helper/exportSelectedData.ts";
 import type { VegaDataset } from './data/helper/datasetEdit.ts';
 import type { VegaSignal } from './signal/helper/signalEdit.ts';
 import { useVegaEditor } from "./useVegaEditor.ts";
