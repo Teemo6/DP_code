@@ -70,7 +70,7 @@ export default function EditorPage() {
                                 Below this paragraph are the results of exporting the JSON specification and selected datasets using the export functionality of the VegaEditor.
                             </Paragraph>
                         </Flex>
-                        <ExportedContent spec={exported.spec} datasets={exported.datasets} />
+                        <ExportedContent spec={exported.spec} datasets={exported.datasets} signals={exported.signals} />
                     </Content>
                     <Sider width={32} style={{ background: token.colorBgLayout, borderLeft: `1px solid ${token.colorBorderSecondary}` }} />
                 </Layout>

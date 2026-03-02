@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import defaultSpec from '../assets/default.json';
 import type { VegaDataset } from './data/helper/datasetEdit.ts';
-
-export interface VegaSignal {
-    name: string;
-    value: unknown;
-}
+import type { VegaSignal } from './signal/helper/signalEdit.ts';
 
 interface useVegaEditorProps {
     initialSchema?: Record<string, unknown>;

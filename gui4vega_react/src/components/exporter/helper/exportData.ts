@@ -1,6 +1,7 @@
 export interface ExportedData {
     spec: string;
     datasets: string[];
+    signals: string[];
 }
 
 export function exportSelectedDatasets(specString: string, selectedDatasetNames: string[]): ExportedData {
@@ -24,6 +25,7 @@ export function exportSelectedDatasets(specString: string, selectedDatasetNames:
 
     return {
         spec: specString,
-        datasets: exportedDatasets
+        datasets: exportedDatasets,
+        signals: []
     };
 }
