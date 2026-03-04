@@ -1,0 +1,40 @@
+import { useMemo, useState } from 'react';
+import { parseDatasets } from '../../data/helper/datasetEdit.ts';
+import { parseSignals } from '../../signal/helper/signalEdit.ts';
+import { exportSelectedData } from '../helper/exportSelectedData.ts';
+
+interface UseExternalSelectionExporterProps {
+    code: string;
+}
+
+export const useExternalSelectionExporter = (props: UseExternalSelectionExporterProps) => {
+    // Data extraction logic
+    const datasetObjs = useMemo(() => parseDatasets(props.code), [props.code]);
+    const signalObjs = useMemo(() => parseSignals(props.code), [props.code]);
+
+    // Data names for checkbox groups
+    const datasetNames = useMemo(() => datasetObjs.map(ds => ds.name), [datasetObjs]);
+    const signalNames = useMemo(() => signalObjs.map(s => s.name), [signalObjs]);
+
+    // State for modal visibility and selections
+    const [datasetSelection, setDatasetSelection] = useState<string[]>([]);
+    const [signalSelection, setSignalSelection] = useState<string[]>([]);
+
+    // Get the data that would be exported based on current selections
+    const getExportedData = () => {
+        return exportSelectedData(props.code, datasetSelection, signalSelection);
+    };
+
+    return {
+        // State
+        datasetNames,
+        signalNames,
+        datasetSelection,
+        signalSelection,
+        // Setters for Checkbox Groups
+        setDatasetSelection,
+        setSignalSelection,
+        // Handlers
+        getExportedData,
+    };
+};

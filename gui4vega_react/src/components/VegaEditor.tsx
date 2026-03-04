@@ -1,4 +1,5 @@
-import React from 'react';
+import { forwardRef, useImperativeHandle} from 'react';
+import type { ForwardedRef } from 'react';
 import { ConfigProvider, Splitter, Layout, Space, theme } from 'antd';
 import EditorTab from './editor_tab/EditorTab.tsx';
 import SpecLoader from './loader/SpecLoader.tsx';
@@ -19,7 +20,12 @@ export interface VegaEditorProps {
     onExport?: (data: ExportedData) => void;
 }
 
-const VegaEditor: React.FC<VegaEditorProps> = (props: VegaEditorProps) => {
+// Define the type for the imperative handle
+export interface VegaEditorRef {
+    getCode: () => unknown;
+}
+
+const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditorProps, ref: ForwardedRef<VegaEditorRef>) => {
     // Access Ant Design theme token
     const { token: antdToken } = theme.useToken();
 
@@ -32,6 +38,11 @@ const VegaEditor: React.FC<VegaEditorProps> = (props: VegaEditorProps) => {
         initialDatasets: props.initialDatasets,
         initialSignals: props.initialSignals,
     });
+
+    // Returns the current Vega spec code. Exposed to parent via ref.
+    useImperativeHandle(ref, () => ({
+        getCode: () => code
+    }), [code]);
 
     return (
         <ConfigProvider>
@@ -61,6 +72,6 @@ const VegaEditor: React.FC<VegaEditorProps> = (props: VegaEditorProps) => {
             </Layout>
         </ConfigProvider>
     );
-};
+});
 
 export default VegaEditor;
