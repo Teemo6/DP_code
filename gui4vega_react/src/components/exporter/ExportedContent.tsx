@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Flex, Typography, Input } from 'antd';
-import type { ExportedData } from 'gui4vega_react';
+import type { ExportedData } from './helper/exportSelectedData';
 
 const { Text } = Typography;
 const { TextArea } = Input;

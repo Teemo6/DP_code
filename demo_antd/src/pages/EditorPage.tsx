@@ -1,38 +1,16 @@
 import { useRef, useState } from 'react'
-import { VegaEditor, ExternalSelectionExporter } from 'gui4vega_react'
-import type { ExportedData, VegaDataset, VegaSignal, VegaEditorRef } from 'gui4vega_react'
+import { VegaEditor, ExternalSelectionExporter, ExportedContent } from 'gui4vega_react'
+import type { ExportedData, VegaEditorRef } from 'gui4vega_react'
 import { Layout, Typography, theme, Flex, Button } from 'antd'
 import AppHeader from '../components/AppHeader'
 import AppFooter from '../components/AppFooter'
-import ExportedContent from '../components/ExportedContent'
 
 // import spec from '../../json/invalid.json'
 import spec from '../../../json/anti/02_too_long_sprint.json'
+import { datasets, signals } from '../assets/import'
 
 const { Sider, Content } = Layout
 const { Title, Paragraph } = Typography
-
-const datasets: VegaDataset[] = [
-    {
-        name: "initialDataset1",
-        values: [
-            { category: "A", value: 10 },
-            { category: "B", value: 20 }
-        ]
-    },
-    {
-        name: "initialDataset2",
-        values: [
-            { category: "X", value: 90 },
-            { category: "Y", value: 80 }
-        ]
-    }
-];
-
-const signals: VegaSignal[] = [
-    { name: "initialSignal1", value: 5 },
-    { name: "initialSignal2", value: 6 },
-];
 
 export default function EditorPage() {
     // Access Ant Design theme token
@@ -86,7 +64,6 @@ export default function EditorPage() {
                             initialSchema={spec}
                             initialDatasets={datasets}
                             initialSignals={signals}
-                            onExport={setExported}
                         />
                         <Flex vertical align="center" gap="small" style={{ padding: '24px 32px 16px', borderBottom: `1px solid ${token.colorBorderSecondary}` }}>
                             <Paragraph type="secondary" style={{ maxWidth: 600, textAlign: 'center' }}>

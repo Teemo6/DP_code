@@ -3,15 +3,29 @@ import { Button, Modal, Checkbox, Typography, Divider, Flex, Layout } from 'antd
 import {useSelectionExporter} from "./hooks/useSelectionExporter.ts";
 import type { ExportedData } from './helper/exportSelectedData.ts';
 import { UploadOutlined } from "@ant-design/icons";
+import ExportedContent from './ExportedContent';
 
 const { Title } = Typography;
 
 interface SelectionExporterProps {
     code: string;
-    onExport?: (data: ExportedData) => void;
 }
 
 const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExporterProps) => {
+    const [exportedData, setExportedData] = React.useState<ExportedData | null>(null);
+    const [isExportModalOpen, setIsExportModalOpen] = React.useState(false);
+
+    const handleExportSuccess = (data: ExportedData) => {
+        setExportedData(data);
+        setIsExportModalOpen(true);
+    };
+
+    const handleCloseExportModal = () => {
+        setIsExportModalOpen(false);
+        setExportedData(null);
+    };
+
+    const exporter = useSelectionExporter({ code: props.code, onExportSuccess: handleExportSuccess });
     const {
         isModalOpen,
         datasetNames,
@@ -23,7 +37,7 @@ const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExp
         openExporter,
         closeExporter,
         confirmExport
-    } = useSelectionExporter({ code: props.code, onExportSuccess: props.onExport });
+    } = exporter;
 
     return (
         <>
@@ -36,7 +50,7 @@ const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExp
                 open={isModalOpen}
                 onOk={confirmExport}
                 onCancel={closeExporter}
-                width={800}
+                width={900}
             >
                 <Divider style={{ width: 'auto' }} />
                 <Flex gap="large" style={{ minHeight: 200 }}>
@@ -70,6 +84,16 @@ const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExp
                         </Flex>
                     )}
                 </Flex>
+            </Modal>
+
+            <Modal
+                title="Exported Content"
+                open={isExportModalOpen}
+                onOk={handleCloseExportModal}
+                onCancel={handleCloseExportModal}
+                width={900}
+            >
+                {exportedData && <ExportedContent data={exportedData} />}
             </Modal>
         </>
     );

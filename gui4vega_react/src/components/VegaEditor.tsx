@@ -5,7 +5,6 @@ import EditorTab from './editor_tab/EditorTab.tsx';
 import SpecLoader from './loader/SpecLoader.tsx';
 import VegaView from './viewer/VegaView.tsx';
 import SelectionExporter from './exporter/SelectionExporter.tsx';
-import type { ExportedData } from "./exporter/helper/exportSelectedData.ts";
 import type { VegaDataset } from './data/helper/datasetEdit.ts';
 import type { VegaSignal } from './signal/helper/signalEdit.ts';
 import { useVegaEditor } from "./useVegaEditor.ts";
@@ -16,7 +15,6 @@ export interface VegaEditorProps {
     initialSchema?: Record<string, unknown>;
     initialDatasets?: VegaDataset[];
     initialSignals?: VegaSignal[];
-    onExport?: (data: ExportedData) => void;
 }
 
 // Define the type for the imperative handle
@@ -54,7 +52,7 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
                 }}>
                     <Space size="middle">
                         <SpecLoader onLoad={handleSpecLoad} />
-                        <SelectionExporter code={code} onExport={props.onExport} />
+                        <SelectionExporter code={code} />
                     </Space>
                 </Layout.Header>
                 <Layout.Content>
