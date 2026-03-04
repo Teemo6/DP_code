@@ -6,7 +6,7 @@ import AppHeader from '../components/AppHeader'
 import AppFooter from '../components/AppFooter'
 
 // import spec from '../../json/invalid.json'
-import spec from '../../../json/anti/02_too_long_sprint.json'
+import schema from '../../../json/anti/02_too_long_sprint.json'
 import { datasets, signals } from '../assets/import'
 
 const { Sider, Content } = Layout
@@ -61,9 +61,7 @@ export default function EditorPage() {
                         <VegaEditor
                             ref={editorRef}
                             height="700px"
-                            initialSchema={spec}
-                            initialDatasets={datasets}
-                            initialSignals={signals}
+                            importedData={{schema: schema, datasets: datasets, signals: signals}}
                         />
                         <Flex vertical align="center" gap="small" style={{ padding: '24px 32px 16px', borderBottom: `1px solid ${token.colorBorderSecondary}` }}>
                             <Paragraph type="secondary" style={{ maxWidth: 600, textAlign: 'center' }}>

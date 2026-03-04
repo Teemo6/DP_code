@@ -5,16 +5,13 @@ import EditorTab from './editor_tab/EditorTab.tsx';
 import SpecLoader from './loader/SpecLoader.tsx';
 import VegaView from './viewer/VegaView.tsx';
 import SelectionExporter from './exporter/SelectionExporter.tsx';
-import type { VegaDataset } from './data/helper/datasetEdit.ts';
-import type { VegaSignal } from './signal/helper/signalEdit.ts';
 import { useVegaEditor } from "./useVegaEditor.ts";
+import type { ImportedData } from "./loader/helper/importData.ts";
 
 export interface VegaEditorProps {
     height: string;
     width?: string;
-    initialSchema?: Record<string, unknown>;
-    initialDatasets?: VegaDataset[];
-    initialSignals?: VegaSignal[];
+    importedData?: ImportedData;
 }
 
 // Define the type for the imperative handle
@@ -29,11 +26,9 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
     // Manage if user somehow bypasses height requirement
     const height = props.height || '700px';
 
-    // Call useVegaEditor hook
+    // Call useVegaEditor hook with unified initialSchema
     const { code, setCode, handleSpecLoad } = useVegaEditor({
-        initialSchema: props.initialSchema,
-        initialDatasets: props.initialDatasets,
-        initialSignals: props.initialSignals,
+        initialSchema: props.importedData,
     });
 
     // Returns the current Vega spec code. Exposed to parent via ref.
