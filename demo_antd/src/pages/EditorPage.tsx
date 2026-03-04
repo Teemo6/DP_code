@@ -101,7 +101,7 @@ export default function EditorPage() {
                             onClose={() => setExternalExporterOpen(false)}
                             onExport={handleExternalExport}
                         />
-                        <ExportedContent spec={exported.spec} datasets={exported.datasets} signals={exported.signals} />
+                        <ExportedContent data={exported} />
                     </Content>
                     <Sider width={32} style={{ background: token.colorBgLayout, borderLeft: `1px solid ${token.colorBorderSecondary}` }} />
                 </Layout>

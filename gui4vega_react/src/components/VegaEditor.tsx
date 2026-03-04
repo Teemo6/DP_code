@@ -9,7 +9,6 @@ import type { ExportedData } from "./exporter/helper/exportSelectedData.ts";
 import type { VegaDataset } from './data/helper/datasetEdit.ts';
 import type { VegaSignal } from './signal/helper/signalEdit.ts';
 import { useVegaEditor } from "./useVegaEditor.ts";
-import SpecExporter from "./exporter/SpecExporter.tsx";
 
 export interface VegaEditorProps {
     height: string;
@@ -55,7 +54,6 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
                 }}>
                     <Space size="middle">
                         <SpecLoader onLoad={handleSpecLoad} />
-                        <SpecExporter code={code} onExport={props.onExport} />
                         <SelectionExporter code={code} onExport={props.onExport} />
                     </Space>
                 </Layout.Header>

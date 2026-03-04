@@ -4,20 +4,6 @@ export interface ExportedData {
     signals: string[];
 }
 
-export function exportSpecOnly(specString: string): ExportedData {
-    try {
-        JSON.parse(specString);
-    } catch {
-        throw new Error('Invalid JSON specification');
-    }
-
-    return {
-        spec: specString,
-        datasets: [],
-        signals: []
-    };
-}
-
 export function exportSelectedData(specString: string, datasetNames: string[] = [], signalNames: string[] = []): ExportedData {
     let specObj: Record<string, unknown>;
 
