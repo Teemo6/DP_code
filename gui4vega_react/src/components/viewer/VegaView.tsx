@@ -5,10 +5,11 @@ import './VegaView.css';
 
 interface VegaViewProps {
     code: string;
+    hideActions?: boolean;
 }
 
 const VegaView: React.FC<VegaViewProps> = (props) => {
-    const { vegaContainerRef, error } = useVegaView(props.code);
+    const { vegaContainerRef, error } = useVegaView(props.code, props.hideActions);
 
     return (
         // Position must be relative to for action button to be positioned correctly

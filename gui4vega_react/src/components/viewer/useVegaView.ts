@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import vegaEmbed from 'vega-embed';
 
-export const useVegaView = (code: string) => {
+export const useVegaView = (code: string, hideActions: boolean = false) => {
     // Error state of the Vega spec parsing/rendering
     const [error, setError] = useState<string | null>(null);
 
@@ -26,14 +26,16 @@ export const useVegaView = (code: string) => {
                     vegaViewRef.current = null;
                 }
                 const spec = JSON.parse(code);
-                vegaViewRef.current = await vegaEmbed(vegaContainerRef.current, spec, { actions: { editor: false }}) as unknown as { view?: { finalize?: () => void } };
+                const actions = hideActions ? false : { editor: false };    // editor: false will hide redirect to Vega Editor
+
+                vegaViewRef.current = await vegaEmbed(vegaContainerRef.current, spec, { actions }) as unknown as { view?: { finalize?: () => void } };
                 setError(null);
             } catch (err) {
                 setError(err instanceof Error ? err.message : String(err));
             }
         };
         renderVega();
-    }, [code]);
+    }, [code, hideActions]);
 
     return { vegaContainerRef, error };
 };

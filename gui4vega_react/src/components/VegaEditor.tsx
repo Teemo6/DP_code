@@ -48,7 +48,7 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
                             <EditorTab code={code} onChange={setCode} height="100%" />
                         </Splitter.Panel>
                         <Splitter.Panel defaultSize="50%" min="20%" max="80%">
-                            <VegaView code={code} />
+                            <VegaView code={code} hideActions={props.hideControls} />
                         </Splitter.Panel>
                     </Splitter>
                 </Layout.Content>
