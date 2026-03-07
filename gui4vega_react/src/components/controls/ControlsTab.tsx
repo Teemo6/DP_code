@@ -8,8 +8,9 @@ interface ControlsTabProps {
     code: string;
 }
 
-const ControlsTab: React.FC<ControlsTabProps> = ({ onLoad, code }) => {
+const ControlsTab: React.FC<ControlsTabProps> = (props: ControlsTabProps) => {
     const { token: antdToken } = theme.useToken();
+
     return (
         <Layout.Header
             style={{
@@ -20,8 +21,8 @@ const ControlsTab: React.FC<ControlsTabProps> = ({ onLoad, code }) => {
             }}
         >
             <Space size="middle">
-                <SpecLoader onLoad={onLoad} />
-                <SelectionExporter code={code} />
+                <SpecLoader onLoad={props.onLoad} />
+                <SelectionExporter code={props.code} />
             </Space>
         </Layout.Header>
     );
