@@ -1,0 +1,121 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "width": 500,
+  "height": 300,
+
+  "signals": [
+    {
+      "name": "TLS1",
+      "value": 9
+    },
+    {
+      "name": "TLS2",
+      "value": 3
+    },
+    {
+      "name": "threshold",
+      "value": 50,
+      "bind": {"input": "range", "min": 0, "max": 100, "step": 1}
+    }
+  ],
+
+  "data": [
+    {
+      "name": "table",
+      "values": [
+        {"category": "A", "value": 32},
+        {"category": "B", "value": 21},
+        {"category": "C", "value": 28},
+        {"category": "D", "value": 46},
+        {"category": "E", "value": 75},
+        {"category": "F", "value": 60}
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "xscale",
+      "type": "band",
+      "domain": {"data": "table", "field": "category"},
+      "range": "width",
+      "padding": 0.2
+    },
+    {
+      "name": "yscale",
+      "type": "linear",
+      "domain": {"data": "table", "field": "value"},
+      "nice": true,
+      "range": "height"
+    }
+  ],
+
+  "axes": [
+    {"orient": "bottom", "scale": "xscale", "title": "Category"},
+    {"orient": "left", "scale": "yscale", "title": "Value"}
+  ],
+
+  "marks": [
+    {
+      "type": "rect",
+      "from": {"data": "table"},
+      "encode": {
+        "enter": {
+          "x": {"scale": "xscale", "field": "category"},
+          "width": {"scale": "xscale", "band": 1},
+          "y": {"scale": "yscale", "field": "value"},
+          "y2": {"scale": "yscale", "value": 0},
+          "fill": {"value": "#7bbe1f"}
+        },
+        "hover": {
+          "fill": {"value": "#ff5722"}
+        },
+        "update": {
+          "fill": {"value": "#7bbe1f"}
+        }
+      }
+    },
+
+    {
+      "type": "line",
+      "from": {"data": "table"},
+      "encode": {
+        "enter": {
+          "x": {"scale": "xscale", "field": "category", "band": 0.5},
+          "y": {"scale": "yscale", "field": "value"},
+          "stroke": {"value": "rgb(0, 140, 150)"},
+          "strokeWidth": {"value": 3}
+        }
+      }
+    },
+    {
+      "type": "symbol",
+      "from": {"data": "table"},
+      "encode": {
+        "enter": {
+          "x": {"scale": "xscale", "field": "category", "band": 0.5},
+          "y": {"scale": "yscale", "field": "value"},
+          "size": {"value": 140},
+          "fill": {"value": "rgb(255, 193, 7)"},
+          "stroke": {"value": "rgb(0, 0, 0)"},
+          "strokeWidth": {"value": 1.5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {"data": "table"},
+      "encode": {
+        "enter": {
+          "x": {"scale": "xscale", "field": "category", "band": 0.5},
+          "y": {"scale": "yscale", "field": "value"},
+          "dy": {"value": -14},
+          "text": {"field": "value"},
+          "align": {"value": "center"},
+          "fill": {"value": "rgb(33, 33, 33)"},
+          "fontSize": {"value": 12}
+        }
+      }
+    }
+  ]
+}
