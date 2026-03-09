@@ -1,0 +1,15 @@
+[
+  {
+    "name": "table",
+    "values": [
+      {"category": "X", "value": 100}
+    ]
+  },
+  {
+    "name": "testDataset1",
+    "values": [
+      {"category": "A", "value": 1},
+      {"category": "B", "value": 2}
+    ]
+  }
+]

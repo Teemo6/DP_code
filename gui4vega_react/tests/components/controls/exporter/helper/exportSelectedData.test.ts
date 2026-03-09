@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { exportSelectedData } from '../../../../../src/components/controls/exporter/helper/exportSelectedData';
 
-import defaultSpecification from '../../../../assets/export.json';
+import exportSpecification from '../../../../assets/export.json';
 import minimalSpecification from '../../../../assets/minimal.json';
 
 interface TestCase {
@@ -12,7 +12,7 @@ interface TestCase {
 }
 
 describe('exportSelectedData', () => {
-    const defaultSpec = JSON.stringify(defaultSpecification, null, 2);
+    const exportSpec = JSON.stringify(exportSpecification, null, 2);
     const minimalSpec = JSON.stringify(minimalSpecification, null, 2);
 
     const DEFAULT_TOTAL_DATASETS = 4;
@@ -22,24 +22,28 @@ describe('exportSelectedData', () => {
         it.each<TestCase>([
             {
                 title: 'should export empty arrays when calling without dataset and signal names',
-                args: [defaultSpec],
+                args: [exportSpec],
+            },
+            {
+                title: 'should export empty arrays when empty datasets and no signals are selected',
+                args: [exportSpec, []],
             },
             {
                 title: 'should export empty arrays when no datasets or signals are selected',
-                args: [defaultSpec, [], []],
+                args: [exportSpec, [], []],
             },
             {
                 title: 'should handle non-existent dataset names gracefully',
-                args: [defaultSpec, ['does_not_exist'], []],
+                args: [exportSpec, ['does_not_exist'], []],
             },
             {
                 title: 'should handle non-existent signal names gracefully',
-                args: [defaultSpec, [], ['does_not_exist']],
+                args: [exportSpec, [], ['does_not_exist']],
             },
         ])('$title', (testCase: TestCase) => {
             const result = exportSelectedData(...testCase.args);
 
-            expect(result.spec).toEqual(defaultSpec);
+            expect(result.spec).toEqual(exportSpec);
             expect(result.datasets).toEqual([]);
             expect(result.signals).toEqual([]);
 
@@ -55,13 +59,13 @@ describe('exportSelectedData', () => {
         it.each<TestCase>([
             {
                 title: 'should export selected dataset and remove it from spec',
-                args: [defaultSpec, ['testDataset1'], []],
+                args: [exportSpec, ['testDataset1'], []],
                 expectedDatasets: [{ name: 'testDataset1', length: 2 }],
                 expectedSignals: []
             },
             {
                 title: 'should export multiple selected datasets in correct order',
-                args: [defaultSpec, ['testDataset2', 'testDataset1'], []],
+                args: [exportSpec, ['testDataset2', 'testDataset1'], []],
                 expectedDatasets: [
                     { name: 'testDataset1', length: 2 },
                     { name: 'testDataset2', length: 3 }
@@ -70,13 +74,13 @@ describe('exportSelectedData', () => {
             },
             {
                 title: 'should export selected signal and remove it from spec',
-                args: [defaultSpec, [], ['testSignal1']],
+                args: [exportSpec, [], ['testSignal1']],
                 expectedDatasets: [],
                 expectedSignals: [{ name: 'testSignal1', value: 1 }]
             },
             {
                 title: 'should export multiple selected signals in correct order',
-                args: [defaultSpec, [], ['testSignal2', 'testSignal1']],
+                args: [exportSpec, [], ['testSignal2', 'testSignal1']],
                 expectedDatasets: [],
                 expectedSignals: [
                     { name: 'testSignal1', value: 1 },
@@ -85,13 +89,13 @@ describe('exportSelectedData', () => {
             },
             {
                 title: 'should export both datasets and signals',
-                args: [defaultSpec, ['testDataset3'], ['testSignal3']],
+                args: [exportSpec, ['testDataset3'], ['testSignal3']],
                 expectedDatasets: [{ name: 'testDataset3', length: 4 }],
                 expectedSignals: [{ name: 'testSignal3', value: 3 }]
             },
             {
                 title: 'should export multiple datasets and signals in correct order',
-                args: [defaultSpec, ['testDataset3', 'testDataset1'], ['testSignal3', 'testSignal1']],
+                args: [exportSpec, ['testDataset3', 'testDataset1'], ['testSignal3', 'testSignal1']],
                 expectedDatasets: [
                     { name: 'testDataset1', length: 2 },
                     { name: 'testDataset3', length: 4 }
@@ -104,7 +108,7 @@ describe('exportSelectedData', () => {
         ])('$title', (testCase: TestCase) => {
             const result = exportSelectedData(...testCase.args);
 
-            expect(result.spec).not.toEqual(defaultSpec);
+            expect(result.spec).not.toEqual(exportSpec);
 
             // Check exported datasets
             expect(result.datasets).toHaveLength(testCase.expectedDatasets.length);
@@ -140,7 +144,7 @@ describe('exportSelectedData', () => {
         });
     });
 
-    describe('with minimal spec', () => {
+    describe('with minimal specification', () => {
         it.each<TestCase>([
             {
                 title: 'should handle spec without data array',

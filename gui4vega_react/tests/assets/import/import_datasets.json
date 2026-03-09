@@ -1,0 +1,26 @@
+[
+  {
+    "name": "testDataset1",
+    "values": [
+      {"category": "A", "value": 1},
+      {"category": "B", "value": 2}
+    ]
+  },
+  {
+    "name": "testDataset2",
+    "values": [
+      {"category": "A", "value": 3},
+      {"category": "B", "value": 4},
+      {"category": "C", "value": 5}
+    ]
+  },
+  {
+    "name": "testDataset3",
+    "values": [
+      {"category": "A", "value": 6},
+      {"category": "B", "value": 7},
+      {"category": "C", "value": 8},
+      {"category": "D", "value": 9}
+    ]
+  }
+]

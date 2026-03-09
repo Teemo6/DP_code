@@ -1,0 +1,5 @@
+[
+  { "name": "testSignal1", "value": 1 },
+  { "name": "testSignal2", "value": 2 },
+  { "name": "testSignal3", "value": 3 }
+]
