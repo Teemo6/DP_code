@@ -1,9 +1,12 @@
 {
   "$schema": "https://typedoc.org/schema.json",
+  "includeVersion": true,
   "entryPoints": ["src/index.ts"],
   "entryPointStrategy": "resolve",
+  "favicon": "src/assets/icon.png",
   "tsconfig": "tsconfig.app.json",
   "out": "doc",
+  "sort": ["required-first", "source-order"],
   "plugin": ["typedoc-github-theme"],
   "theme": "typedoc-github-theme"
 }

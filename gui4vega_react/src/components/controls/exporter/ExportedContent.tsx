@@ -5,7 +5,7 @@ import type { ExportedData } from './helper/exportSelectedData';
 const { Text } = Typography;
 const { TextArea } = Input;
 
-interface ExportedContentProps {
+export interface ExportedContentProps {
     data: ExportedData;
 }
 

@@ -36,7 +36,7 @@ export interface VegaEditorRef {
     /**
      * Returns the current Vega spec code/state shown by the editor.
      */
-    getCode: () => unknown;
+    getCode: () => string;
 }
 
 /**

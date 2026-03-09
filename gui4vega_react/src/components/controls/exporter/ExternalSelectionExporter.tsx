@@ -5,7 +5,7 @@ import { useExternalSelectionExporter } from "./hooks/useExternalSelectionExport
 
 const { Title } = Typography;
 
-interface ExternalSelectionExporterProps {
+export interface ExternalSelectionExporterProps {
     code: string;
     isOpen: boolean;
     onClose: () => void;
