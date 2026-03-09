@@ -153,6 +153,7 @@ describe('exportSelectedData', () => {
         ])('$title', (testCase: TestCase) => {
             const result = exportSelectedData(...testCase.args);
 
+            expect(result.spec).toEqual(minimalSpec);
             expect(result.datasets).toEqual([]);
             expect(result.signals).toEqual([]);
 
@@ -162,15 +163,18 @@ describe('exportSelectedData', () => {
     });
 
     describe('with invalid JSON', () => {
-        it('should throw error for invalid JSON', () => {
+        it.each<TestCase>([
+            {
+                title: 'should throw error for invalid JSON',
+                args: ['not a valid JSON {'],
+            },
+            {
+                title: 'should throw error for empty string',
+                args: [''],
+            }
+        ])('$title', (testCase: TestCase) => {
             expect(() => {
-                exportSelectedData('not a valid JSON {', [], []);
-            }).toThrow('Invalid JSON specification');
-        });
-
-        it('should throw error for empty string', () => {
-            expect(() => {
-                exportSelectedData('', [], []);
+                exportSelectedData(...testCase.args);
             }).toThrow('Invalid JSON specification');
         });
     });
