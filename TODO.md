@@ -7,7 +7,4 @@ Dataview
   - sloupce typu bool by mely mit checkboxy, date datum atd.
 - pri prejmenovani sloupce se zmeni poradi, fix
 
-- hide controls umoznuje vybrat co zobrazit/schovat
-  - export: true, import: false, viewExport: true
-
 import { autocompletion } from "@codemirror/autocomplete";

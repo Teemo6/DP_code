@@ -6,6 +6,8 @@ import VegaView from './viewer/VegaView.tsx';
 import { useVegaEditor } from "./useVegaEditor.ts";
 import type { ImportedData } from "./controls/loader/helper/importData.ts";
 import ControlsTab from './controls/ControlsTab';
+import { normalizeHideControls } from './HideControls.ts';
+import type { HideControls } from "./HideControls.ts";
 
  /**
  * Props for {@link VegaEditor}.
@@ -25,8 +27,9 @@ export interface VegaEditorProps {
     importedData?: ImportedData;
     /**
      * Hides the controls panel when `true`.
+     * Can also be an object to specify which controls to hide individually.
      */
-    hideControls?: boolean;
+    hideControls?: boolean | HideControls;
 }
 
 /**
@@ -61,11 +64,20 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
         getCode: (): string => code
     }), [code]);
 
+    // Normalize hideControls prop
+    const hideControlsObj = normalizeHideControls(props.hideControls);
+    const showControlsTab = !hideControlsObj.import || !hideControlsObj.export;
+
     return (
         <ConfigProvider>
             <Layout style={{ width: props.width, height: height, background: antdToken.colorBgContainer }}>
-                { !props.hideControls && (
-                    <ControlsTab onLoad={handleSpecLoad} code={code} />
+                { showControlsTab && (
+                    <ControlsTab
+                        onLoad={handleSpecLoad}
+                        code={code}
+                        hideImport={!!hideControlsObj.import}
+                        hideExport={!!hideControlsObj.export}
+                    />
                 )}
                 <Layout.Content>
                     <Splitter>
@@ -73,7 +85,7 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
                             <EditorTab code={code} onChange={setCode} height="100%" />
                         </Splitter.Panel>
                         <Splitter.Panel defaultSize="50%" min="20%" max="80%">
-                            <VegaView code={code} hideActions={props.hideControls} />
+                            <VegaView code={code} hideActions={!!hideControlsObj.view} />
                         </Splitter.Panel>
                     </Splitter>
                 </Layout.Content>

@@ -1,6 +1,7 @@
 export { default as VegaEditor } from './components/VegaEditor.tsx';
 export type { VegaEditorProps } from './components/VegaEditor.tsx';
 export type { VegaEditorRef } from './components/VegaEditor.tsx'
+export type { HideControls } from './components/HideControls.ts';
 
 export { default as ExternalSelectionExporter } from './components/controls/exporter/ExternalSelectionExporter.tsx';
 export type { ExternalSelectionExporterProps } from './components/controls/exporter/ExternalSelectionExporter.tsx';

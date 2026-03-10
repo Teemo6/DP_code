@@ -6,6 +6,8 @@ import SelectionExporter from './exporter/SelectionExporter.tsx';
 interface ControlsTabProps {
     onLoad: (data: unknown) => void;
     code: string;
+    hideImport?: boolean;
+    hideExport?: boolean;
 }
 
 const ControlsTab: React.FC<ControlsTabProps> = (props: ControlsTabProps) => {
@@ -21,8 +23,8 @@ const ControlsTab: React.FC<ControlsTabProps> = (props: ControlsTabProps) => {
             }}
         >
             <Space size="middle">
-                <SpecLoader onLoad={props.onLoad} />
-                <SelectionExporter code={props.code} />
+                {!props.hideImport && <SpecLoader onLoad={props.onLoad} />}
+                {!props.hideExport && <SelectionExporter code={props.code} />}
             </Space>
         </Layout.Header>
     );
