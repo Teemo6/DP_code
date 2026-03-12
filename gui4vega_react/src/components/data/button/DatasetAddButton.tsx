@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { Modal, Input, Button } from 'antd';
 
+/**
+ * Props for {@link DatasetAddButton}.
+ */
 interface DatasetAddButtonProps {
+    /**
+     * Callback function that is called when a new dataset is added.
+     * @param datasetName - The name of the new dataset to be added.
+     */
     onAdd: (datasetName: string) => void;
 }
 
-const DatasetAddButton: React.FC<DatasetAddButtonProps> = (props) => {
+/**
+ * Component responsible for rendering a button that allows users to add a new dataset to the Vega specification.
+ * @param props - {@link DatasetAddButtonProps}
+ */
+const DatasetAddButton: React.FC<DatasetAddButtonProps> = (props: DatasetAddButtonProps) => {
     // State to control the visibility of the modal
     const [visible, setVisible] = useState(false);
 

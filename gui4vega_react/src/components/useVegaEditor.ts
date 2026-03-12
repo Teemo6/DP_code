@@ -15,8 +15,9 @@ interface useVegaEditorProps {
 }
 
 /**
- * Custom hook to manage the state of the Vega editor code.
- * @param props - Props for initialization with/without imported data.
+ * Custom hook to manage the state of the Vega visualization specification code.
+ * Handles the initial merge of external datasets/signals into the schema.
+ * @param props - {@link useVegaEditorProps}
  * @return An object containing the current code, a setter for the code, and a handler for loading new specs.
  */
 export const useVegaEditor = (props: useVegaEditorProps) => {
@@ -29,6 +30,7 @@ export const useVegaEditor = (props: useVegaEditorProps) => {
         baseSpec = prependDatasetsToSchema(baseSpec, props.importedData?.datasets);
         baseSpec = prependSignalsToSchema(baseSpec, props.importedData?.signals);
 
+        // Serialize the final spec for the editor
         return JSON.stringify(baseSpec, null, 2);
     });
 

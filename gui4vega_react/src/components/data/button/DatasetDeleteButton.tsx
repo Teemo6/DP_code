@@ -1,12 +1,26 @@
 import React from 'react';
 import { Button, Modal } from 'antd';
 
+/**
+ * Props for {@link DatasetDeleteButton}.
+ */
 interface DatasetDeleteButtonProps {
+    /**
+     * The name of the dataset to be deleted.
+     */
     datasetName: string;
+    /**
+     * Callback function that is called when the delete action is triggered.
+     * @param datasetName - The name of the dataset to be deleted.
+     */
     onDelete: (datasetName: string) => void;
 }
 
-const DatasetDeleteButton: React.FC<DatasetDeleteButtonProps> = (props) => {
+/**
+ * Component responsible for rendering a delete button for a dataset in the data view.
+ * @param props - {@link DatasetDeleteButtonProps}
+ */
+const DatasetDeleteButton: React.FC<DatasetDeleteButtonProps> = (props: DatasetDeleteButtonProps) => {
     // Show a confirmation before deleting the dataset
     const handleClick = () => {
         Modal.confirm({

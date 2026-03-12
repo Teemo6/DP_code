@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import vegaEmbed from 'vega-embed';
+import { gui4VegaLogger } from '../../logger';
 
 export const useVegaView = (code: string, hideActions: boolean = false) => {
     // Error state of the Vega spec parsing/rendering
@@ -20,8 +21,8 @@ export const useVegaView = (code: string, hideActions: boolean = false) => {
                 if (vegaViewRef.current && typeof vegaViewRef.current.view?.finalize === 'function') {
                     try {
                         vegaViewRef.current.view!.finalize();
-                    } catch {
-                        // Ignore cleanup errors
+                    } catch (err) {
+                        gui4VegaLogger.error('Error finalizing previous Vega view: ', err);
                     }
                     vegaViewRef.current = null;
                 }

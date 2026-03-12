@@ -15,11 +15,13 @@ import { overrideTheme } from './overrideTheme.ts';
  */
 export interface VegaEditorProps {
     /**
-     * Required editor container height (e.g. `"700px"`, `"80vh"`).
+     * Required editor container height.
+     * Expects CSS value, for example `"700px"` or `"80vh"`.
      */
     height: string;
     /**
-     * Optional editor container width (e.g. `"100%"`, `"1200px"`).
+     * Optional editor container width.
+     * Expects CSS value, for example `"100%"` or `"1200px"`.
      */
     width?: string;
     /**
@@ -28,8 +30,8 @@ export interface VegaEditorProps {
      */
     importedData?: ImportedData;
     /**
-     * Hides the controls panel when `true`.
-     * Can also be an object to specify which controls to hide individually.
+     * Hides all control butons when `true`.
+     * Object specifies which controls to hide individually.
      */
     hideControls?: boolean | HideControls;
 }
@@ -56,7 +58,7 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
     // Manage if user somehow bypasses height requirement
     const height = props.height || '700px';
 
-    // Call useVegaEditor hook with unified initialSchema
+    // Call useVegaEditor hook
     const { code, setCode, handleSpecLoad } = useVegaEditor({
         importedData: props.importedData,
     });

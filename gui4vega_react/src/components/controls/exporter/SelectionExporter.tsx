@@ -7,10 +7,20 @@ import ExportedContent from './ExportedContent';
 
 const { Title } = Typography;
 
+/**
+ * Props for {@link SelectionExporter}.
+ */
 interface SelectionExporterProps {
+    /**
+     * The Vega specification code from which datasets and signals will be extracted for export.
+     */
     code: string;
 }
 
+/**
+ * Component responsible for allowing users to export selected datasets and signals from the Vega specification.
+ * @param props - {@link SelectionExporterProps}
+ */
 const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExporterProps) => {
     const [exportedData, setExportedData] = React.useState<ExportedData | null>(null);
     const [isExportModalOpen, setIsExportModalOpen] = React.useState(false);

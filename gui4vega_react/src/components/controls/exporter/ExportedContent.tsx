@@ -5,10 +5,20 @@ import type { ExportedData } from './helper/exportSelectedData';
 const { Text } = Typography;
 const { TextArea } = Input;
 
+/**
+ * Props for {@link ExportedContent}.
+ */
 export interface ExportedContentProps {
+    /**
+     * The exported data containing the Vega specification, datasets, and signals that are selected for export.
+     */
     data: ExportedData;
 }
 
+/**
+ * Component responsible for displaying the exported Vega specification, datasets, and signals in a structured layout.
+ * @param props - {@link ExportedContentProps}
+ */
 const ExportedContent: React.FC<ExportedContentProps> = (props: ExportedContentProps) => (
     <Row gutter={[16, 16]}>
         <Col span={8}>
