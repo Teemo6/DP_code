@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normalizeHideControls } from '../../src/components/HideControls';
+import { normalizeHideControls, isControlsTabShown } from '../../src/components/HideControls';
 import type { HideControls } from '../../src';
 
 describe('normalizeHideControls', () => {
@@ -27,5 +27,28 @@ describe('normalizeHideControls', () => {
             const obj: HideControls = { import: true };
             expect(normalizeHideControls(obj)).toBe(obj);
         });
+    });
+});
+
+describe('isControlsTabShown', () => {
+    it.each([
+        ['both import and export are hidden', { import: true, export: true }, false],
+        ['import is visible', { import: false, export: true }, true],
+        ['export is visible', { import: true, export: false }, true],
+        ['both import and export are visible', { import: false, export: false }, true],
+    ])('returns %s', (_, hideControls, expected) => {
+        expect(isControlsTabShown(hideControls)).toBe(expected);
+    });
+
+    it('returns true when missing flag', () => {
+        expect(isControlsTabShown({})).toBe(true);
+        expect(isControlsTabShown({ import: true })).toBe(true);
+        expect(isControlsTabShown({ export: true })).toBe(true);
+    });
+
+    it('returns boolean when passing normalized object', () => {
+        expect(isControlsTabShown(normalizeHideControls(true))).toBe(false);
+        expect(isControlsTabShown(normalizeHideControls(false))).toBe(true);
+        expect(isControlsTabShown(normalizeHideControls(undefined))).toBe(true);
     });
 });

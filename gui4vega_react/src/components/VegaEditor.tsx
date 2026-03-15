@@ -6,7 +6,7 @@ import VegaView from './viewer/VegaView.tsx';
 import { useVegaEditor } from "./useVegaEditor.ts";
 import type { ImportedData } from "./controls/loader/helper/importData.ts";
 import ControlsTab from './controls/ControlsTab';
-import { normalizeHideControls } from './HideControls.ts';
+import { normalizeHideControls, isControlsTabShown } from './HideControls.ts';
 import type { HideControls } from "./HideControls.ts";
 import { overrideTheme } from './overrideTheme.ts';
 
@@ -70,12 +70,11 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
 
     // Normalize hideControls prop
     const hideControlsObj = normalizeHideControls(props.hideControls);
-    const showControlsTab = !hideControlsObj.import || !hideControlsObj.export;
 
     return (
         <ConfigProvider theme={overrideTheme(antdToken)}>
             <Layout style={{ width: props.width, height: height }}>
-                { showControlsTab && (
+                { isControlsTabShown(hideControlsObj) && (
                     <ControlsTab
                         onLoad={handleSpecLoad}
                         code={code}

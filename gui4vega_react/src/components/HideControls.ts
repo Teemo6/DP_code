@@ -27,3 +27,12 @@ export function normalizeHideControls(hideControls?: boolean | HideControls): Hi
     }
     return { import: !!hideControls, export: !!hideControls, view: !!hideControls };
 }
+
+/**
+ * Determines if the controls tab should be shown based on the `hideControls` prop.
+ * @param hideControls - The `hideControls` prop which can be a boolean or an object specifying which controls to hide.
+ * @returns `true` if the controls tab should be shown (at least one of the tab controls is not hidden), otherwise `false`.
+ */
+export function isControlsTabShown(hideControls: HideControls): boolean {
+    return !hideControls.import || !hideControls.export;
+}
