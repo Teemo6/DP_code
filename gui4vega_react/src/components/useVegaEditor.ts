@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import defaultSpec from '../assets/default.json';
 import { prependDatasetsToSchema, prependSignalsToSchema } from "./controls/loader/helper/importData.ts";
 import type { ImportedData } from "./controls/loader/helper/importData.ts";
+
+import defaultSpec from '../assets/default.json';
 
 /**
  * Props for {@link useVegaEditor}.
@@ -15,12 +16,27 @@ interface useVegaEditorProps {
 }
 
 /**
+ * State and setter for code of {@link VegaEditor}.
+ */
+export interface VegaEditorState {
+    /**
+     * The current Vega specification code that is being edited in the editor.
+     */
+    code: string;
+    /**
+     * Handler function to change editor code.
+     * @param code - The new Vega specification code to set in the editor.
+     */
+    setCode: (code: string) => void;
+}
+
+/**
  * Custom hook to manage the state of the Vega visualization specification code.
  * Handles the initial merge of external datasets/signals into the schema.
  * @param props - {@link useVegaEditorProps}
  * @return An object containing the current code and a setter for the code.
  */
-export const useVegaEditor = (props: useVegaEditorProps) => {
+export const useVegaEditor = (props: useVegaEditorProps): VegaEditorState => {
     // State to hold the current Vega specification code
     const [code, setCode] = useState<string>(() => {
         // Start with the provided initial schema or fall back to the default spec

@@ -3,24 +3,20 @@ import { Layout } from 'antd';
 import EditorTabSelector from './EditorTabSelector';
 import EditorTabContent from './EditorTabContent.tsx';
 import type { EditorTabKey } from './EditorTabSelector';
+import type { VegaEditorState } from "../useVegaEditor.ts";
 
 /**
  * Props for {@link EditorTab}.
  */
 interface EditorTabsProps {
     /**
+     * Vega editor state with code specification.
+     */
+    editorState: VegaEditorState;
+    /**
      * The height of the editor layout.
      */
     height: string;
-    /**
-     * The Vega specification code that is being edited in the editor.
-     */
-    code: string;
-    /**
-     * Callback function that is called whenever the content of the editor changes in any of the tabs.
-     * @param value - The updated Vega specification code from the editor.
-     */
-    onChange: (value: string) => void;
 }
 
 /**
@@ -39,7 +35,7 @@ const EditorTab: React.FC<EditorTabsProps> = (props) => {
 
             { /* Overflow needs to be 'auto', otherwise whole layout with the tabs part will scroll with the content */ }
             <Layout.Content style={{ overflow: 'auto' }}>
-                <EditorTabContent activeTab={activeTab} code={props.code} onChange={props.onChange} />
+                <EditorTabContent activeTab={activeTab} editorState={props.editorState} />
             </Layout.Content>
         </Layout>
     );

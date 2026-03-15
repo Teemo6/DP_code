@@ -4,20 +4,23 @@ import { parseDatasets, addDataset, deleteDataset } from './helper/datasetEdit.t
 import DatasetAddButton from './button/DatasetAddButton.tsx';
 import DatasetCard from './DatasetCard';
 import DatasetDeleteButton from './button/DatasetDeleteButton.tsx';
+import type { VegaEditorState } from "../useVegaEditor.ts";
 
 interface DataViewProps {
-    code: string;
-    onCodeChange: (code: string) => void;
+    /**
+     * Vega editor state with code specification.
+     */
+    editorState: VegaEditorState;
 }
 
 const DataView: React.FC<DataViewProps> = (props) => {
     // Parse datasets from spec, memoized by code
-    const datasets = useMemo(() => parseDatasets(props.code), [props.code]);
+    const datasets = useMemo(() => parseDatasets(props.editorState.code), [props.editorState.code]);
 
     // Track confirmDelete state per dataset
     const [confirmDelete, setConfirmDelete] = useState<Record<string, boolean>>(() => {
         const initial: Record<string, boolean> = {};
-        const parsed = parseDatasets(props.code);
+        const parsed = parseDatasets(props.editorState.code);
         parsed.forEach(ds => { initial[ds.name] = true; });
         return initial;
     });
@@ -38,12 +41,12 @@ const DataView: React.FC<DataViewProps> = (props) => {
             message.error('Dataset name already exists.');
             return;
         }
-        props.onCodeChange(addDataset(props.code, trimmed, [{ NewColumn: '' }]));
+        props.editorState.setCode(addDataset(props.editorState.code, trimmed, [{ NewColumn: '' }]));
     };
 
     // Delete dataset handler (no modal here, handled in button)
     const handleDeleteDataset = (datasetName: string) => {
-        props.onCodeChange(deleteDataset(props.code, datasetName));
+        props.editorState.setCode(deleteDataset(props.editorState.code, datasetName));
     };
 
     return (
@@ -59,8 +62,7 @@ const DataView: React.FC<DataViewProps> = (props) => {
                     <DatasetCard
                         key={ds.name}
                         ds={ds}
-                        code={props.code}
-                        onCodeChange={props.onCodeChange}
+                        editorState={props.editorState}
                         confirmDelete={confirmDelete[ds.name]}
                         onConfirmDeleteChange={value => handleConfirmDeleteChange(ds.name, value)}
                         deleteButton={<DatasetDeleteButton datasetName={ds.name} onDelete={handleDeleteDataset} />}

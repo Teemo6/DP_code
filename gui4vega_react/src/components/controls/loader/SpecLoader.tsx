@@ -2,16 +2,16 @@ import React from 'react';
 import { Upload, Button, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { gui4VegaLogger } from '../../../logger';
+import type { VegaEditorState } from "../../useVegaEditor.ts";
 
 /**
  * Props for {@link SpecLoader}.
  */
 interface SpecLoaderProps {
     /**
-     * Callback function that is called when a new Vega specification is loaded using the file upload functionality.
-     * @param code - The loaded Vega specification serialized as formatted JSON.
+     * Vega editor state with code specification.
      */
-    setCode: (code: string) => void;
+    editorState: VegaEditorState;
 }
 
 /**
@@ -25,7 +25,7 @@ const SpecLoader: React.FC<SpecLoaderProps> = (props: SpecLoaderProps) => {
             const content = e.target?.result as string;
             try {
                 JSON.parse(content);
-                props.setCode(content);
+                props.editorState.setCode(content);
                 message.success('JSON specification loaded successfully');
             } catch (err) {
                 message.error('Failed to parse JSON file');

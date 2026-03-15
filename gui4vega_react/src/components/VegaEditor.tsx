@@ -63,32 +63,31 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
     // Access Ant Design theme token
     const { token: antdToken } = theme.useToken();
 
-    // Manage if user somehow bypasses height requirement
-    const height = props.height || '700px';
-
     // Call useVegaEditor hook
-    const { code, setCode } = useVegaEditor({
+    const editorState = useVegaEditor({
         importedData: props.importedData,
     });
 
     // Returns the current Vega spec code. Exposed to parent via ref.
     useImperativeHandle(ref, () => ({
-        getCode: (): string => code
-    }), [code]);
+        getCode: (): string => editorState.code
+    }), [editorState.code]);
 
-    // Normalize hideControls prop
-    const hideControlsObj = normalizeHideControls(props.hideControls);
+    // Manage if user somehow bypasses height requirement
+    const height = props.height || '700px';
 
     // Determine theme mode, defaulting to 'auto'
     const themeMode = props.theme ?? 'auto';
+
+    // Normalize hideControls prop
+    const hideControlsObj = normalizeHideControls(props.hideControls);
 
     return (
         <ConfigProvider theme={overrideTheme(antdToken, themeMode)}>
             <Layout style={{ width: props.width, height: height }}>
                 { isControlsTabShown(hideControlsObj) && (
                     <ControlsTab
-                        code={code}
-                        setCode={setCode}
+                        editorState={editorState}
                         hideImport={!!hideControlsObj.import}
                         hideExport={!!hideControlsObj.export}
                     />
@@ -96,10 +95,10 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
                 <Layout.Content>
                     <Splitter>
                         <Splitter.Panel defaultSize="50%" min="20%" max="80%">
-                            <EditorTab code={code} onChange={setCode} height="100%" />
+                            <EditorTab editorState={editorState} height="100%" />
                         </Splitter.Panel>
                         <Splitter.Panel defaultSize="50%" min="20%" max="80%">
-                            <VegaView code={code} hideActions={!!hideControlsObj.view} />
+                            <VegaView editorState={editorState} hideActions={!!hideControlsObj.view} />
                         </Splitter.Panel>
                     </Splitter>
                 </Layout.Content>

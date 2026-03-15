@@ -4,6 +4,7 @@ import {useSelectionExporter} from "./hooks/useSelectionExporter.ts";
 import type { ExportedData } from './helper/exportSelectedData.ts';
 import { UploadOutlined } from "@ant-design/icons";
 import ExportedContent from './ExportedContent';
+import type { VegaEditorState } from "../../useVegaEditor.ts";
 
 const { Title } = Typography;
 
@@ -12,9 +13,9 @@ const { Title } = Typography;
  */
 interface SelectionExporterProps {
     /**
-     * The Vega specification code from which datasets and signals will be extracted for export.
+     * Vega editor state with code specification.
      */
-    code: string;
+    editorState: VegaEditorState;
 }
 
 /**
@@ -35,7 +36,7 @@ const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExp
         setExportedData(null);
     };
 
-    const exporter = useSelectionExporter({ code: props.code, onExportSuccess: handleExportSuccess });
+    const exporter = useSelectionExporter({ code: props.editorState.code, onExportSuccess: handleExportSuccess });
     const {
         isModalOpen,
         datasetNames,

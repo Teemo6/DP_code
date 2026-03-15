@@ -2,14 +2,17 @@ import React, { useMemo } from 'react';
 import { Typography } from 'antd';
 import { parseMarks, updateMarkProperty } from './helper/markEdit.ts';
 import MarkCard from './MarkCard';
+import type {VegaEditorState} from "../useVegaEditor.ts";
 
 interface PropertiesViewProps {
-    code: string;
-    onCodeChange: (code: string) => void;
+    /**
+     * Vega editor state with code specification.
+     */
+    editorState: VegaEditorState;
 }
 
-const PropertiesView: React.FC<PropertiesViewProps> = ({ code, onCodeChange }) => {
-    const marks = useMemo(() => parseMarks(code), [code]);
+const PropertiesView: React.FC<PropertiesViewProps> = (props: PropertiesViewProps) => {
+    const marks = useMemo(() => parseMarks(props.editorState.code), [props.editorState.code]);
 
     return (
         <div style={{ padding: 16, overflow: 'auto', height: '100%' }}>
@@ -22,7 +25,7 @@ const PropertiesView: React.FC<PropertiesViewProps> = ({ code, onCodeChange }) =
                         mark={mark}
                         markIndex={i}
                         onPropertyChange={(markIndex, encodeSet, property, field, newValue) =>
-                            onCodeChange(updateMarkProperty(code, markIndex, encodeSet, property, field, newValue))
+                            props.editorState.setCode(updateMarkProperty(props.editorState.code, markIndex, encodeSet, property, field, newValue))
                         }
                     />
                 ))

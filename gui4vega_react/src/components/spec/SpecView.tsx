@@ -3,20 +3,16 @@ import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { vscodeLight, vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { theme } from 'antd';
+import type { VegaEditorState } from "../useVegaEditor.ts";
 
 /**
  * Props for {@link SpecView}.
  */
 interface SpecViewProps {
     /**
-     * The Vega specification code to display and edit in the CodeMirror editor.
+     * Vega editor state with code specification.
      */
-    code: string;
-    /**
-     * Callback function that is called whenever the content of the CodeMirror editor changes.
-     * @param value - The updated Vega specification code from the editor.
-     */
-    onChange: (value: string) => void;
+    editorState: VegaEditorState;
 }
 
 /**
@@ -34,9 +30,9 @@ const SpecView: React.FC<SpecViewProps> = (props: SpecViewProps) => {
 
     return (
         <CodeMirror
-            value={props.code}
+            value={props.editorState.code}
+            onChange={props.editorState.setCode}
             extensions={[json()]}
-            onChange={props.onChange}
             theme={isDarkMode ? vscodeDark : vscodeLight}
         />
     );

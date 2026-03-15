@@ -1,30 +1,34 @@
 import React from 'react';
 import { Card, Typography, Flex } from 'antd';
 import DataTable from './DataTable';
-import type { VegaDataset as VegaDatasetType } from './helper/datasetEdit.ts';
+import type { VegaDataset } from './helper/datasetEdit.ts';
 import { updateDatasetValue, addDatasetRow, deleteDatasetRow } from './helper/datasetEdit.ts';
+import type { VegaEditorState } from "../useVegaEditor.ts";
+import { gui4VegaLogger } from "../../logger.ts";
 
 interface DatasetCardProps {
-    ds: VegaDatasetType;
-    code: string;
-    onCodeChange: (code: string) => void;
+    /**
+     * Vega editor state with code specification.
+     */
+    editorState: VegaEditorState;
+    ds: VegaDataset;
     confirmDelete: boolean;
     onConfirmDeleteChange: (value: boolean) => void;
     deleteButton: React.ReactNode;
 }
 
-const DatasetCard: React.FC<DatasetCardProps> = (props) => {
+const DatasetCard: React.FC<DatasetCardProps> = (props: DatasetCardProps) => {
     // Helper to update dataset values in the spec
     const updateDatasetRows = (updatedRows: Record<string, unknown>[]) => {
         try {
-            const spec = JSON.parse(props.code);
-            const dataset = spec.data.find((d: VegaDatasetType) => d.name === props.ds.name);
+            const spec = JSON.parse(props.editorState.code);
+            const dataset = spec.data.find((d: VegaDataset) => d.name === props.ds.name);
             if (dataset) {
                 dataset.values = updatedRows;
             }
-            props.onCodeChange(JSON.stringify(spec, null, 2));
+            props.editorState.setCode(JSON.stringify(spec, null, 2));
         } catch {
-            // If parsing fails, do nothing
+            gui4VegaLogger.error('Failed to update dataset rows: Invalid JSON in editor code.');
         }
     };
 
@@ -37,15 +41,15 @@ const DatasetCard: React.FC<DatasetCardProps> = (props) => {
             <DataTable
                 dataset={props.ds}
                 onCellChange={(rowIndex, col, newValue) =>
-                    props.onCodeChange(updateDatasetValue(props.code, props.ds.name, rowIndex, col, newValue))
+                    props.editorState.setCode(updateDatasetValue(props.editorState.code, props.ds.name, rowIndex, col, newValue))
                 }
                 onAddRow={() => {
                     const keys = Object.keys(props.ds.values[0] ?? {});
                     const newRow = keys.reduce((acc, key) => ({ ...acc, [key]: '' }), {} as Record<string, unknown>);
-                    props.onCodeChange(addDatasetRow(props.code, props.ds.name, newRow));
+                    props.editorState.setCode(addDatasetRow(props.editorState.code, props.ds.name, newRow));
                 }}
                 onDeleteRow={rowIndex =>
-                    props.onCodeChange(deleteDatasetRow(props.code, props.ds.name, rowIndex))
+                    props.editorState.setCode(deleteDatasetRow(props.editorState.code, props.ds.name, rowIndex))
                 }
                 confirmDelete={props.confirmDelete}
                 onConfirmDeleteChange={props.onConfirmDeleteChange}

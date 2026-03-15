@@ -2,15 +2,16 @@ import React from 'react';
 import { Alert, Layout } from 'antd';
 import { useVegaView } from './useVegaView.ts';
 import './VegaView.css';
+import type { VegaEditorState } from "../useVegaEditor.ts";
 
 /**
  * Props for {@link VegaView}.
  */
 interface VegaViewProps {
     /**
-     * The Vega specification code to render the visualization.
+     * Vega editor state with code specification.
      */
-    code: string;
+    editorState: VegaEditorState;
     /**
      * When `true`, hides the action buttons in the Vega view.
      */
@@ -22,7 +23,7 @@ interface VegaViewProps {
  */
 const VegaView: React.FC<VegaViewProps> = (props: VegaViewProps) => {
     // Call useVegaView hook
-    const { vegaContainerRef, error } = useVegaView(props.code, props.hideActions);
+    const { vegaContainerRef, error } = useVegaView(props.editorState.code, props.hideActions);
 
     return (
         // Position must be relative to for action button to be positioned correctly

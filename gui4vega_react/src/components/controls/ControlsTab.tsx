@@ -2,20 +2,16 @@ import React from 'react';
 import { Layout, Space, theme } from 'antd';
 import SpecLoader from './loader/SpecLoader.tsx';
 import SelectionExporter from './exporter/SelectionExporter.tsx';
+import type { VegaEditorState } from "../useVegaEditor.ts";
 
 /**
  * Props for {@link ControlsTab}.
  */
 interface ControlsTabProps {
     /**
-     * The Vega specification code that is currently being edited or viewed in the editor.
+     * Vega editor state with code specification.
      */
-    code: string;
-    /**
-     * Handler function to change editor code.
-     * @param code - The new Vega specification code to set in the editor.
-     */
-    setCode: (code: string) => void;
+    editorState: VegaEditorState;
     /**
      * Optional flag to hide the import controls.
      */
@@ -42,8 +38,8 @@ const ControlsTab: React.FC<ControlsTabProps> = (props: ControlsTabProps) => {
             }}
         >
             <Space size="middle">
-                {!props.hideImport && <SpecLoader setCode={props.setCode} />}
-                {!props.hideExport && <SelectionExporter code={props.code} />}
+                {!props.hideImport && <SpecLoader editorState={props.editorState} />}
+                {!props.hideExport && <SelectionExporter editorState={props.editorState} />}
             </Space>
         </Layout.Header>
     );

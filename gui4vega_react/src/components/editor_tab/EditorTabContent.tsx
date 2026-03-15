@@ -3,24 +3,20 @@ import SpecView from '../spec/SpecView.tsx';
 import DataView from '../data/DataView';
 import PropertiesView from '../properties/PropertiesView';
 import type { EditorTabKey } from './EditorTabSelector';
+import type { VegaEditorState } from "../useVegaEditor.ts";
 
 /**
  * Props for {@link EditorTabContent}.
  */
 interface EditorContentProps {
     /**
+     * Vega editor state with code specification.
+     */
+    editorState: VegaEditorState;
+    /**
      * The key of the currently active tab in the editor.
      */
     activeTab: EditorTabKey;
-    /**
-     * The Vega specification code that is being edited in the editor.
-     */
-    code: string;
-    /**
-     * Callback function that is called whenever the content of the editor changes in any of the tabs.
-     * @param value - The updated Vega specification code from the editor.
-     */
-    onChange: (value: string) => void;
 }
 
 /**
@@ -30,11 +26,11 @@ interface EditorContentProps {
 const EditorTabContent: React.FC<EditorContentProps> = (props: EditorContentProps) => {
     switch (props.activeTab) {
         case 'spec':
-            return <SpecView code={props.code} onChange={props.onChange} />;
+            return <SpecView editorState={props.editorState} />;
         case 'data':
-            return <DataView code={props.code} onCodeChange={props.onChange} />;
+            return <DataView editorState={props.editorState} />;
         case 'properties':
-            return <PropertiesView code={props.code} onCodeChange={props.onChange} />;
+            return <PropertiesView editorState={props.editorState} />;
         default:
             return null;
     }
