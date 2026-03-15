@@ -27,7 +27,7 @@ const VegaView: React.FC<VegaViewProps> = (props: VegaViewProps) => {
     return (
         // Position must be relative to for action button to be positioned correctly
         <Layout style={{ height: '100%', position: 'relative' }}>
-            <Layout ref={vegaContainerRef} style={{ overflow: 'auto', background: '#fff' }} />
+            <Layout ref={vegaContainerRef} style={{ overflow: 'auto' }} />
             {error && (
                 <Alert
                     type="error"

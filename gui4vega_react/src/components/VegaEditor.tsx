@@ -34,6 +34,14 @@ export interface VegaEditorProps {
      * Object specifies which controls to hide individually.
      */
     hideControls?: boolean | HideControls;
+    /**
+     * Optional editor color theme mode.
+     * - `light` forces Ant Design light algorithm.
+     * - `dark` forces Ant Design dark algorithm.
+     * - `auto` keeps the inherited default token behavior.
+     * @defaultValue 'auto'
+     */
+    theme?: 'light' | 'dark' | 'auto';
 }
 
 /**
@@ -71,8 +79,11 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
     // Normalize hideControls prop
     const hideControlsObj = normalizeHideControls(props.hideControls);
 
+    // Determine theme mode, defaulting to 'auto'
+    const themeMode = props.theme ?? 'auto';
+
     return (
-        <ConfigProvider theme={overrideTheme(antdToken)}>
+        <ConfigProvider theme={overrideTheme(antdToken, themeMode)}>
             <Layout style={{ width: props.width, height: height }}>
                 { isControlsTabShown(hideControlsObj) && (
                     <ControlsTab

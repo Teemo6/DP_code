@@ -6,7 +6,7 @@
   "favicon": "src/assets/icon.png",
   "tsconfig": "tsconfig.app.json",
   "out": "doc",
-  "sort": ["required-first", "source-order"],
+  "sort": ["required-first", "kind", "source-order"],
   "plugin": ["typedoc-github-theme"],
   "theme": "typedoc-github-theme"
 }
