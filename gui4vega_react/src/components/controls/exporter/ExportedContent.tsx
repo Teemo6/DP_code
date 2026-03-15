@@ -28,7 +28,6 @@ const ExportedContent: React.FC<ExportedContentProps> = (props: ExportedContentP
                     readOnly
                     value={props.data.spec}
                     autoSize={{ minRows: 8, maxRows: 8 }}
-                    style={{ overflow: 'auto' }}
                 />
             </Flex>
         </Col>
@@ -39,7 +38,6 @@ const ExportedContent: React.FC<ExportedContentProps> = (props: ExportedContentP
                     readOnly
                     value={props.data.datasets}
                     autoSize={{ minRows: 8, maxRows: 8 }}
-                    style={{ overflow: 'auto' }}
                 />
             </Flex>
         </Col>
@@ -50,7 +48,6 @@ const ExportedContent: React.FC<ExportedContentProps> = (props: ExportedContentP
                     readOnly
                     value={props.data.signals}
                     autoSize={{ minRows: 8, maxRows: 8 }}
-                    style={{ overflow: 'auto' }}
                 />
             </Flex>
         </Col>
