@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { Form } from 'antd';
 import { parseDatasets } from '../data/helper/datasetEdit';
-import { adapters } from './helper/wizardSpec';
+import {adapters, generateSpec} from './helper/wizardSpec';
 import type { ChartType } from "./helper/wizardSpec.ts";
-import type {VegaEditorState} from "../useVegaEditor.ts";
+import type { VegaEditorState } from "../useVegaEditor.ts";
 
 interface useWizardViewProps {
     /**
@@ -19,11 +19,12 @@ export interface WizardFormValues {
 }
 
 export const useWizardView = (props: useWizardViewProps) => {
-    const [form] = Form.useForm();
+    const [form] = Form.useForm<WizardFormValues>();
+
     const datasets = useMemo(() => parseDatasets(props.editorState.code), [props.editorState.code]);
 
     const datasetName = Form.useWatch('dataset', form);
-    const chartType = Form.useWatch('chartType', form) as ChartType;
+    const chartType = Form.useWatch('chartType', form);
 
     const fields = useMemo(() => {
         if (!datasetName) return [];
@@ -40,12 +41,24 @@ export const useWizardView = (props: useWizardViewProps) => {
         return adapter ? adapter.getFields() : [];
     }, [chartType]);
 
+    const handleFinish = (values: WizardFormValues) => {
+        const { chartType, dataset, fields } = values;
+
+        const newCode = generateSpec(props.editorState.code, {
+            chartType,
+            datasetName: dataset,
+            fields
+        });
+
+        props.editorState.setCode(newCode);
+    };
+
     return {
         form,
         datasets,
         datasetName,
         adapterFields,
-        fields
+        fields,
+        handleFinish,
     };
 };
-

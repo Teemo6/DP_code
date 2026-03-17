@@ -1,8 +1,7 @@
 import React from 'react';
 import { Form, Select, Button, Card, Segmented } from 'antd';
-import { useWizardView, type WizardFormValues } from './useWizardView';
-import type {VegaEditorState} from "../useVegaEditor.ts";
-import {generateSpec} from "./helper/wizardSpec.ts";
+import { useWizardView } from './useWizardView';
+import type { VegaEditorState } from "../useVegaEditor.ts";
 
 interface WizardViewProps {
     /**
@@ -17,20 +16,9 @@ const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
         datasets,
         datasetName,
         adapterFields,
-        fields
+        fields,
+        handleFinish
     } = useWizardView(props);
-
-    const handleFinish = (values: WizardFormValues) => {
-        const { chartType, dataset, fields } = values;
-
-        const newCode = generateSpec(props.editorState.code, {
-            chartType,
-            datasetName: dataset,
-            fields
-        });
-
-        props.editorState.setCode(newCode);
-    };
 
     return (
         <Card variant={'borderless'} style={{ height: '100%', overflowY: 'auto' }}>
