@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { Form } from 'antd';
 import { parseDatasets } from '../data/helper/datasetEdit';
-import {adapters, generateSpec} from './helper/wizardSpec';
-import type { ChartType } from "./helper/wizardSpec.ts";
+import { adapters, generateSpec } from './helper/wizardSpec';
+import type { WizardConfig } from "./helper/wizardSpec";
 import type { VegaEditorState } from "../useVegaEditor.ts";
 
 interface useWizardViewProps {
@@ -12,20 +12,17 @@ interface useWizardViewProps {
     editorState: VegaEditorState;
 }
 
-export interface WizardFormValues {
-    chartType: ChartType;
-    dataset: string;
-    fields: Record<string, string>;
-}
-
 export const useWizardView = (props: useWizardViewProps) => {
-    const [form] = Form.useForm<WizardFormValues>();
-
+    // Parse datasets from Vega code
     const datasets = useMemo(() => parseDatasets(props.editorState.code), [props.editorState.code]);
 
-    const datasetName = Form.useWatch('dataset', form);
-    const chartType = Form.useWatch('chartType', form);
+    // Initialize form
+    const [form] = Form.useForm<WizardConfig>();
 
+    // Watch for selected dataset name
+    const datasetName = Form.useWatch('datasetName', form);
+
+    // Get fields from the selected dataset
     const fields = useMemo(() => {
         if (!datasetName) return [];
         const selectedDataset = datasets.find(d => d.name === datasetName);
@@ -35,21 +32,19 @@ export const useWizardView = (props: useWizardViewProps) => {
         return [];
     }, [datasetName, datasets]);
 
+    // Watch for selected chart type
+    const chartType = Form.useWatch('chartType', form);
+
+    // Get adapter fields based on selected chart type
     const adapterFields = useMemo(() => {
         if (!chartType) return [];
         const adapter = adapters[chartType];
         return adapter ? adapter.getFields() : [];
     }, [chartType]);
 
-    const handleFinish = (values: WizardFormValues) => {
-        const { chartType, dataset, fields } = values;
-
-        const newCode = generateSpec(props.editorState.code, {
-            chartType,
-            datasetName: dataset,
-            fields
-        });
-
+    // Handle form submission to generate new Vega spec
+    const handleFinish = (values: WizardConfig) => {
+        const newCode = generateSpec(props.editorState.code, values);
         props.editorState.setCode(newCode);
     };
 

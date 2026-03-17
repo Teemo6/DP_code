@@ -38,7 +38,7 @@ const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
                     />
                 </Form.Item>
 
-                <Form.Item name="dataset" label="Dataset">
+                <Form.Item name="datasetName" label="Dataset">
                     <Select
                         placeholder="Select a dataset"
                         options={datasets.map(ds => ({ label: ds.name, value: ds.name }))}
