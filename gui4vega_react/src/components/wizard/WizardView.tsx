@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, Button, Card, Segmented } from 'antd';
-import { useWizardView } from './useWizardView';
+import { useWizardView } from './hooks/useWizardView.ts';
 import { WizardDynamicField } from './WizardDynamicField';
 import type { VegaEditorState } from "../useVegaEditor.ts";
 

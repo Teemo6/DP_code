@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { Form } from 'antd';
-import { parseDatasets } from '../data/helper/datasetEdit';
-import { adapters, generateSpec } from './helper/wizardSpec';
-import type { WizardConfig } from "./helper/wizardSpec";
-import type { VegaEditorState } from "../useVegaEditor.ts";
+import { parseDatasets } from '../../data/helper/datasetEdit.ts';
+import { adapters, generateSpec } from '../helper/wizardSpec.ts';
+import type { WizardConfig } from "../helper/wizardSpec.ts";
+import type { VegaEditorState } from "../../useVegaEditor.ts";
 
 interface useWizardViewProps {
     /**
