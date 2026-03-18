@@ -1,7 +1,9 @@
-import type { WizardAdapter, WizardField, WizardSpec } from "./WizardAdapter.ts";
-import type { WizardConfig } from "../helper/wizardSpec.ts";
+import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
+import type { WizardConfig } from "../../helper/wizardSpec.ts";
 
 export class RectAdapter implements WizardAdapter {
+    mode: AdapterMode = 'append';
+
     getFields(): WizardField[] {
         return [
             { name: 'xField', type: 'string', label: 'X Axis / Category', required: true },

@@ -1,7 +1,7 @@
 import type { WizardAdapter } from "../adapters/WizardAdapter.ts";
-import { BarAdapter } from "../adapters/BarAdapter.ts";
-import { PieAdapter } from "../adapters/PieAdapter.ts";
-import { RectAdapter } from "../adapters/RectAdapter.ts";
+import { BarAdapter } from "../adapters/template/BarAdapter.ts";
+import { PieAdapter } from "../adapters/template/PieAdapter.ts";
+import { RectAdapter } from "../adapters/append/RectAdapter.ts";
 
 export type ChartType = 'bar' | 'pie' | 'rect';
 
@@ -29,7 +29,7 @@ export function generateSpec(currentCode: string, config: WizardConfig): string 
 
         const newSpec = adapter.getSpec(config);
 
-        if (!newSpec.$schema) {
+        if (adapter.mode === 'append') {
             // Append mode
             const merged = { ...currentSpec };
 

@@ -24,7 +24,10 @@ export interface WizardSpec {
     [key: string]: unknown;
 }
 
+export type AdapterMode = 'template' | 'append';
+
 export interface WizardAdapter {
+    mode: AdapterMode;
     getFields(): WizardField[];
     getSpec(config: WizardConfig): WizardSpec;
 }

@@ -1,7 +1,9 @@
-import type { WizardAdapter, WizardField, WizardSpec } from "./WizardAdapter.ts";
-import type { WizardConfig } from "../helper/wizardSpec.ts";
+import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
+import type { WizardConfig } from "../../helper/wizardSpec.ts";
 
 export class PieAdapter implements WizardAdapter {
+    mode: AdapterMode = 'template';
+
     getFields(): WizardField[] {
         return [
             { name: 'category', type: 'string', label: 'Category Field', required: true },
