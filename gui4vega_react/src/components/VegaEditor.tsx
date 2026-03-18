@@ -88,6 +88,7 @@ const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditor
                 { isControlsTabShown(hideControlsObj) && (
                     <ControlsTab
                         editorState={editorState}
+                        hideNewSpec={!!hideControlsObj.newSpec}
                         hideImport={!!hideControlsObj.import}
                         hideExport={!!hideControlsObj.export}
                     />

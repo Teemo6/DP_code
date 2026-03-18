@@ -32,16 +32,18 @@ describe('normalizeHideControls', () => {
 
 describe('isControlsTabShown', () => {
     it.each([
-        ['both import and export are hidden', { import: true, export: true }, false],
-        ['import is visible', { import: false, export: true }, true],
-        ['export is visible', { import: true, export: false }, true],
-        ['both import and export are visible', { import: false, export: false }, true],
+        ['all are hidden', { newSpec: true, import: true, export: true }, false],
+        ['newSpec is hidden', { newSpec: true, import: false, export: false }, true],
+        ['import is hidden', { newSpec: false, import: true, export: false }, true],
+        ['export is hidden', { newSpec: false, import: false, export: true }, true],
+        ['all are visible', { newSpec: false, import: false, export: false }, true],
     ])('returns %s', (_, hideControls, expected) => {
         expect(isControlsTabShown(hideControls)).toBe(expected);
     });
 
     it('returns true when missing flag', () => {
         expect(isControlsTabShown({})).toBe(true);
+        expect(isControlsTabShown({ newSpec: true })).toBe(true);
         expect(isControlsTabShown({ import: true })).toBe(true);
         expect(isControlsTabShown({ export: true })).toBe(true);
     });

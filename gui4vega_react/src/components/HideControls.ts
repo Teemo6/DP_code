@@ -3,6 +3,10 @@
  */
 export interface HideControls {
     /**
+     * Hides the new specification control when `true`.
+     */
+    newSpec?: boolean;
+    /**
      * Hides the import control when `true`.
      */
     import?: boolean;
@@ -25,7 +29,7 @@ export function normalizeHideControls(hideControls?: boolean | HideControls): Hi
     if (typeof hideControls === 'object' && hideControls !== null) {
         return hideControls;
     }
-    return { import: !!hideControls, export: !!hideControls, view: !!hideControls };
+    return { newSpec: !!hideControls, import: !!hideControls, export: !!hideControls, view: !!hideControls };
 }
 
 /**
@@ -34,5 +38,5 @@ export function normalizeHideControls(hideControls?: boolean | HideControls): Hi
  * @returns `true` if the controls tab should be shown (at least one of the tab controls is not hidden), otherwise `false`.
  */
 export function isControlsTabShown(hideControls: HideControls): boolean {
-    return !hideControls.import || !hideControls.export;
+    return !hideControls.newSpec || !hideControls.import || !hideControls.export;
 }
