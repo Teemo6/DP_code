@@ -37,6 +37,7 @@ const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
                             { label: 'Vertical Bar Chart', value: 'barVertical' },
                             { label: 'Horizontal Bar Chart', value: 'barHorizontal' },
                             { label: 'Circular Chart', value: 'pie' },
+                            { label: 'Scatter Plot', value: 'scatter' },
                             { label: 'Add Rect', value: 'rect' }
                         ]}
                     />
