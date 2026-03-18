@@ -5,17 +5,9 @@
 
   "signals": [
     {
-      "name": "TLS1",
-      "value": 9
-    },
-    {
-      "name": "TLS2",
-      "value": 3
-    },
-    {
       "name": "threshold",
-      "value": 50,
-      "bind": {"input": "range", "min": 0, "max": 100, "step": 1}
+      "value": 40,
+      "bind": {"input": "range", "min": 0, "max": 80, "step": 1}
     }
   ],
 
@@ -44,7 +36,12 @@
     {
       "name": "yscale",
       "type": "linear",
-      "domain": {"data": "table", "field": "value"},
+      "domain": {
+        "fields": [
+          {"data": "table", "field": "value"},
+          {"signal": "threshold"}
+        ]
+      },
       "nice": true,
       "range": "height"
     }
@@ -64,14 +61,32 @@
           "x": {"scale": "xscale", "field": "category"},
           "width": {"scale": "xscale", "band": 1},
           "y": {"scale": "yscale", "field": "value"},
-          "y2": {"scale": "yscale", "value": 0},
-          "fill": {"value": "#7bbe1f"}
-        },
-        "hover": {
-          "fill": {"value": "#ff5722"}
+          "y2": {"scale": "yscale", "value": 0}
         },
         "update": {
-          "fill": {"value": "#7bbe1f"}
+          "fill": [
+            {"test": "datum.value < threshold", "value": "#d95f5f"},
+            {"value": "#7bbe1f"}
+          ]
+        },
+        "hover": {
+          "fill": {"value": "#2f7ed8"}
+        }
+      }
+    },
+
+    {
+      "type": "rule",
+      "encode": {
+        "enter": {
+          "x": {"value": 0},
+          "x2": {"signal": "width"},
+          "stroke": {"value": "black"},
+          "strokeWidth": {"value": 2},
+          "strokeDash": {"value": [4, 4]}
+        },
+        "update": {
+          "y": {"scale": "yscale", "signal": "threshold"}
         }
       }
     },
@@ -88,6 +103,7 @@
         }
       }
     },
+
     {
       "type": "symbol",
       "from": {"data": "table"},
@@ -102,6 +118,7 @@
         }
       }
     },
+
     {
       "type": "text",
       "from": {"data": "table"},

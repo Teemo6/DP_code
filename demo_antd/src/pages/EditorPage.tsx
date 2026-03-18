@@ -58,7 +58,7 @@ export default function EditorPage() {
                 <VegaEditor
                     ref={editorRef}
                     height="700px"
-                    importedData={{schema: schema, datasets: datasets, signals: signals}}
+                    // importedData={{schema: schema, datasets: datasets, signals: signals}}
                 />
 
                 <Flex vertical align="center" gap="small" style={{ padding: '24px 0px 16px', borderBottom: `1px solid ${token.colorBorderSecondary}` }}>
