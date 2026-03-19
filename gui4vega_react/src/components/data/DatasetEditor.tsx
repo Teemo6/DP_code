@@ -13,7 +13,7 @@ interface DatasetEditorProps {
     onDeleteDataset: (datasetName: string) => void;
 }
 
-const DatasetEditor: React.FC<DatasetEditorProps> = ({ editorState, dataset, onDeleteDataset }) => {
+const DatasetEditor: React.FC<DatasetEditorProps> = (props: DatasetEditorProps) => {
     const [tableVisible, setTableVisible] = useState(true);
     const [confirmDelete, setConfirmDelete] = useState(true);
 
@@ -24,10 +24,10 @@ const DatasetEditor: React.FC<DatasetEditorProps> = ({ editorState, dataset, onD
         handleAddRow,
         handleDeleteRow,
         handleCellChange
-    } = useDatasetActions(editorState, dataset);
+    } = useDatasetActions(props.editorState, props.dataset);
 
     const columns = useDatasetColumns({
-        dataset,
+        dataset: props.dataset,
         confirmDelete,
         onColumnRename: handleColumnRename,
         onColumnDelete: handleColumnDelete,
@@ -36,18 +36,18 @@ const DatasetEditor: React.FC<DatasetEditorProps> = ({ editorState, dataset, onD
     });
 
     const dataSource = useMemo(() =>
-        dataset.values.map((row, i) => ({ ...row, _rowKey: i })),
-        [dataset.values]
+            props.dataset.values.map((row, i) => ({ ...row, _rowKey: i })),
+        [props.dataset.values]
     );
 
     return (
         <Card size="small" style={{ marginBottom: 16 }}>
             <DatasetHeader
-                datasetName={dataset.name}
-                rowCount={dataset.values.length}
+                datasetName={props.dataset.name}
+                rowCount={props.dataset.values.length}
                 tableVisible={tableVisible}
                 onToggleTable={() => setTableVisible(!tableVisible)}
-                onDeleteDataset={onDeleteDataset}
+                onDeleteDataset={props.onDeleteDataset}
             />
 
             {/* Toolbar and Table */}
@@ -60,7 +60,7 @@ const DatasetEditor: React.FC<DatasetEditorProps> = ({ editorState, dataset, onD
                         onAddColumn={handleColumnAdd}
                     />
 
-                    {dataset.values.length === 0 ? (
+                    {props.dataset.values.length === 0 ? (
                         <Empty description="No data. Click 'Add Record' to start." />
                     ) : (
                         <Table
