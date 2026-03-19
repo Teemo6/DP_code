@@ -4,6 +4,9 @@ import { useWizardView } from './hooks/useWizardView.ts';
 import { WizardDynamicField } from './WizardDynamicField';
 import type { VegaEditorState } from "../useVegaEditor.ts";
 
+/**
+ * Props for {@link WizardView}.
+ */
 interface WizardViewProps {
     /**
      * Vega editor state with code specification.
@@ -11,6 +14,10 @@ interface WizardViewProps {
     editorState: VegaEditorState;
 }
 
+/**
+ * Component responsible for rendering the wizard view with dynamic fields based on the selected dataset and chart type.
+ * @param props - {@link WizardViewProps}
+ */
 const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
     const {
         form,

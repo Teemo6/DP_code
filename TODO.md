@@ -8,3 +8,5 @@ Dataview
 - pri prejmenovani sloupce se zmeni poradi, fix
 
 import { autocompletion } from "@codemirror/autocomplete";
+
+@property komentare

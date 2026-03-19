@@ -56,8 +56,10 @@ export interface VegaEditorRef {
 
 /**
  * Main Vega editor component with split panes for source editing and chart preview.
- *
  * Use a ref with {@link VegaEditorRef} to read the current editor content.
+ *
+ * @param props - {@link VegaEditorProps}
+ * @param ref - Forwarded ref to expose imperative methods defined in {@link VegaEditorRef}
  */
 const VegaEditor = forwardRef<VegaEditorRef, VegaEditorProps>((props: VegaEditorProps, ref: ForwardedRef<VegaEditorRef>) => {
     // Access Ant Design theme token

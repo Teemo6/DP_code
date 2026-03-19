@@ -5,6 +5,9 @@ import DatasetAddButton from './button/DatasetAddButton';
 import DatasetEditor from './DatasetEditor';
 import type { VegaEditorState } from "../useVegaEditor";
 
+/**
+ * Props for {@link DataView}.
+ */
 interface DataViewProps {
     /**
      * Vega editor state with code specification.
@@ -12,7 +15,12 @@ interface DataViewProps {
     editorState: VegaEditorState;
 }
 
-const DataView: React.FC<DataViewProps> = (props) => {
+/**
+ * Component responsible for rendering the data view and editor.
+ * @param props - {@link DataViewProps}
+ * @constructor
+ */
+const DataView: React.FC<DataViewProps> = (props: DataViewProps) => {
     // Parse datasets from spec, memoized by code
     const datasets = useMemo(() => parseDatasets(props.editorState.code), [props.editorState.code]);
 

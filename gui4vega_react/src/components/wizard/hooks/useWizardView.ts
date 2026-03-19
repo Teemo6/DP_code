@@ -5,6 +5,9 @@ import { adapters, generateSpec } from '../helper/wizardSpec.ts';
 import type { WizardConfig } from "../helper/wizardSpec.ts";
 import type { VegaEditorState } from "../../useVegaEditor.ts";
 
+/**
+ * Props for {@link useWizardView}.
+ */
 interface useWizardViewProps {
     /**
      * Vega editor state with code specification.
@@ -12,6 +15,11 @@ interface useWizardViewProps {
     editorState: VegaEditorState;
 }
 
+/**
+ * Custom hook to manage the state and logic for the {@link WizardView} component.
+ * @param props - {@link useWizardViewProps}
+ * @return An object containing necessary state and handlers for the wizard view.
+ */
 export const useWizardView = (props: useWizardViewProps) => {
     // Parse datasets from Vega code
     const datasets = useMemo(() => parseDatasets(props.editorState.code), [props.editorState.code]);

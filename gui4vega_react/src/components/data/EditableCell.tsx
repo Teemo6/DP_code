@@ -23,6 +23,11 @@ function toDisplay(value: unknown): string {
         : String(value ?? '');
 }
 
+/**
+ * Component responsible for rendering an editable cell in the data table.
+ * Displays the current value and allows users to click and edit it.
+ * @param props - {@link EditableCellProps}
+ */
 const EditableCell: React.FC<EditableCellProps> = (props: EditableCellProps) => {
     // Convert the value to a display string
     const display = toDisplay(props.value);
