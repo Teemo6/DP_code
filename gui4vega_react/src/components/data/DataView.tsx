@@ -1,10 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Typography, Space, Flex, message } from 'antd';
-import { parseDatasets, addDataset, deleteDataset } from './helper/datasetEdit.ts';
-import DatasetAddButton from './button/DatasetAddButton.tsx';
-import DatasetCard from './DatasetCard';
-import DatasetDeleteButton from './button/DatasetDeleteButton.tsx';
-import type { VegaEditorState } from "../useVegaEditor.ts";
+import { parseDatasets, addDataset, deleteDataset } from './helper/datasetEdit';
+import DatasetAddButton from './button/DatasetAddButton';
+import DatasetEditor from './DatasetEditor';
+import type { VegaEditorState } from "../useVegaEditor";
 
 interface DataViewProps {
     /**
@@ -16,19 +15,6 @@ interface DataViewProps {
 const DataView: React.FC<DataViewProps> = (props) => {
     // Parse datasets from spec, memoized by code
     const datasets = useMemo(() => parseDatasets(props.editorState.code), [props.editorState.code]);
-
-    // Track confirmDelete state per dataset
-    const [confirmDelete, setConfirmDelete] = useState<Record<string, boolean>>(() => {
-        const initial: Record<string, boolean> = {};
-        const parsed = parseDatasets(props.editorState.code);
-        parsed.forEach(ds => { initial[ds.name] = true; });
-        return initial;
-    });
-
-    // Update confirmDelete state for a dataset
-    const handleConfirmDeleteChange = (datasetName: string, value: boolean) => {
-        setConfirmDelete(prev => ({ ...prev, [datasetName]: value }));
-    };
 
     // Add dataset handler
     const handleAddDataset = (datasetName: string, data?: Record<string, unknown>[]) => {
@@ -46,7 +32,7 @@ const DataView: React.FC<DataViewProps> = (props) => {
         props.editorState.setCode(addDataset(props.editorState.code, trimmed, initialData));
     };
 
-    // Delete dataset handler (no modal here, handled in button)
+    // Delete dataset handler
     const handleDeleteDataset = (datasetName: string) => {
         props.editorState.setCode(deleteDataset(props.editorState.code, datasetName));
     };
@@ -60,14 +46,11 @@ const DataView: React.FC<DataViewProps> = (props) => {
             {datasets.length === 0 ? (
                 <Typography.Text type="secondary">No inline data found in Vega specification.</Typography.Text>
             ) : (
-                datasets.map(ds => (
-                    <DatasetCard
-                        key={ds.name}
-                        ds={ds}
+                datasets.map(dataset => (
+                    <DatasetEditor
+                        dataset={dataset}
                         editorState={props.editorState}
-                        confirmDelete={confirmDelete[ds.name]}
-                        onConfirmDeleteChange={value => handleConfirmDeleteChange(ds.name, value)}
-                        deleteButton={<DatasetDeleteButton datasetName={ds.name} onDelete={handleDeleteDataset} />}
+                        onDeleteDataset={handleDeleteDataset}
                     />
                 ))
             )}
