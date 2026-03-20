@@ -14,7 +14,7 @@ jobs:
       packages: write
     defaults:
       run:
-        working-directory: gui4vega_react
+        working-directory: gui4vega
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

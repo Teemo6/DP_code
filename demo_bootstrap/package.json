@@ -1,5 +1,5 @@
 {
-  "name": "demo_react_app_bootstrap",
+  "name": "demo_bootstrap",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "gui4vega_react": "file:../gui4vega_react",
+    "@relisa/gui4vega": "file:../gui4vega",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0"

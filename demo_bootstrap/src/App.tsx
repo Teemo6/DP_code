@@ -1,5 +1,5 @@
 import { Container, Navbar, Nav, Row, Col, ListGroup } from 'react-bootstrap'
-import { VegaEditor } from 'gui4vega_react'
+import { VegaEditor } from '@relisa/gui4vega'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {

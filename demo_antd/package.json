@@ -1,5 +1,5 @@
 {
-  "name": "demo_react_app_antd",
+  "name": "demo_antd",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
+    "@relisa/gui4vega": "file:../gui4vega",
     "antd": "^6.3.0",
-    "gui4vega_react": "file:../gui4vega_react",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.13.0",

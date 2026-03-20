@@ -1,4 +1,4 @@
-import type { VegaDataset, VegaSignal } from 'gui4vega_react'
+import type { VegaDataset, VegaSignal } from 'gui4vega'
 
 export const datasets: VegaDataset[] = [
     {

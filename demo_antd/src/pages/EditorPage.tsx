@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
-import { VegaEditor, ExternalSelectionExporter, ExportedContent } from 'gui4vega_react'
-import type { ExportedData, VegaEditorRef } from 'gui4vega_react'
+import { VegaEditor, ExternalSelectionExporter, ExportedContent } from '@relisa/gui4vega'
+import type { ExportedData, VegaEditorRef } from '@relisa/gui4vega'
 import { Layout, Typography, theme, Flex, Button } from 'antd'
 import AppHeader from '../components/AppHeader'
 import AppFooter from '../components/AppFooter'
