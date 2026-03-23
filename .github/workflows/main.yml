@@ -29,8 +29,8 @@ jobs:
       - name: Build package
         run: npm run build
 
-#      - name: Run tests
-#        run: npm run test
+      - name: Run tests
+        run: npm run test
 
       - name: Publish package to GitHub Packages
         run: npm publish --access public

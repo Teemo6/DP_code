@@ -5,15 +5,15 @@ import type { HideControls } from '../../src';
 describe('normalizeHideControls', () => {
     describe('passing boolean', () => {
         it('returns all true when passed true', () => {
-            expect(normalizeHideControls(true)).toEqual({ import: true, export: true, view: true });
+            expect(normalizeHideControls(true)).toEqual({ newSpec: true, import: true, export: true, view: true });
         });
 
         it('returns all false when passed false', () => {
-            expect(normalizeHideControls(false)).toEqual({ import: false, export: false, view: false });
+            expect(normalizeHideControls(false)).toEqual({ newSpec: false, import: false, export: false, view: false });
         });
 
         it('returns all false when passed undefined', () => {
-            expect(normalizeHideControls(undefined)).toEqual({ import: false, export: false, view: false });
+            expect(normalizeHideControls(undefined)).toEqual({ newSpec: false, import: false, export: false, view: false });
         });
     });
 
