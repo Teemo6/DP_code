@@ -31,8 +31,6 @@ export const useSelectionExporter = (props: UseSelectionExporterProps) => {
     // Open the exporter modal and pre-select all datasets and signals by default
     const openExporter = () => {
         try {
-            setDatasetSelection(datasetNames);
-            setSignalSelection(signalNames);
             setIsModalOpen(true);
         } catch (err) {
             const errorMsg = err instanceof Error ? err.message : 'Export does not work with invalid JSON spec.';
