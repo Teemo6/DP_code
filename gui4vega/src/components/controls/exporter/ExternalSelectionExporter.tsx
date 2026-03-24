@@ -1,9 +1,8 @@
 import React from 'react';
-import { Modal, Checkbox, Typography, Divider, Flex, Layout } from 'antd';
+import { Modal, Divider } from 'antd';
 import type { ExportedData } from './helper/exportSelectedData.ts';
 import { useExternalSelectionExporter } from "./hooks/useExternalSelectionExporter.ts";
-
-const { Title } = Typography;
+import SelectionConfigurator from "./SelectionConfigurator.tsx";
 
 /**
  * Props for {@link ExternalSelectionExporter}.
@@ -58,40 +57,17 @@ const ExternalSelectionExporter: React.FC<ExternalSelectionExporterProps> = (pro
             open={props.isOpen}
             onOk={handleExport}
             onCancel={props.onClose}
-            width={800}
+            width={900}
         >
             <Divider style={{ width: 'auto' }} />
-            <Flex gap="large" style={{ minHeight: 200 }}>
-                {datasetNames.length > 0 && (
-                    <Flex vertical flex={1} style={{ minWidth: 0 }}>
-                        <Title level={5}>Datasets</Title>
-                        <Layout style={{ overflow: 'auto', maxHeight: '350px', background: 'transparent' }}>
-                            <Checkbox.Group
-                                options={datasetNames}
-                                value={datasetSelection}
-                                onChange={setDatasetSelection}
-                                style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
-                            />
-                        </Layout>
-                    </Flex>
-                )}
-
-                {datasetNames.length > 0 && signalNames.length > 0 && <Divider vertical style={{ height: 'auto' }} />}
-
-                {signalNames.length > 0 && (
-                    <Flex vertical flex={1} style={{ minWidth: 0 }}>
-                        <Title level={5}>Signals</Title>
-                        <Layout style={{ overflow: 'auto', maxHeight: '350px', background: 'transparent' }}>
-                            <Checkbox.Group
-                                options={signalNames}
-                                value={signalSelection}
-                                onChange={setSignalSelection}
-                                style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
-                            />
-                        </Layout>
-                    </Flex>
-                )}
-            </Flex>
+            <SelectionConfigurator
+                datasetNames={datasetNames}
+                signalNames={signalNames}
+                datasetSelection={datasetSelection}
+                signalSelection={signalSelection}
+                setDatasetSelection={setDatasetSelection}
+                setSignalSelection={setSignalSelection}
+            />
         </Modal>
     );
 };
