@@ -7,13 +7,35 @@ import DatasetHeader from './DatasetHeader';
 import DatasetToolbar from './DatasetToolbar';
 import type { VegaDataset } from "./helper/VegaDataset.ts";
 
+/**
+ * Props for {@link DatasetEditor}.
+ */
 interface DatasetEditorProps {
+    /**
+     * Vega editor state with code specification.
+     */
     editorState: VegaEditorState;
+    /**
+     * The dataset object that this editor will manage and display.
+     */
     dataset: VegaDataset;
+    /**
+     * Callback function that is called when the user wants to delete the dataset.
+     * @param datasetName - The name of the dataset to be deleted.
+     */
     onDeleteDataset: (datasetName: string) => void;
+    /**
+     * Callback function that is called when the user wants to move the dataset up or down in the list.
+     * @param datasetName - The name of the dataset to be moved.
+     * @param direction - The direction to move the dataset, either 'up' or 'down'.
+     */
     onMoveDataset: (datasetName: string, direction: 'up' | 'down') => void;
 }
 
+/**
+ * Component responsible for rendering an editor interface for a single dataset in a Vega specification.
+ * @param props - {@link DatasetEditorProps}
+ */
 const DatasetEditor: React.FC<DatasetEditorProps> = (props: DatasetEditorProps) => {
     // Controls visibility of the dataset table editor
     const [tableVisible, setTableVisible] = useState(false);

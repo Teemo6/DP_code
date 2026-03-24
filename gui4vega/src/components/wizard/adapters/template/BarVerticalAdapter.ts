@@ -2,8 +2,10 @@ import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../Wiz
 import type { WizardConfig } from "../../helper/wizardSpec.ts";
 
 export class BarVerticalAdapter implements WizardAdapter {
+    // Select the mode for the adapter
     mode: AdapterMode = 'template';
 
+    // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
             { name: 'xCategory', type: 'string', label: 'X Axis / Category', required: true },
@@ -13,6 +15,7 @@ export class BarVerticalAdapter implements WizardAdapter {
         ];
     }
 
+    // Generate the Vega specification based on the input from the wizard form
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 

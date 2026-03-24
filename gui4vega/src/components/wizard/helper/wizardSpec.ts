@@ -50,18 +50,20 @@ export const adapters: Record<ChartType, WizardAdapter> = {
  */
 export function generateSpec(currentCode: string, config: WizardConfig): string {
     try {
+        // Parse the current Vega specification from the editor
         const currentSpec = JSON.parse(currentCode);
-        const { chartType } = config;
 
-        const adapter = adapters[chartType];
-        if (!adapter) {
-            return currentCode;
-        }
+        // Get the adapter for the selected chart type
+        const adapter = adapters[config.chartType];
 
+        // If no adapter is found for the selected chart type, return the current code without changes
+        if (!adapter) return currentCode;
+
+        // Generate the new Vega specification based on the wizard configuration using the adapter
         const newSpec = adapter.getSpec(config);
 
+        // Append mode, merge new spec with current spec and return
         if (adapter.mode === 'append') {
-            // Append mode
             const merged = { ...currentSpec };
 
             if (newSpec.data) {
@@ -86,7 +88,8 @@ export function generateSpec(currentCode: string, config: WizardConfig): string 
             return JSON.stringify(merged, null, 2);
         }
 
-         // Prepend data
+        // Template mode, merge only data and signals
+        // Prepend data
         if (currentSpec.data) {
              newSpec.data = newSpec.data ? [...currentSpec.data, ...newSpec.data] : [...currentSpec.data];
         }

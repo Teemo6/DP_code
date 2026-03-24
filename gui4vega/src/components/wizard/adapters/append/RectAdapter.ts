@@ -1,9 +1,14 @@
 import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
 import type { WizardConfig } from "../../helper/wizardSpec.ts";
 
+/**
+ * Adapter for generating a vertical bar chart Vega specification based on user input from the wizard form.
+ */
 export class RectAdapter implements WizardAdapter {
+    // Select the mode for the adapter
     mode: AdapterMode = 'append';
 
+    // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
             { name: 'xField', type: 'string', label: 'X Axis / Category', required: true },
@@ -13,6 +18,7 @@ export class RectAdapter implements WizardAdapter {
         ];
     }
 
+    // Generate the Vega specification based on the input from the wizard form
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 

@@ -3,10 +3,21 @@ import { parseDatasets } from '../../../data/helper/EditDataset.ts';
 import { parseSignals } from '../../../signal/helper/VegaSignal.ts';
 import { exportSelectedData } from '../helper/exportSelectedData.ts';
 
+/**
+ * Props for {@link useExternalSelectionExporter}.
+ */
 interface UseExternalSelectionExporterProps {
+    /**
+     * The Vega specification code from which datasets and signals will be parsed for selection and export.
+     */
     code: string;
 }
 
+/**
+ * Custom hook to manage the state and logic for exporting selected datasets and signals from the provided Vega specification.
+ * @param props - {@link UseExternalSelectionExporterProps}
+ * @return An object containing state and handlers for managing the export process based on the provided code.
+ */
 export const useExternalSelectionExporter = (props: UseExternalSelectionExporterProps) => {
     // Data extraction logic
     const datasetObjs = useMemo(() => parseDatasets(props.code), [props.code]);

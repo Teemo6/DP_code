@@ -6,14 +6,26 @@ import { exportSelectedData } from '../helper/exportSelectedData.ts';
 import type { ExportedData } from '../helper/exportSelectedData.ts';
 import type { VegaEditorState } from "../../../useVegaEditor.ts";
 
+/**
+ * Props for {@link useSelectionExporter}.
+ */
 interface UseSelectionExporterProps {
     /**
      * Vega editor state with code specification.
      */
     editorState: VegaEditorState;
+    /**
+     * Optional callback that is called with the exported data when export is successful.
+     * @param data - The data that was exported based on the selection of datasets and signals.
+     */
     onExportSuccess?: (data: ExportedData) => void;
 }
 
+/**
+ * Custom hook to manage the state and logic for exporting selected datasets and signals from a Vega specification.
+ * @param props - {@link UseSelectionExporterProps}
+ * @return An object containing state and handlers for managing the export process.
+ */
 export const useSelectionExporter = (props: UseSelectionExporterProps) => {
     // Data extraction logic
     const datasetObjs = useMemo(() => parseDatasets(props.editorState.code), [props.editorState.code]);
