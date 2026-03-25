@@ -3,6 +3,7 @@ import { Modal, Divider } from 'antd';
 import type { ExportedData } from './helper/exportSelectedData.ts';
 import { useExternalSelectionExporter } from "./hooks/useExternalSelectionExporter.ts";
 import SelectionConfigurator from "./SelectionConfigurator.tsx";
+import ExportPreviewModal from "./ExportPreviewModal.tsx";
 
 /**
  * Props for {@link ExternalSelectionExporter}.
@@ -44,31 +45,56 @@ const ExternalSelectionExporter: React.FC<ExternalSelectionExporterProps> = (pro
         getExportedData
     } = useExternalSelectionExporter({ code: props.code });
 
-    // Handle export: get data, pass to user, close modal
-    const handleExport = () => {
+    const [previewData, setPreviewData] = React.useState<ExportedData | null>(null);
+
+    const handleInitialExport = () => {
         const data = getExportedData();
-        props.onExport(data);
+        setPreviewData(data);
+    };
+
+    const handleBack = () => {
+        setPreviewData(null);
+    };
+
+    const handleClose = () => {
+        setPreviewData(null);
         props.onClose();
     };
 
+    const handleConfirmExport = () => {
+        if (previewData) {
+            props.onExport(previewData);
+        }
+        handleClose();
+    };
+
     return (
-        <Modal
-            title="Select datasets and signals to export"
-            open={props.isOpen}
-            onOk={handleExport}
-            onCancel={props.onClose}
-            width={900}
-        >
-            <Divider style={{ width: 'auto' }} />
-            <SelectionConfigurator
-                datasetNames={datasetNames}
-                signalNames={signalNames}
-                datasetSelection={datasetSelection}
-                signalSelection={signalSelection}
-                setDatasetSelection={setDatasetSelection}
-                setSignalSelection={setSignalSelection}
+        <>
+            <Modal
+                title="Select datasets and signals to export"
+                open={props.isOpen && !previewData}
+                onOk={handleInitialExport}
+                onCancel={handleClose}
+                width={900}
+            >
+                <Divider style={{ width: 'auto' }} />
+                <SelectionConfigurator
+                    datasetNames={datasetNames}
+                    signalNames={signalNames}
+                    datasetSelection={datasetSelection}
+                    signalSelection={signalSelection}
+                    setDatasetSelection={setDatasetSelection}
+                    setSignalSelection={setSignalSelection}
+                />
+            </Modal>
+            <ExportPreviewModal
+                open={props.isOpen && !!previewData}
+                data={previewData}
+                onClose={handleClose}
+                onBack={handleBack}
+                onConfirm={handleConfirmExport}
             />
-        </Modal>
+        </>
     );
 };
 

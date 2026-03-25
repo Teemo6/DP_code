@@ -3,7 +3,7 @@ import { Button, Modal, Divider } from 'antd';
 import {useSelectionExporter} from "./hooks/useSelectionExporter.ts";
 import type { ExportedData } from './helper/exportSelectedData.ts';
 import { UploadOutlined } from "@ant-design/icons";
-import ExportedContent from './ExportedContent';
+import ExportPreviewModal from "./ExportPreviewModal.tsx";
 import type { VegaEditorState } from "../../useVegaEditor.ts";
 import SelectionConfigurator from "./SelectionConfigurator.tsx";
 
@@ -32,13 +32,13 @@ const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExp
 
     const handleCloseExportModal = () => {
         setIsExportModalOpen(false);
-        setExportedData(null);
     };
 
-    const exporter = useSelectionExporter({
-        editorState: props.editorState,
-        onExportSuccess: handleExportSuccess,
-    });
+    const handleBack = () => {
+        openExporter();
+        handleCloseExportModal();
+    };
+
     const {
         isModalOpen,
         datasetNames,
@@ -50,7 +50,10 @@ const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExp
         openExporter,
         closeExporter,
         confirmExport
-    } = exporter;
+    } = useSelectionExporter({
+        editorState: props.editorState,
+        onExportSuccess: handleExportSuccess,
+    });
 
     return (
         <>
@@ -76,15 +79,13 @@ const SelectionExporter: React.FC<SelectionExporterProps> = (props: SelectionExp
                 />
             </Modal>
 
-            <Modal
-                title="Exported Content"
+            <ExportPreviewModal
                 open={isExportModalOpen}
-                onOk={handleCloseExportModal}
-                onCancel={handleCloseExportModal}
-                width={900}
-            >
-                {exportedData && <ExportedContent data={exportedData} />}
-            </Modal>
+                data={exportedData}
+                onClose={handleCloseExportModal}
+                onBack={handleBack}
+                onConfirm={handleCloseExportModal}
+            />
         </>
     );
 };

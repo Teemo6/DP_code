@@ -27,7 +27,7 @@ const ExportedContent: React.FC<ExportedContentProps> = (props: ExportedContentP
                 <TextArea
                     readOnly
                     value={props.data.spec}
-                    autoSize={{ minRows: 8, maxRows: 8 }}
+                    autoSize={{ minRows: 10, maxRows: 10 }}
                 />
             </Flex>
         </Col>
@@ -37,7 +37,7 @@ const ExportedContent: React.FC<ExportedContentProps> = (props: ExportedContentP
                 <TextArea
                     readOnly
                     value={props.data.datasets}
-                    autoSize={{ minRows: 8, maxRows: 8 }}
+                    autoSize={{ minRows: 10, maxRows: 10 }}
                 />
             </Flex>
         </Col>
@@ -47,7 +47,7 @@ const ExportedContent: React.FC<ExportedContentProps> = (props: ExportedContentP
                 <TextArea
                     readOnly
                     value={props.data.signals}
-                    autoSize={{ minRows: 8, maxRows: 8 }}
+                    autoSize={{ minRows: 10, maxRows: 10 }}
                 />
             </Flex>
         </Col>
