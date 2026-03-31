@@ -7,8 +7,9 @@ import { Tabs } from 'antd';
  * - 'data': The tab for managing the data sources used in the Vega visualization.
  * - 'properties': The tab for editing properties of marks and encodings in the Vega specification.
  * - 'wizard': The tab for generating visualizations using a wizard.
+ * - 'signals': The tab for editing signals in the Vega specification.
  */
-export type EditorTabKey = 'spec' | 'data' | 'properties' | 'wizard';
+export type EditorTabKey = 'spec' | 'data' | 'properties' | 'wizard' | 'signals';
 
 /**
  * Props for {@link EditorTabSelector}.
@@ -40,6 +41,10 @@ const EditorTabSelector: React.FC<EditorTabSelectorProps> = (props: EditorTabSel
         {
             key: 'data',
             label: 'Data',
+        },
+        {
+            key: 'signals',
+            label: 'Signals',
         },
         {
             key: 'properties',

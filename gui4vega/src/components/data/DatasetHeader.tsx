@@ -26,12 +26,12 @@ interface DatasetHeaderProps {
      */
     onToggleTable: () => void;
     /**
-     * Callback function invoked when the user clicks the delete button to remove the dataset from the Vega specification.
+     * Callback function invoked when the user clicks the delete button to remove the dataset.
      * @param datasetName - The name of the dataset to be deleted.
      */
     onDeleteDataset: (datasetName: string) => void;
     /**
-     * Callback function invoked when the user clicks the move up or move down buttons to reorder the dataset in the list.
+     * Callback function invoked when the user clicks the move up or move down buttons.
      * @param datasetName - The name of the dataset to be moved.
      * @param direction - The direction to move the dataset, either 'up' or 'down'.
      */
@@ -75,7 +75,10 @@ const DatasetHeader: React.FC<DatasetHeaderProps> = (props: DatasetHeaderProps) 
                     {props.rowCount} rows
                 </Text>
             </Space>
-            <DatasetDeleteButton datasetName={props.datasetName} onDelete={props.onDeleteDataset} />
+            <DatasetDeleteButton
+                datasetName={props.datasetName}
+                onDelete={props.onDeleteDataset}
+            />
         </Flex>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'antd';
-import DatasetImportModal from './DatasetImportModal';
+import DatasetAddModal from './DatasetAddModal.tsx';
 
 /**
  * Props for {@link DatasetAddButton}.
@@ -27,7 +27,7 @@ const DatasetAddButton: React.FC<DatasetAddButtonProps> = (props: DatasetAddButt
             <Button type="primary" onClick={() => setVisible(true)}>
                 Add Dataset
             </Button>
-            <DatasetImportModal
+            <DatasetAddModal
                 open={visible}
                 onCancel={() => setVisible(false)}
                 onAdd={props.onAdd}

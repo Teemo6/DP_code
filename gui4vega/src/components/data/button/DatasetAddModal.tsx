@@ -9,11 +9,22 @@ const { Text, Paragraph } = Typography;
 const { Dragger } = Upload;
 
 /**
- * Props for {@link DatasetImportModal}.
+ * Props for {@link DatasetAddModal}.
  */
 interface DatasetImportModalProps {
+    /**
+     * Boolean flag to control the visibility of the modal.
+     */
     open: boolean;
+    /**
+     * Callback function that is called when the modal is closed without adding a dataset.
+     */
     onCancel: () => void;
+    /**
+     * Callback function that is called when a new dataset is added.
+     * @param datasetName - The name of the new dataset to be added.
+     * @param data - The data to be added to the dataset, if imported from a file.
+     */
     onAdd: (datasetName: string, data?: Record<string, unknown>[]) => void;
 }
 
@@ -21,7 +32,7 @@ interface DatasetImportModalProps {
  * Component responsible for rendering a modal that allows users to add a new dataset to the Vega specification.
  * @param props - {@link DatasetImportModalProps}
  */
-const DatasetImportModal: React.FC<DatasetImportModalProps> = (props: DatasetImportModalProps) => {
+const DatasetAddModal: React.FC<DatasetImportModalProps> = (props: DatasetImportModalProps) => {
     // State to track the form
     const [form] = Form.useForm();
 
@@ -133,4 +144,4 @@ const DatasetImportModal: React.FC<DatasetImportModalProps> = (props: DatasetImp
     );
 };
 
-export default DatasetImportModal;
+export default DatasetAddModal;
