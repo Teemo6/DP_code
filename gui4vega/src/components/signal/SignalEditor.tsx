@@ -1,7 +1,8 @@
-import React, {useMemo} from 'react';
-import { Card, Input, Form, InputNumber, Select, Space } from 'antd';
+import React from 'react';
+import { Card, Input, Form } from 'antd';
 import type { VegaSignal } from './helper/VegaSignal';
 import SignalHeader from './SignalHeader';
+import SignalBindEditor from './SignalBindEditor';
 
 /**
  * Props for {@link SignalEditor}.
@@ -41,51 +42,6 @@ interface SignalEditorProps {
  * @param props - {@link SignalEditorProps}
  */
 const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => {
-    // Memo bind property
-    const bindObj = useMemo(() => {
-        // Signal has no bind property
-        if (!props.signal.bind) return {};
-
-        // Attempt to parse bind
-        if (typeof props.signal.bind === 'string') {
-            try {
-                return JSON.parse(props.signal.bind);
-            } catch {
-                return {};
-            }
-        } else {
-            return props.signal.bind as Record<string, unknown>;
-        }
-    }, [props.signal.bind]);
-
-    // Handle bind type change
-    const updateBindValue = (updates: Record<string, unknown> | undefined) => {
-        props.onUpdateSignalBind(props.signal.name, updates);
-    }
-
-    // Handle bind type change
-    const updateNewBindType = (type: string) => {
-        if (!type) {
-            props.onUpdateSignalBind(props.signal.name, undefined);
-        } else if (type === 'range') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'range', min: 0, max: 100, step: 1 });
-        } else if (type === 'checkbox') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'checkbox' });
-        } else if (type === 'radio') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'radio', options: bindObj.options || [] });
-        } else if (type === 'select') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'select', options: bindObj.options || [] });
-        } else if (type === 'color') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'color' });
-        } else if (type === 'date') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'date' });
-        } else if (type === 'number') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'number' });
-        } else if (type === 'text') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'text' });
-        }
-    };
-
     return (
         <Card size="small" style={{ marginBottom: 16 }}>
             <SignalHeader
@@ -102,48 +58,11 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
                     />
                 </Form.Item>
 
-                <Form.Item label="Bind Type">
-                    <Select
-                        value={(bindObj.input) || ''}
-                        onChange={updateNewBindType}
-                        options={[
-                            { value: '', label: 'None' },
-                            { value: 'range', label: 'Slider' },
-                            { value: 'checkbox', label: 'Checkbox' },
-                            { value: 'radio', label: 'Radio' },
-                            { value: 'select', label: 'Select' },
-                            { value: 'color', label: 'Color' },
-                            { value: 'date', label: 'Date' },
-                            { value: 'number', label: 'Number' },
-                            { value: 'text', label: 'Text' },
-                        ]}
-                    />
-                </Form.Item>
-
-                {bindObj.input === 'range' && (
-                    <Space align="start">
-                        <Form.Item label="Min">
-                            <InputNumber value={bindObj.min} onChange={(min) => updateBindValue({ ...bindObj, min })} />
-                        </Form.Item>
-                        <Form.Item label="Max">
-                            <InputNumber value={bindObj.max} onChange={(max) => updateBindValue({ ...bindObj, max })} />
-                        </Form.Item>
-                        <Form.Item label="Step">
-                            <InputNumber value={bindObj.step} onChange={(step) => updateBindValue({ ...bindObj, step })} />
-                        </Form.Item>
-                    </Space>
-                )}
-
-                {['radio', 'select'].includes(bindObj.input) && (
-                    <Form.Item label="Options">
-                        <Select
-                            mode="tags"
-                            placeholder="Type an option and press Enter"
-                            value={(bindObj.options) || []}
-                            onChange={(newOptions) => updateBindValue({ ...bindObj, options: newOptions })}
-                        />
-                    </Form.Item>
-                )}
+                <SignalBindEditor
+                    signalName={props.signal.name}
+                    bind={props.signal.bind as Record<string, unknown> | string | undefined}
+                    onUpdateSignalBind={props.onUpdateSignalBind}
+                />
             </Form>
         </Card>
     );
