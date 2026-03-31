@@ -72,7 +72,9 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
         } else if (type === 'checkbox') {
             props.onUpdateSignalBind(props.signal.name, { input: 'checkbox' });
         } else if (type === 'radio') {
-            props.onUpdateSignalBind(props.signal.name, { input: 'radio', options: [] });
+            props.onUpdateSignalBind(props.signal.name, { input: 'radio', options: bindObj.options || [] });
+        } else if (type === 'select') {
+            props.onUpdateSignalBind(props.signal.name, { input: 'select', options: bindObj.options || [] });
         }
     };
 
@@ -101,6 +103,7 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
                             { value: 'range', label: 'Slider' },
                             { value: 'checkbox', label: 'Checkbox' },
                             { value: 'radio', label: 'Radio' },
+                            { value: 'select', label: 'Select' },
                         ]}
                     />
                 </Form.Item>
@@ -119,7 +122,7 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
                     </Space>
                 )}
 
-                {bindObj.input === 'radio' && (
+                {['radio', 'select'].includes(bindObj.input) && (
                     <Form.Item label="Options">
                         <Select
                             mode="tags"
