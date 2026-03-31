@@ -75,6 +75,14 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
             props.onUpdateSignalBind(props.signal.name, { input: 'radio', options: bindObj.options || [] });
         } else if (type === 'select') {
             props.onUpdateSignalBind(props.signal.name, { input: 'select', options: bindObj.options || [] });
+        } else if (type === 'color') {
+            props.onUpdateSignalBind(props.signal.name, { input: 'color' });
+        } else if (type === 'date') {
+            props.onUpdateSignalBind(props.signal.name, { input: 'date' });
+        } else if (type === 'number') {
+            props.onUpdateSignalBind(props.signal.name, { input: 'number' });
+        } else if (type === 'text') {
+            props.onUpdateSignalBind(props.signal.name, { input: 'text' });
         }
     };
 
@@ -104,6 +112,10 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
                             { value: 'checkbox', label: 'Checkbox' },
                             { value: 'radio', label: 'Radio' },
                             { value: 'select', label: 'Select' },
+                            { value: 'color', label: 'Color' },
+                            { value: 'date', label: 'Date' },
+                            { value: 'number', label: 'Number' },
+                            { value: 'text', label: 'Text' },
                         ]}
                     />
                 </Form.Item>
