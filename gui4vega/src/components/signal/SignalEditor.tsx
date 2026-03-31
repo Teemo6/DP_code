@@ -71,6 +71,8 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
             props.onUpdateSignalBind(props.signal.name, { input: 'range', min: 0, max: 100, step: 1 });
         } else if (type === 'checkbox') {
             props.onUpdateSignalBind(props.signal.name, { input: 'checkbox' });
+        } else if (type === 'radio') {
+            props.onUpdateSignalBind(props.signal.name, { input: 'radio', options: [] });
         }
     };
 
@@ -98,6 +100,7 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
                             { value: '', label: 'None' },
                             { value: 'range', label: 'Slider' },
                             { value: 'checkbox', label: 'Checkbox' },
+                            { value: 'radio', label: 'Radio' },
                         ]}
                     />
                 </Form.Item>
@@ -114,6 +117,17 @@ const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => 
                             <InputNumber value={bindObj.step} onChange={(step) => updateBindValue({ ...bindObj, step })} />
                         </Form.Item>
                     </Space>
+                )}
+
+                {bindObj.input === 'radio' && (
+                    <Form.Item label="Options">
+                        <Select
+                            mode="tags"
+                            placeholder="Type an option and press Enter"
+                            value={(bindObj.options) || []}
+                            onChange={(newOptions) => updateBindValue({ ...bindObj, options: newOptions })}
+                        />
+                    </Form.Item>
                 )}
             </Form>
         </Card>
