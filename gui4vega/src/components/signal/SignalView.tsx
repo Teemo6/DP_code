@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import {Typography, Flex, message} from 'antd';
 import { parseSignals } from './helper/VegaSignal';
 import type { VegaSignal } from './helper/VegaSignal';
-import { addSignal, deleteSignal, moveSignal, updateSignal } from './helper/EditSignal';
+import { addSignal, deleteSignal, moveSignal, updateSignal, updateSignalBind } from './helper/EditSignal';
 import type { VegaEditorState } from "../useVegaEditor.ts";
 import SignalEditor from './SignalEditor';
 import SignalAddButton from './button/SignalAddButton.tsx';
@@ -61,6 +61,11 @@ const SignalView: React.FC<SignalViewProps> = (props) => {
         props.editorState.setCode(updateSignal(props.editorState.code, signalName, parsed));
     };
 
+    // Update signal bind handler
+    const handleUpdateSignalBind = (name: string, bind: Record<string, unknown> | undefined) => {
+        props.editorState.setCode(updateSignalBind(props.editorState.code, name, bind));
+    };
+
     return (
         <Flex vertical style={{ width: '100%', padding: 8, overflow: 'auto' }}>
             <Flex justify="space-between" align="center">
@@ -76,6 +81,7 @@ const SignalView: React.FC<SignalViewProps> = (props) => {
                         onDeleteSignal={handleDeleteSignal}
                         onMoveSignal={handleMoveSignal}
                         onUpdateSignal={handleUpdateSignal}
+                        onUpdateSignalBind={handleUpdateSignalBind}
                     />
                 ))
             )}
