@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Flex, Space, Button } from 'antd';
-import { UpOutlined, DownOutlined } from '@ant-design/icons';
+import { EyeOutlined, EyeInvisibleOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
 import SignalDeleteButton from './button/SignalDeleteButton';
 
 const { Text } = Typography;
@@ -24,6 +24,14 @@ interface SignalHeaderProps {
      * @param direction - The direction to move the signal, either 'up' or 'down'.
      */
     onMoveSignal: (signalName: string, direction: 'up' | 'down') => void;
+    /**
+     * Boolean indicating whether the signal form editor is currently visible.
+     */
+    formVisible: boolean;
+    /**
+     * Callback function invoked when the user clicks the toggle button to show or hide the signal form editor.
+     */
+    onToggleForm: () => void;
 }
 
 /**
@@ -53,6 +61,12 @@ const SignalHeader: React.FC<SignalHeaderProps> = (props: SignalHeaderProps) => 
                 <Text strong style={{ fontSize: 16 }}>
                     {props.signalName}
                 </Text>
+                <Button
+                    icon={props.formVisible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                    onClick={props.onToggleForm}
+                    size="small"
+                    type="text"
+                />
             </Space>
             <SignalDeleteButton
                 signalName={props.signalName}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Input, Form } from 'antd';
 import type { VegaSignal } from './helper/VegaSignal';
 import SignalHeader from './SignalHeader';
@@ -42,28 +42,36 @@ interface SignalEditorProps {
  * @param props - {@link SignalEditorProps}
  */
 const SignalEditor: React.FC<SignalEditorProps> = (props: SignalEditorProps) => {
+    // State to control form visibility
+    const [formVisible, setFormVisible] = useState(false);
+
     return (
         <Card size="small" style={{ marginBottom: 16 }}>
             <SignalHeader
                 signalName={props.signal.name}
                 onDeleteSignal={props.onDeleteSignal}
                 onMoveSignal={props.onMoveSignal}
+                formVisible={formVisible}
+                onToggleForm={() => setFormVisible(!formVisible)}
             />
-            <Form layout="vertical" size="small">
-                <Form.Item label="Value">
-                    <Input
-                        defaultValue={typeof props.signal.value === 'object' ? JSON.stringify(props.signal.value) : String(props.signal.value)}
-                        onBlur={(e) => props.onUpdateSignal(props.signal.name, e.target.value)}
-                        onPressEnter={(e) => props.onUpdateSignal(props.signal.name, (e.target as HTMLInputElement).value)}
-                    />
-                </Form.Item>
 
-                <SignalBindEditor
-                    signalName={props.signal.name}
-                    bind={props.signal.bind as Record<string, unknown> | string | undefined}
-                    onUpdateSignalBind={props.onUpdateSignalBind}
-                />
-            </Form>
+            {formVisible && (
+                <Form layout="vertical" size="small">
+                    <Form.Item label="Value">
+                        <Input
+                            defaultValue={typeof props.signal.value === 'object' ? JSON.stringify(props.signal.value) : String(props.signal.value)}
+                            onBlur={(e) => props.onUpdateSignal(props.signal.name, e.target.value)}
+                            onPressEnter={(e) => props.onUpdateSignal(props.signal.name, (e.target as HTMLInputElement).value)}
+                        />
+                    </Form.Item>
+
+                    <SignalBindEditor
+                        signalName={props.signal.name}
+                        bind={props.signal.bind as Record<string, unknown> | string | undefined}
+                        onUpdateSignalBind={props.onUpdateSignalBind}
+                    />
+                </Form>
+            )}
         </Card>
     );
 };
