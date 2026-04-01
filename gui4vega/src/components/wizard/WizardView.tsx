@@ -1,8 +1,9 @@
-import React from 'react';
-import { Form, Select, Button, Card, Typography, Flex, Tabs } from 'antd';
+import React, { useState } from 'react';
+import { Form, Select, Button, Card, Typography, Flex, Tabs, Modal, Checkbox, Space } from 'antd';
 import { useWizardView } from './hooks/useWizardView.ts';
 import { WizardDynamicField } from './WizardDynamicField';
 import type { VegaEditorState } from "../useVegaEditor.ts";
+import type { WizardConfig } from "./helper/wizardSpec.ts";
 
 /**
  * Props for {@link WizardView}.
@@ -43,12 +44,53 @@ const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
     // Default dataset the first one in the list
     const defaultDatasetName = datasets?.[0]?.name;
 
+    // State to track whether the user has chosen to skip the confirmation warning
+    const [dontAskWarning, setDontAskWarning] = useState(false);
+
+    // Confirmation modal before generating new visualization to prevent accidental overwrites
+    const onFinish = (values: WizardConfig) => {
+        // User has chosen to skip the warning
+        if (dontAskWarning) {
+            handleFinish(values);
+            return;
+        }
+
+        // Track state if the checkbox inside modal
+        let isChecked = false;
+
+        // Show confirmation modal
+        Modal.confirm({
+            title: 'Are you sure?',
+            content: (
+                <Space orientation="vertical" style={{ marginTop: 12 }}>
+                    <Typography.Text>
+                        Generating a new visualization will overwrite the existing Vega specification
+                        (except for data and signals).
+                    </Typography.Text>
+                    <Typography.Text strong>Make sure to save your work!</Typography.Text>
+                    <Checkbox onChange={(e) => { isChecked = e.target.checked; }}>
+                        Don't ask again
+                    </Checkbox>
+                </Space>
+            ),
+            okText: 'Overwrite',
+            okButtonProps: { danger: true },
+            cancelText: 'Cancel',
+            onOk() {
+                if (isChecked) {
+                    setDontAskWarning(true);
+                }
+                handleFinish(values);
+            },
+        });
+    };
+
     return (
         <Card variant={'borderless'} style={{ height: '100%', overflowY: 'auto' }}>
             <Form
                 form={form}
                 layout="vertical"
-                onFinish={handleFinish}
+                onFinish={onFinish}
                 initialValues={{
                     chartType: defaultChartType,
                     datasetName: defaultDatasetName
