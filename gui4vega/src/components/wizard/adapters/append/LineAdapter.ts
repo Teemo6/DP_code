@@ -2,19 +2,19 @@ import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../Wiz
 import type { WizardConfig } from "../../helper/wizardSpec.ts";
 
 /**
- * Adapter for generating a vertical bar chart Vega specification based on user input from the wizard form.
+ * Adapter for generating a line chart Vega specification based on user input from the wizard form.
  */
-export class RectAdapter implements WizardAdapter {
+export class LineAdapter implements WizardAdapter {
     // Select the mode for the adapter
     mode: AdapterMode = 'append';
 
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'string', label: 'X Axis / Category', required: true },
-            { name: 'yField', type: 'string', label: 'Y Axis / Value', required: true },
-            { name: 'colorBar', type: 'color',  label: 'Color of the bars', required: false, defaultValue: '#7bbe1f' },
-            { name: 'colorHover', type: 'color', label: 'Color when hovered', required: false, defaultValue: '#ff5722' }
+            { name: 'xField', type: 'string', label: 'X Axis', required: true },
+            { name: 'yField', type: 'string', label: 'Y Axis', required: true },
+            { name: 'colorLine', type: 'color',  label: 'Color of the line', required: false, defaultValue: '#000000' },
+            { name: 'strokeWidth', type: 'number', label: 'Line width', required: false, defaultValue: 3 }
         ];
     }
 
@@ -24,12 +24,12 @@ export class RectAdapter implements WizardAdapter {
 
         const xField = fields['xField'];
         const yField = fields['yField'];
-        const colorBar = fields['colorBar'];
-        const colorHover = fields['colorHover'];
+        const colorLine = fields['colorLine'];
+        const strokeWidth = fields['strokeWidth'];
 
         const suffix = Math.floor(Math.random() * 10000);
-        const xScale = `xscale_${suffix}`;
-        const yScale = `yscale_${suffix}`;
+        const xScale = `line_xscale_${suffix}`;
+        const yScale = `line_yscale_${suffix}`;
 
         return {
             "scales": [
@@ -56,21 +56,14 @@ export class RectAdapter implements WizardAdapter {
 
             "marks": [
                 {
-                    "type": "rect",
+                    "type": "line",
                     "from": { "data": datasetName },
                     "encode": {
                         "enter": {
-                            "x": { "scale": xScale, "field": xField },
-                            "width": { "scale": xScale, "band": 1 },
+                            "x": { "scale": xScale, "field": xField, "band": 0.5 },
                             "y": { "scale": yScale, "field": yField },
-                            "y2": { "scale": yScale, "value": 0 },
-                            "fill": { "value": colorBar }
-                        },
-                        "hover": {
-                            "fill": { "value": colorHover }
-                        },
-                        "update": {
-                            "fill": { "value": colorBar }
+                            "stroke": { "value": colorLine },
+                            "strokeWidth": { "value": strokeWidth }
                         }
                     }
                 }

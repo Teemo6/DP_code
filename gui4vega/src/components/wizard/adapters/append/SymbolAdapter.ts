@@ -2,19 +2,22 @@ import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../Wiz
 import type { WizardConfig } from "../../helper/wizardSpec.ts";
 
 /**
- * Adapter for generating a vertical bar chart Vega specification based on user input from the wizard form.
+ * Adapter for generating a symbol (scatter) Vega specification based on user input from the wizard form.
  */
-export class RectAdapter implements WizardAdapter {
+export class SymbolAdapter implements WizardAdapter {
     // Select the mode for the adapter
     mode: AdapterMode = 'append';
 
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'string', label: 'X Axis / Category', required: true },
-            { name: 'yField', type: 'string', label: 'Y Axis / Value', required: true },
-            { name: 'colorBar', type: 'color',  label: 'Color of the bars', required: false, defaultValue: '#7bbe1f' },
-            { name: 'colorHover', type: 'color', label: 'Color when hovered', required: false, defaultValue: '#ff5722' }
+            { name: 'xField', type: 'string', label: 'X Axis', required: true },
+            { name: 'yField', type: 'string', label: 'Y Axis', required: true },
+            { name: 'colorSymbol', type: 'color',  label: 'Color of the symbols', required: false, defaultValue: '#7bbe1f' },
+            { name: 'colorHover', type: 'color', label: 'Color when hovered', required: false, defaultValue: '#ff5722' },
+            { name: 'sizeSymbol', type: 'string', label: 'Size of symbol', required: false, defaultValue: 300 },
+            { name: 'strokeWidth', type: 'string', label: 'Width of the stroke', required: false, defaultValue: 2 },
+            { name: 'strokeColor', type: 'color', label: 'Color of the stroke', required: false, defaultValue: '#000000' }
         ];
     }
 
@@ -24,12 +27,13 @@ export class RectAdapter implements WizardAdapter {
 
         const xField = fields['xField'];
         const yField = fields['yField'];
-        const colorBar = fields['colorBar'];
+        const colorSymbol = fields['colorSymbol'];
         const colorHover = fields['colorHover'];
+        const sizeSymbol = fields['sizeSymbol'];
 
         const suffix = Math.floor(Math.random() * 10000);
-        const xScale = `xscale_${suffix}`;
-        const yScale = `yscale_${suffix}`;
+        const xScale = `symbol_xscale_${suffix}`;
+        const yScale = `symbol_yscale_${suffix}`;
 
         return {
             "scales": [
@@ -56,21 +60,22 @@ export class RectAdapter implements WizardAdapter {
 
             "marks": [
                 {
-                    "type": "rect",
+                    "type": "symbol",
                     "from": { "data": datasetName },
                     "encode": {
                         "enter": {
-                            "x": { "scale": xScale, "field": xField },
-                            "width": { "scale": xScale, "band": 1 },
+                            "x": { "scale": xScale, "field": xField, "band": 0.5 },
                             "y": { "scale": yScale, "field": yField },
-                            "y2": { "scale": yScale, "value": 0 },
-                            "fill": { "value": colorBar }
+                            "size": { "value": sizeSymbol },
+                            "fill": { "value": colorSymbol },
+                            "stroke": { "value": "rgb(0, 0, 0)" },
+                            "strokeWidth": { "value": 1.5 }
+                        },
+                        "update": {
+                            "fill": { "value": colorSymbol }
                         },
                         "hover": {
                             "fill": { "value": colorHover }
-                        },
-                        "update": {
-                            "fill": { "value": colorBar }
                         }
                     }
                 }

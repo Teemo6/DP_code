@@ -35,7 +35,9 @@ const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
         { label: 'Bar Chart', value: 'barHorizontal' },
         { label: 'Pie Chart', value: 'pie' },
         { label: 'Scatter Plot', value: 'scatter' },
-        { label: 'Add Rect', value: 'rect' }
+        { label: 'Add Rect', value: 'rect' },
+        { label: 'Add Line', value: 'line' },
+        { label: 'Add Symbol', value: 'symbol' }
     ];
 
     // Default chart the first one in the options list
