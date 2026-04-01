@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 import { Form, Select, Button, Card, Typography, Flex, Modal, Checkbox, Space } from 'antd';
+import {
+    BarChartOutlined,
+    MenuOutlined,
+    AppstoreOutlined,
+    BuildOutlined,
+    PieChartOutlined,
+    DotChartOutlined,
+    BorderOutlined,
+    LineChartOutlined,
+    StarOutlined
+} from '@ant-design/icons';
 import { useWizardView } from './hooks/useWizardView.ts';
 import { WizardDynamicField } from './WizardDynamicField';
 import type { VegaEditorState } from "../useVegaEditor.ts";
@@ -34,19 +45,20 @@ const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
         {
             label: 'Template',
             options: [
-                { label: 'Column Chart', value: 'barVertical' },
-                { label: 'Bar Chart', value: 'barHorizontal' },
-                { label: 'Stacked Bar Chart', value: 'barStacked' },
-                { label: 'Pie Chart', value: 'pie' },
-                { label: 'Scatter Plot', value: 'scatter' }
+                { label: <Space><BarChartOutlined /> Column Chart</Space>, value: 'barVertical' },
+                { label: <Space><MenuOutlined /> Bar Chart</Space>, value: 'barHorizontal' },
+                { label: <Space><AppstoreOutlined /> Stacked Bar Chart</Space>, value: 'barStacked' },
+                { label: <Space><BuildOutlined /> Grouped Bar Chart</Space>, value: 'barGrouped' },
+                { label: <Space><PieChartOutlined /> Pie Chart</Space>, value: 'pie' },
+                { label: <Space><DotChartOutlined /> Scatter Plot</Space>, value: 'scatter' }
             ]
         },
         {
             label: 'Append',
             options: [
-                { label: 'Add Rect', value: 'rect' },
-                { label: 'Add Line', value: 'line' },
-                { label: 'Add Symbol', value: 'symbol' }
+                { label: <Space><BorderOutlined /> Add Rect</Space>, value: 'rect' },
+                { label: <Space><LineChartOutlined /> Add Line</Space>, value: 'line' },
+                { label: <Space><StarOutlined /> Add Symbol</Space>, value: 'symbol' }
             ]
         }
     ];
