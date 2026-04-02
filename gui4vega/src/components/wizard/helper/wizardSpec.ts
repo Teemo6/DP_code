@@ -5,6 +5,7 @@ import { BarStackedAdapter } from "../adapters/template/BarStackedAdapter.ts";
 import { BarGroupedAdapter } from "../adapters/template/BarGroupedAdapter.ts";
 import { PieAdapter } from "../adapters/template/PieAdapter.ts";
 import { ScatterAdapter } from "../adapters/template/ScatterAdapter.ts";
+import { SpiderAdapter } from "../adapters/template/SpiderAdapter.ts";
 import { RectAdapter } from "../adapters/append/RectAdapter.ts";
 import { LineAdapter } from "../adapters/append/LineAdapter.ts";
 import { SymbolAdapter } from "../adapters/append/SymbolAdapter.ts";
@@ -13,7 +14,7 @@ import { gui4VegaLogger } from "../../../logger.ts";
 /**
  * Supported chart types for the wizard and their corresponding adapters.
  */
-export type ChartType = 'barVertical' | 'barHorizontal' | 'barStacked' | 'barGrouped' | 'pie' | 'scatter' | 'rect' | 'line' | 'symbol';
+export type ChartType = 'barVertical' | 'barHorizontal' | 'barStacked' | 'barGrouped' | 'pie' | 'scatter' | 'spider' | 'rect' | 'line' | 'symbol';
 
 /**
  * Configuration object for the wizard.
@@ -44,6 +45,7 @@ export const adapters: Record<ChartType, WizardAdapter> = {
     barGrouped: new BarGroupedAdapter(),
     pie: new PieAdapter(),
     scatter: new ScatterAdapter(),
+    spider: new SpiderAdapter(),
     rect: new RectAdapter(),
     line: new LineAdapter(),
     symbol: new SymbolAdapter()

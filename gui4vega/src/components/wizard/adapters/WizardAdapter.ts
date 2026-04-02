@@ -43,7 +43,7 @@ export interface WizardSpec {
     width?: number;
     height?: number;
     padding?: number;
-    autosize?: string;
+    autosize?: unknown;
     data?: Record<string, unknown>[];
     signals?: Record<string, unknown>[];
     scales?: Record<string, unknown>[];

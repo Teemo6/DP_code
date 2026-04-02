@@ -9,7 +9,8 @@ import {
     DotChartOutlined,
     BorderOutlined,
     LineChartOutlined,
-    StarOutlined
+    StarOutlined,
+    RadarChartOutlined
 } from '@ant-design/icons';
 import { useWizardView } from './hooks/useWizardView.ts';
 import { WizardDynamicField } from './WizardDynamicField';
@@ -50,7 +51,8 @@ const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
                 { label: <Space><AppstoreOutlined /> Stacked Bar Chart</Space>, value: 'barStacked' },
                 { label: <Space><BuildOutlined /> Grouped Bar Chart</Space>, value: 'barGrouped' },
                 { label: <Space><PieChartOutlined /> Pie Chart</Space>, value: 'pie' },
-                { label: <Space><DotChartOutlined /> Scatter Plot</Space>, value: 'scatter' }
+                { label: <Space><DotChartOutlined /> Scatter Plot</Space>, value: 'scatter' },
+                { label: <Space><RadarChartOutlined /> Spider Chart</Space>, value: 'spider' }
             ]
         },
         {
@@ -121,19 +123,19 @@ const WizardView: React.FC<WizardViewProps> = (props: WizardViewProps) => {
                     datasetName: defaultDatasetName
                 }}
             >
-                {/* This should have same name as the WizardConfig attribute */}
-                <Form.Item name="datasetName" label="Dataset">
-                    <Select
-                        placeholder="Select a dataset"
-                        options={datasets.map(ds => ({ label: ds.name, value: ds.name }))}
-                    />
-                </Form.Item>
-
                 {/* Name of chart type must match with onChange in tabs */}
                 <Form.Item name="chartType" label="Chart Type">
                     <Select
                         placeholder="Select a chart type"
                         options={chartTypeOptions}
+                    />
+                </Form.Item>
+
+                {/* This should have same name as the WizardConfig attribute */}
+                <Form.Item name="datasetName" label="Dataset">
+                    <Select
+                        placeholder="Select a dataset"
+                        options={datasets.map(ds => ({ label: ds.name, value: ds.name }))}
                     />
                 </Form.Item>
 
