@@ -1,8 +1,10 @@
 <p align="center">
-    <img src="img/icon.png">
+    <img src="img/icon.png" alt="GUI 4 Vega"/>
 </p>
 
-GUI 4 Vega is a React component library that provides a user-friendly interface for creating and customizing Vega visualizations. It allows users to easily create complex visualizations without needing to write code, making it accessible to a wider audience.
+GUI 4 Vega is a React component library that provides a user-friendly interface for creating and customizing Vega visualizations.
+
+![GUI 4 Vega](img/intro.jpg)
 
 ## Features
 
@@ -11,6 +13,10 @@ GUI 4 Vega is a React component library that provides a user-friendly interface 
 ## Installation
 
 ## User Guide
+
+### Editor
+
+### Library
 
 ```bash
 cd gui4vega_react
