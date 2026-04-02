@@ -11,8 +11,8 @@ export class ScatterAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'string', label: 'X Axis Field', required: true },
-            { name: 'yField', type: 'string', label: 'Y Axis Field', required: true },
+            { name: 'xField', type: 'field', label: 'X Axis Field', required: true },
+            { name: 'yField', type: 'field', label: 'Y Axis Field', required: true },
             { name: 'color', type: 'color', label: 'Point Color', required: false, defaultValue: '#7bbe1f' }
             // TODO: size, tick count, grid
         ];

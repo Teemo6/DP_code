@@ -22,7 +22,7 @@ export interface WizardField {
     /**
      * The type of the field, which determines how it will be rendered in the form and how the value will be processed.
      */
-    type: 'string' | 'number' | 'boolean' | 'color';
+    type: 'field' | 'string' | 'number' | 'boolean' | 'color' | 'select';
     /**
      * Indicates whether the field is required to be filled out by the user.
      */
@@ -31,6 +31,10 @@ export interface WizardField {
      * Default value for the field, which will be used if the user does not provide a value.
      */
     defaultValue?: string | number | boolean;
+    /**
+     * Used with the 'select' type to define the available options for selection in the form.
+     */
+    options?: string[];
 }
 
 /**

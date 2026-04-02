@@ -11,9 +11,9 @@ export class BarStackedAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xCategory', type: 'string', label: 'X Axis / Category', required: true },
-            { name: 'yValue', type: 'string', label: 'Y Axis / Value', required: true },
-            { name: 'colorCategory', type: 'string', label: 'Color / Stack Category', required: true }
+            { name: 'xCategory', type: 'field', label: 'X Axis / Category', required: true },
+            { name: 'yValue', type: 'field', label: 'Y Axis / Value', required: true },
+            { name: 'colorCategory', type: 'field', label: 'Color / Stack Category', required: true }
         ];
     }
 

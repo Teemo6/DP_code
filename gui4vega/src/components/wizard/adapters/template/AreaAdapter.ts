@@ -11,8 +11,8 @@ export class AreaAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'x', type: 'string', label: 'X Field', required: true },
-            { name: 'y', type: 'string', label: 'Y Field', required: true },
+            { name: 'x', type: 'field', label: 'X Field', required: true },
+            { name: 'y', type: 'field', label: 'Y Field', required: true },
         ];
     }
 

@@ -11,8 +11,8 @@ export class BarHorizontalAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'yCategory', type: 'string', label: 'Y Axis / Category', required: true },
-            { name: 'xValue', type: 'string', label: 'X Axis / Value', required: true },
+            { name: 'yCategory', type: 'field', label: 'Y Axis / Category', required: true },
+            { name: 'xValue', type: 'field', label: 'X Axis / Value', required: true },
             { name: 'colorBar', type: 'color',  label: 'Color of the bars', required: false, defaultValue: '#7bbe1f' },
             { name: 'colorHover', type: 'color', label: 'Color when hovered', required: false, defaultValue: '#ff5722' }
         ];

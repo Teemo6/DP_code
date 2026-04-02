@@ -8,9 +8,9 @@ export class SpiderAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'category', type: 'string', label: 'Category Field', required: true },
-            { name: 'value', type: 'string', label: 'Value Field', required: true },
-            { name: 'group', type: 'string', label: 'Group Field', required: true },
+            { name: 'category', type: 'field', label: 'Category Field', required: true },
+            { name: 'value', type: 'field', label: 'Value Field', required: true },
+            { name: 'group', type: 'field', label: 'Group Field', required: true },
         ];
     }
 

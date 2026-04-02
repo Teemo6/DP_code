@@ -11,8 +11,8 @@ export class LineAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'string', label: 'X Axis', required: true },
-            { name: 'yField', type: 'string', label: 'Y Axis', required: true },
+            { name: 'xField', type: 'field', label: 'X Axis', required: true },
+            { name: 'yField', type: 'field', label: 'Y Axis', required: true },
             { name: 'colorLine', type: 'color',  label: 'Color of the line', required: false, defaultValue: '#000000' },
             { name: 'strokeWidth', type: 'number', label: 'Line width', required: false, defaultValue: 3 }
         ];
