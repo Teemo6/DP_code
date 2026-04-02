@@ -1,4 +1,16 @@
-### Install and build library
+<p align="center">
+    <img src="img/icon.png">
+</p>
+
+GUI 4 Vega is a React component library that provides a user-friendly interface for creating and customizing Vega visualizations. It allows users to easily create complex visualizations without needing to write code, making it accessible to a wider audience.
+
+## Features
+
+## Requirements
+
+## Installation
+
+## User Guide
 
 ```bash
 cd gui4vega_react
@@ -6,18 +18,12 @@ npm install
 npm run build
 ```
 
-### Run demo
+### Run demo applications
 
 ```bash
-cd react_app
+cd demo_antd    # or demo_bootstrap
 npm install
 npm run dev
  ```
 
-### Push to npm @relisa/gui4vega
-
-```bash
-cd gui4vega_react
-npm run release:patch
-# token to bump is required
-```
+## Known Issues and Limitations

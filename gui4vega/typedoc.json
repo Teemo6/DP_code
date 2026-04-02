@@ -1,6 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "includeVersion": true,
+  "readme": "../README.md",
   "entryPoints": ["src/index.ts"],
   "entryPointStrategy": "resolve",
   "favicon": "src/assets/icon.png",
