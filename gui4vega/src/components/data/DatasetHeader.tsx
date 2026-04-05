@@ -66,7 +66,7 @@ const DatasetHeader: React.FC<DatasetHeaderProps> = (props: DatasetHeaderProps) 
                     {props.datasetName}
                 </Text>
                 <Button
-                    icon={props.tableVisible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                    icon={props.tableVisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                     onClick={props.onToggleTable}
                     size="small"
                     type="text"

@@ -62,7 +62,7 @@ const SignalHeader: React.FC<SignalHeaderProps> = (props: SignalHeaderProps) => 
                     {props.signalName}
                 </Text>
                 <Button
-                    icon={props.formVisible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                    icon={props.formVisible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                     onClick={props.onToggleForm}
                     size="small"
                     type="text"

@@ -17,6 +17,8 @@ Refer to this README or [GUI 4 Vega Documentation](https://relisa.github.io/Vega
 
 ![GUI 4 Vega](img/intro.jpg)
 
+## Contents
+
 ## Requirements
 
 - Node.js >= 18.x
@@ -30,6 +32,7 @@ These steps will guide you through the installation of the GUI 4 Vega package in
 To install the package locally, you can clone the repository and build it from source:
 
 ```bash
+# from root of the repository
 cd gui4vega
 npm install
 npm run build
@@ -72,6 +75,7 @@ npm install @relisa/gui4vega
 Since the demo applications are linked locally to the library, you need to build the library first before running the demos:
 
 ```bash
+# from root of the repository
 cd gui4vega
 npm install
 npm run build
@@ -80,6 +84,7 @@ npm run build
 After building the library, you can run either of the demo applications (you dont need to link the library to the demo applications, since they are already linked locally in the repository):
 
 ```bash
+# from root of the repository
 cd demo_antd    # or demo_bootstrap
 npm install
 npm run dev
