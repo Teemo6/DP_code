@@ -13,7 +13,7 @@
 
   "data": [
     {
-      "name": "table",
+      "name": "simple",
       "values": [
         {"category": "A", "value": 32},
         {"category": "B", "value": 21},
@@ -24,7 +24,7 @@
       ]
     },
     {
-      "name": "stacked",
+      "name": "grouped",
       "values": [
         {"category": "A", "value": 28, "group": "0"},
         {"category": "A", "value": 55, "group": "1"},
@@ -52,7 +52,7 @@
     {
       "name": "xscale",
       "type": "band",
-      "domain": {"data": "table", "field": "category"},
+      "domain": {"data": "simple", "field": "category"},
       "range": "width",
       "padding": 0.2
     },
@@ -61,7 +61,7 @@
       "type": "linear",
       "domain": {
         "fields": [
-          {"data": "table", "field": "value"},
+          {"data": "simple", "field": "value"},
           {"signal": "threshold"}
         ]
       },
@@ -78,7 +78,7 @@
   "marks": [
     {
       "type": "rect",
-      "from": {"data": "table"},
+      "from": {"data": "simple"},
       "encode": {
         "enter": {
           "x": {"scale": "xscale", "field": "category"},
@@ -116,7 +116,7 @@
 
     {
       "type": "line",
-      "from": {"data": "table"},
+      "from": {"data": "simple"},
       "encode": {
         "enter": {
           "x": {"scale": "xscale", "field": "category", "band": 0.5},
@@ -129,7 +129,7 @@
 
     {
       "type": "symbol",
-      "from": {"data": "table"},
+      "from": {"data": "simple"},
       "encode": {
         "enter": {
           "x": {"scale": "xscale", "field": "category", "band": 0.5},
@@ -144,7 +144,7 @@
 
     {
       "type": "text",
-      "from": {"data": "table"},
+      "from": {"data": "simple"},
       "encode": {
         "enter": {
           "x": {"scale": "xscale", "field": "category", "band": 0.5},
