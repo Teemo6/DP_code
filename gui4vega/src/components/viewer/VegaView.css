@@ -2,3 +2,8 @@
 .vega-embed {
     position: static !important;
 }
+
+/* Offset of the HTML elements signal bindings */
+.vega-bindings {
+    padding-left: 10px !important;
+}
