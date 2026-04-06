@@ -130,22 +130,28 @@ export class SpiderAdapter implements WizardAdapter {
                                             "fillOpacity": {"value": 0.1}
                                         }
                                     }
-                                },
-                                {
-                                    "type": "text",
-                                    "from": {"data": "facet_data"},
-                                    "encode": {
-                                        "enter": {
-                                            "x": {"signal": `scale('radial', datum['${valueField}']) * cos(scale('angular', datum['${categoryField}']))`},
-                                            "y": {"signal": `scale('radial', datum['${valueField}']) * sin(scale('angular', datum['${categoryField}']))`},
-                                            "text": {"field": valueField},
-                                            "align": {"value": "center"},
-                                            "baseline": {"value": "middle"},
-                                            "fill": {"value": "black"}
-                                        }
-                                    }
                                 }
                             ]
+                        },
+                        {
+                            "type": "symbol",
+                            "from": {"data": datasetName},
+                            "encode": {
+                                "enter": {
+                                    "x": {"signal": `scale('radial', datum['${valueField}']) * cos(scale('angular', datum['${categoryField}']))`},
+                                    "y": {"signal": `scale('radial', datum['${valueField}']) * sin(scale('angular', datum['${categoryField}']))`},
+                                    "fill": {"scale": "color", "field": groupField},
+                                    "tooltip": {"field": valueField}
+                                },
+                                "update": {
+                                    "size": {"value": 75},
+                                    "zindex": {"value": 1}
+                                },
+                                "hover": {
+                                    "size": {"value": 150},
+                                    "zindex": {"value": 2}
+                                }
+                            }
                         },
                         {
                             "name": "labels",
