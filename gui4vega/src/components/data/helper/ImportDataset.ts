@@ -51,3 +51,14 @@ export const importJSON = (file: File): Promise<Record<string, unknown>[]> => {
         reader.readAsText(file);
     });
 };
+
+/**
+ * Checks if the provided data is in the same format as exported Vega datasets from the Vega editor.
+ * @param data - The data to check, which should be an array of objects with 'name' and 'values' properties.
+ * @returns True if the data is in the correct format, false otherwise.
+ */
+export const isExportedDatasets = (data: Record<string, unknown>[] | undefined): boolean => {
+    return !!data && data.length > 0 && data.every(
+        row => typeof row.name === 'string' && Array.isArray(row.values)
+    );
+}

@@ -6,6 +6,7 @@ import DatasetEditor from './DatasetEditor';
 import type { VegaEditorState } from "../useVegaEditor";
 import { parseDatasets } from "./helper/VegaDataset.ts";
 import type { VegaDataset } from "./helper/VegaDataset.ts";
+import { isExportedDatasets } from "./helper/ImportDataset.ts";
 
 /**
  * Props for {@link DataView}.
@@ -28,18 +29,34 @@ const DataView: React.FC<DataViewProps> = (props: DataViewProps) => {
 
     // Add dataset handler
     const handleAddDataset = (datasetName: string, data?: Record<string, unknown>[]) => {
-        const trimmed = datasetName.trim();
-        if (!trimmed) {
-            message.error('Dataset name cannot be empty.');
-            return;
-        }
-        if (datasets.some(ds => ds.name === trimmed)) {
-            message.error('Dataset name already exists.');
-            return;
-        }
+        // Check if datasets follow the known export format
+        const items = isExportedDatasets(data) ? data! : [{ name: datasetName, values: data?.length ? data : [{ NewColumn: '' }] }];
 
-        const initialData = data && data.length > 0 ? data : [{ NewColumn: '' }];
-        props.editorState.setCode(addDataset(props.editorState.code, trimmed, initialData));
+        // Variables for appending new datasets
+        let currentCode = props.editorState.code;
+        let addedCount = 0;
+
+        // Process each dataset item
+        items.forEach((ds) => {
+            const name = (ds.name as string || '').trim();
+            if (!name) {
+                if (!isExportedDatasets(data)) message.error('Dataset name cannot be empty.');
+                return;
+            }
+
+            if (datasets.some(existing => existing.name === name)) {
+                message.warning(`Dataset name ${name} already exists. Could not import.`);
+            } else {
+                currentCode = addDataset(currentCode, name, ds.values as Record<string, unknown>[]);
+                addedCount++;
+            }
+        });
+
+        // Update spec if at least one dataset was added
+        if (addedCount > 0) {
+            props.editorState.setCode(currentCode);
+            if (isExportedDatasets(data)) message.success(`Successfully imported ${addedCount} dataset(s).`);
+        }
     };
 
     // Delete dataset handler

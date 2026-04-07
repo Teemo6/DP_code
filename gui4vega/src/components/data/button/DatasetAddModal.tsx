@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Input, Tabs, Upload, Form, Typography, message } from 'antd';
 import { CheckCircleOutlined, InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { importCSV, importJSON } from '../helper/ImportDataset.ts';
+import { importCSV, importJSON, isExportedDatasets } from '../helper/ImportDataset.ts';
 import { gui4VegaLogger } from "../../../logger.ts";
 
 const { Text, Paragraph } = Typography;
@@ -104,8 +104,8 @@ const DatasetAddModal: React.FC<DatasetImportModalProps> = (props: DatasetImport
             destroyOnHidden
         >
             <Form form={form} layout="vertical">
-                <Form.Item name="datasetName" label="Dataset Name" rules={[{ required: true }]}>
-                    <Input autoFocus placeholder="Enter name" />
+                <Form.Item name="datasetName" label="Dataset Name" rules={[{ required: !isExportedDatasets(importedData), message: 'Dataset Name is required unless importing a datasets file' }]}>
+                    <Input autoFocus placeholder="Enter name" disabled={isExportedDatasets(importedData)} />
                 </Form.Item>
 
                 <Tabs
@@ -130,7 +130,7 @@ const DatasetAddModal: React.FC<DatasetImportModalProps> = (props: DatasetImport
                                         <p className="ant-upload-text">Click or drag to upload CSV/JSON</p>
                                         {importedData && (
                                             <Text type="success">
-                                                <CheckCircleOutlined /> {importedData.length.toLocaleString()} rows found
+                                                <CheckCircleOutlined /> {importedData.length.toLocaleString()} {isExportedDatasets(importedData) ? 'dataset(s)' : 'rows'} found
                                             </Text>
                                         )}
                                     </Dragger>
