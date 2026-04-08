@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { ScatterAdapter } from "../../../../../src/components/wizard/adapters/template/ScatterAdapter";
+import { BarStackedAdapter } from "../../../../../src/components/wizard/adapters/template/BarStackedAdapter";
 
-describe('ScatterAdapter', () => {
-    const adapter = new ScatterAdapter();
+describe('BarStackedAdapter', () => {
+    const adapter = new BarStackedAdapter();
 
     it('should have correct mode', () => {
         expect(adapter.mode).toBe('template');
@@ -11,7 +11,8 @@ describe('ScatterAdapter', () => {
     describe('getFields', () => {
         it('should return required fields', () => {
              const fields = adapter.getFields();
-             expect(fields).toHaveLength(7);
+             expect(fields).toHaveLength(3);
         });
     });
 });
+

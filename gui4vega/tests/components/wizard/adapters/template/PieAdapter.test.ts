@@ -11,7 +11,7 @@ describe('PieAdapter', () => {
     describe('getFields', () => {
         it('should return required fields', () => {
              const fields = adapter.getFields();
-             expect(fields).toHaveLength(2);
+             expect(fields).toHaveLength(5);
         });
     });
 });

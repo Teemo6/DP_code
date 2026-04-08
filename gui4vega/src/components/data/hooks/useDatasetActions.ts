@@ -18,7 +18,7 @@ export const useDatasetActions = (editorState: VegaEditorState, dataset: VegaDat
     }, [editorState, dataset.name]);
 
     // Add column
-    const handleColumnAdd = useCallback((defaultValue: string = '') => {
+    const handleColumnAdd = useCallback((defaultValue: unknown = '') => {
         applyUpdate((ds) => {
             const existing = Object.keys(ds.values[0] ?? {});
             let col = 'NewColumn', i = 1;
