@@ -12,7 +12,10 @@ export class PieAdapter implements WizardAdapter {
     getFields(): WizardField[] {
         return [
             { name: 'category', type: 'field', label: 'Category Field', required: true },
-            { name: 'value', type: 'field', label: 'Value Field', required: true }
+            { name: 'value', type: 'field', label: 'Value Field', required: true },
+            { name: 'sort', type: 'select', label: 'Sort by Value', options: ['none', 'ascending', 'descending'], required: false, defaultValue: 'none' },
+            { name: 'hollow', type: 'boolean', label: 'Hollow Center', required: false, defaultValue: false },
+            { name: 'roundedCorners', type: 'boolean', label: 'Rounded Corners', required: false, defaultValue: false },
         ];
     }
 
@@ -22,30 +25,39 @@ export class PieAdapter implements WizardAdapter {
 
         const categoryField = fields['category'];
         const valueField = fields['value'];
+        const isHollow = fields['hollow'];
+        const sortOption = fields['sort'];
+        const isRounded = fields['roundedCorners'];
+
+        const transforms: unknown[] = [];
+        if (sortOption === 'ascending' || sortOption === 'descending') {
+            transforms.push({
+                "type": "collect",
+                "sort": { "field": `datum['${valueField}']`, "order": sortOption }
+            });
+            transforms.push({
+                "type": "pie",
+                "field": `datum['${valueField}']`,
+                "sort": false
+            });
+        } else {
+            transforms.push({
+                "type": "pie",
+                "field": `datum['${valueField}']`,
+                "sort": false
+            });
+        }
 
         return {
             "$schema": "https://vega.github.io/schema/vega/v6.json",
             "width": 500,
             "height": 300,
 
-            "data": [
-                {
-                    "name": "pie_data",
-                    "source": datasetName,
-                    "transform": [
-                        {
-                            "type": "pie",
-                            "field": valueField
-                        }
-                    ]
-                }
-            ],
-
             "scales": [
                 {
                     "name": "color",
                     "type": "ordinal",
-                    "domain": { "data": "pie_data", "field": categoryField },
+                    "domain": { "data": datasetName, "field": categoryField },
                     "range": { "scheme": "category20" }
                 }
             ],
@@ -53,18 +65,25 @@ export class PieAdapter implements WizardAdapter {
             "marks": [
                 {
                     "type": "arc",
-                    "from": { "data": "pie_data" },
+                    "from": { "data": datasetName },
+                    "transform": transforms,
                     "encode": {
                         "enter": {
                             "fill": { "scale": "color", "field": categoryField },
                             "x": { "signal": "width / 2" },
-                            "y": { "signal": "height / 2" }
+                            "y": { "signal": "height / 2" },
+                            "tooltip": { "signal": `{'${categoryField}': datum['${categoryField}'], '${valueField}': datum['${valueField}']}` }
                         },
                         "update": {
                             "startAngle": { "field": "startAngle" },
                             "endAngle": { "field": "endAngle" },
-                            "innerRadius": { "value": 0 },
-                            "outerRadius": { "signal": "min(width, height) / 2" }
+                            "innerRadius": isHollow ? { "signal": "min(width, height) / 4" } : { "value": 0 },
+                            "outerRadius": { "signal": "min(width, height) / 2" },
+                            "cornerRadius": isRounded ? { "value": 10 } : { "value": 0 },
+                            "fillOpacity": { "value": 1 }
+                        },
+                        "hover": {
+                            "fillOpacity": { "value": 0.8 }
                         }
                     }
                 }
