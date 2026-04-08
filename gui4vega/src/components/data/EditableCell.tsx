@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography, Tooltip } from 'antd';
+import { parseValue } from "./helper/ParseValue.ts";
 
 const { Text } = Typography;
 
@@ -28,21 +29,6 @@ function toDisplay(value: unknown): string {
     return value !== null && typeof value === 'object'
         ? JSON.stringify(value)
         : String(value ?? '');
-}
-
-/**
- * Parses user input to the correct primitive type.
- * @param val - The user input string.
- * @returns The converted value.
- */
-function parseValue(val: string): unknown {
-    if (val === 'true') return true;
-    if (val === 'false') return false;
-    if (val === 'null') return null;
-    if (val.trim() !== '' && !isNaN(Number(val))) {
-        return Number(val);
-    }
-    return val;
 }
 
 /**

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Space, Button, Checkbox, Input, Tooltip } from 'antd';
+import { parseValue } from './helper/ParseValue';
 
 /**
  * Props for {@link DatasetToolbar}.
@@ -22,7 +23,7 @@ interface DatasetToolbarProps {
      * Callback function invoked when the user adds a new column to the dataset.
      * @param defaultValue - The default value to be used for all cells in the new column.
      */
-    onAddColumn: (defaultValue?: string) => void;
+    onAddColumn: (defaultValue?: unknown) => void;
 }
 
 /**
@@ -41,7 +42,7 @@ const DatasetToolbar: React.FC<DatasetToolbarProps> = (props: DatasetToolbarProp
             <Tooltip title={defaultValue.trim() === '' ? "You need to type something in the input field" : ""}>
                 <Button
                     size="small"
-                    onClick={() => props.onAddColumn(defaultValue)}
+                    onClick={() => props.onAddColumn(parseValue(defaultValue))}
                     disabled={defaultValue.trim() === ''}
                 >
                     Add Column
