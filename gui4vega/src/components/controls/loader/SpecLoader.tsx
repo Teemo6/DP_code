@@ -19,6 +19,9 @@ interface SpecLoaderProps {
  * @param props - {@link SpecLoaderProps}
  */
 const SpecLoader: React.FC<SpecLoaderProps> = (props: SpecLoaderProps) => {
+    // State to hold message visibility
+    const [messageApi, contextHolder] = message.useMessage();
+
     const handleFileUpload = (file: File) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -26,9 +29,9 @@ const SpecLoader: React.FC<SpecLoaderProps> = (props: SpecLoaderProps) => {
             try {
                 JSON.parse(content);
                 props.editorState.setCode(content);
-                message.success('JSON specification loaded successfully');
+                messageApi.success('JSON specification loaded successfully');
             } catch (err) {
-                message.error('Failed to parse JSON file');
+                messageApi.error('Failed to parse JSON file');
                 gui4VegaLogger.error('Failed to parse JSON file: ', err);
             }
         };
@@ -37,11 +40,14 @@ const SpecLoader: React.FC<SpecLoaderProps> = (props: SpecLoaderProps) => {
     };
 
     return (
-        <Upload beforeUpload={handleFileUpload} showUploadList={false} accept=".json">
-            <Button icon={<DownloadOutlined />}>
-                Load JSON Specification
-            </Button>
-        </Upload>
+        <>
+            {contextHolder}
+            <Upload beforeUpload={handleFileUpload} showUploadList={false} accept=".json">
+                <Button icon={<DownloadOutlined />}>
+                    Load JSON Specification
+                </Button>
+            </Upload>
+        </>
     );
 };
 
