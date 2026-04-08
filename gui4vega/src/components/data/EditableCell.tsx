@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from 'antd';
+import { Typography, Tooltip } from 'antd';
 
 const { Text } = Typography;
 
@@ -36,21 +36,23 @@ const EditableCell: React.FC<EditableCellProps> = (props: EditableCellProps) => 
     const MAX_DISPLAY_LENGTH = 20;
 
     return (
-        <Text
-            style={{ cursor: 'pointer', maxWidth: 150 }}
-            ellipsis={display.length > MAX_DISPLAY_LENGTH ? { tooltip: display } : false}
-            editable={{
-                onChange: props.onSave,
-                triggerType: ['text'],
-            }}
-        >
-            {/* Show either data value or placeholder */}
-            {display || (
-                <Text type="secondary" italic>
-                    Click to edit
-                </Text>
-            )}
-        </Text>
+        <Tooltip title="Click to edit">
+            <Text
+                style={{ cursor: 'pointer', maxWidth: 150 }}
+                ellipsis={display.length > MAX_DISPLAY_LENGTH ? { tooltip: display } : false}
+                editable={{
+                    onChange: props.onSave,
+                    triggerType: ['text'],
+                }}
+            >
+                {/* Show either data value or placeholder */}
+                {display || (
+                    <Text type="secondary" italic>
+                        Click to edit
+                    </Text>
+                )}
+            </Text>
+        </Tooltip>
     );
 };
 
