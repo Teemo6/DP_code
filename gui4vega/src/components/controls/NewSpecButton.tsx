@@ -20,8 +20,11 @@ interface NewSpecButtonProps {
  * @param props - {@link NewSpecButtonProps}
  */
 const NewSpecButton: React.FC<NewSpecButtonProps> = (props: NewSpecButtonProps) => {
+    // State to hold modal visibility
+    const [modal, contextHolder] = Modal.useModal();
+
     const handleNewSpec = () => {
-        Modal.confirm({
+        modal.confirm({
             title: 'Are you sure?',
             content: 'This will replace your current specification.',
             okText: 'Yes',
@@ -33,9 +36,12 @@ const NewSpecButton: React.FC<NewSpecButtonProps> = (props: NewSpecButtonProps) 
     };
 
     return (
-        <Button icon={<FileAddOutlined />} onClick={handleNewSpec}>
-            New Specification
-        </Button>
+        <>
+            {contextHolder}
+            <Button icon={<FileAddOutlined />} onClick={handleNewSpec}>
+                New Specification
+            </Button>
+        </>
     );
 };
 
