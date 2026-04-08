@@ -7,8 +7,15 @@ const { Text } = Typography;
  * Props for {@link EditableCell}.
  */
 interface EditableCellProps {
+    /**
+     * The value to be displayed and edited in the cell.
+     */
     value: unknown;
-    onSave: (val: string) => void;
+    /**
+     * Callback function invoked when the user saves a new value for the cell.
+     * @param val - The new value entered by the user, parsed to the correct type.
+     */
+    onSave: (val: unknown) => void;
 }
 
 /**
@@ -21,6 +28,21 @@ function toDisplay(value: unknown): string {
     return value !== null && typeof value === 'object'
         ? JSON.stringify(value)
         : String(value ?? '');
+}
+
+/**
+ * Parses user input to the correct primitive type.
+ * @param val - The user input string.
+ * @returns The converted value.
+ */
+function parseValue(val: string): unknown {
+    if (val === 'true') return true;
+    if (val === 'false') return false;
+    if (val === 'null') return null;
+    if (val.trim() !== '' && !isNaN(Number(val))) {
+        return Number(val);
+    }
+    return val;
 }
 
 /**
@@ -41,7 +63,7 @@ const EditableCell: React.FC<EditableCellProps> = (props: EditableCellProps) => 
                 style={{ cursor: 'pointer', maxWidth: 150 }}
                 ellipsis={display.length > MAX_DISPLAY_LENGTH ? { tooltip: display } : false}
                 editable={{
-                    onChange: props.onSave,
+                    onChange: (val) => props.onSave(parseValue(val)),
                     triggerType: ['text'],
                 }}
             >

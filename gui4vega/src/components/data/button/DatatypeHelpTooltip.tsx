@@ -19,7 +19,7 @@ const DatatypeHelpTooltip: React.FC = () => {
                 <li><strong>String:</strong> text (if not any options below)</li>
                 <li><strong>Number:</strong> 123, 12.3 (use dot for decimals)</li>
                 <li><strong>Boolean:</strong> true, false</li>
-                <li><strong>Others:</strong> null, undefined</li>
+                <li><strong>Others:</strong> null</li>
             </ul>
         </div>
     );

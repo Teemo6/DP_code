@@ -58,7 +58,7 @@ export const useDatasetColumns = (props: DatasetColumnsProps) => {
                 <Flex align="center" justify="space-between" gap="small">
                     <EditableCell
                         value={col}
-                        onSave={(newCol) => props.onColumnRename(col, newCol)}
+                        onSave={(newCol) => props.onColumnRename(col, String(newCol))}
                     />
                     <DataDeleteButton
                         index={colIndex}
