@@ -1,6 +1,6 @@
 {
   "name": "@relisa/gui4vega",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "type": "module",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage",
+    "test:cov": "vitest run --coverage",
     "doc": "typedoc --options typedoc.json",
     "doc:watch": "typedoc --options typedoc.json --watch",
     "release:patch": "npm version patch",
