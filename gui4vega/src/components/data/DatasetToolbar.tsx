@@ -1,5 +1,5 @@
-import React from 'react';
-import { Space, Button, Checkbox } from 'antd';
+import React, { useState } from 'react';
+import { Space, Button, Checkbox, Input, Tooltip } from 'antd';
 
 /**
  * Props for {@link DatasetToolbar}.
@@ -20,8 +20,9 @@ interface DatasetToolbarProps {
     onAddRow: () => void;
     /**
      * Callback function invoked when the user adds a new column to the dataset.
+     * @param defaultValue - The default value to be used for all cells in the new column.
      */
-    onAddColumn: () => void;
+    onAddColumn: (defaultValue?: string) => void;
 }
 
 /**
@@ -29,14 +30,32 @@ interface DatasetToolbarProps {
  * @param props - {@link DatasetToolbarProps}
  */
 const DatasetToolbar: React.FC<DatasetToolbarProps> = (props: DatasetToolbarProps) => {
+    // State to hold the default value for new columns
+    const [defaultValue, setDefaultValue] = useState<string>('');
+
     return (
         <Space>
             <Button size="small" type="primary" onClick={props.onAddRow}>
                 Add Record
             </Button>
-            <Button size="small" onClick={props.onAddColumn}>
-                Add Column
-            </Button>
+            <Tooltip title={defaultValue.trim() === '' ? "You need to type something in the input field" : ""}>
+                <Button
+                    size="small"
+                    onClick={() => props.onAddColumn(defaultValue)}
+                    disabled={defaultValue.trim() === ''}
+                >
+                    Add Column
+                </Button>
+            </Tooltip>
+            <Tooltip title="Default value for new column">
+                <Input
+                    size="small"
+                    placeholder="Default value for new column"
+                    value={defaultValue}
+                    onChange={(e) => setDefaultValue(e.target.value)}
+                    style={{ width: 100 }}
+                />
+            </Tooltip>
             <Checkbox
                 checked={props.confirmDelete}
                 onChange={e => props.onSetConfirmDelete(e.target.checked)}

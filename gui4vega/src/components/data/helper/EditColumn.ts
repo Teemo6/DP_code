@@ -30,8 +30,9 @@ export function deleteColumn(rows: Record<string, unknown>[], col: string): Reco
  * Adds a new column to each row of a dataset
  * @param rows - The dataset rows to modify
  * @param col - The column name to add
+ * @param defaultValue - The default value for the new column
  * @returns A new array of rows with the new column added
  */
-export function addColumn(rows: Record<string, unknown>[], col: string): Record<string, unknown>[] {
-    return rows.map(row => ({ ...row, [col]: '' }));
+export function addColumn(rows: Record<string, unknown>[], col: string, defaultValue: unknown = ''): Record<string, unknown>[] {
+    return rows.map(row => ({ ...row, [col]: defaultValue }));
 }

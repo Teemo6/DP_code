@@ -18,12 +18,12 @@ export const useDatasetActions = (editorState: VegaEditorState, dataset: VegaDat
     }, [editorState, dataset.name]);
 
     // Add column
-    const handleColumnAdd = useCallback(() => {
+    const handleColumnAdd = useCallback((defaultValue: string = '') => {
         applyUpdate((ds) => {
             const existing = Object.keys(ds.values[0] ?? {});
             let col = 'NewColumn', i = 1;
             while (existing.includes(col)) col = `NewColumn${i++}`;
-            ds.values = addColumn(ds.values, col);
+            ds.values = addColumn(ds.values, col, defaultValue);
         });
     }, [applyUpdate]);
 
