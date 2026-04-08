@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
-import {Typography, Flex, message} from 'antd';
+import {Typography, Flex, message, Space} from 'antd';
 import { parseSignals } from './helper/VegaSignal';
 import type { VegaSignal } from './helper/VegaSignal';
 import { addSignal, deleteSignal, moveSignal, updateSignal, updateSignalBind } from './helper/EditSignal';
 import type { VegaEditorState } from "../useVegaEditor.ts";
 import SignalEditor from './SignalEditor';
 import SignalAddButton from './button/SignalAddButton.tsx';
+import DatatypeHelpTooltip from "../data/button/DatatypeHelpTooltip.tsx";
 
 /**
  * Props for {@link SignalView}.
@@ -68,8 +69,11 @@ const SignalView: React.FC<SignalViewProps> = (props) => {
 
     return (
         <Flex vertical style={{ width: '100%', padding: 8, overflow: 'auto' }}>
-            <Flex justify="space-between" align="center">
-                <Typography.Title level={5}>Signals</Typography.Title>
+            <Flex justify="space-between" align="center" style={{ marginBottom: 12 }}>
+                <Space>
+                    <Typography.Title level={5} style={{ margin: 0 }}>Signals</Typography.Title>
+                    <DatatypeHelpTooltip />
+                </Space>
                 <SignalAddButton onAdd={handleAddSignal} />
             </Flex>
             {signals.length === 0 ? (

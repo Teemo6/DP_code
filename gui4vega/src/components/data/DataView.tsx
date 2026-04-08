@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import { Typography, Flex, message } from 'antd';
+import { Typography, Flex, message, Space } from 'antd';
 import { addDataset, deleteDataset, moveDataset } from './helper/EditDataset.ts';
 import DatasetAddButton from './button/DatasetAddButton';
+import DatatypeHelpTooltip from './button/DatatypeHelpTooltip.tsx';
 import DatasetEditor from './DatasetEditor';
 import type { VegaEditorState } from "../useVegaEditor";
 import { parseDatasets } from "./helper/VegaDataset.ts";
@@ -71,8 +72,11 @@ const DataView: React.FC<DataViewProps> = (props: DataViewProps) => {
 
     return (
         <Flex vertical style={{ width: '100%', padding: 8, overflow: 'auto'}}>
-            <Flex justify="space-between" align="center">
-                <Typography.Title level={5}>Datasets</Typography.Title>
+            <Flex justify="space-between" align="center" style={{ marginBottom: 12 }}>
+                <Space>
+                    <Typography.Title level={5} style={{ margin: 0 }}>Datasets</Typography.Title>
+                    <DatatypeHelpTooltip />
+                </Space>
                 <DatasetAddButton onAdd={handleAddDataset} />
             </Flex>
             {datasets.length === 0 ? (
