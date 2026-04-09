@@ -1,7 +1,8 @@
 import React from 'react';
 import { Checkbox, Typography, Divider, Flex, Layout } from 'antd';
+import type { CheckboxChangeEvent } from 'antd';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 /**
  * Props for {@link SelectionConfigurator}.
@@ -41,41 +42,79 @@ export interface SelectionConfiguratorProps {
  * @param props - {@link SelectionConfiguratorProps}
  */
 const SelectionConfigurator: React.FC<SelectionConfiguratorProps> = (props: SelectionConfiguratorProps) => {
+    // Handler for select all datasets
+    const onCheckAllDatasetsChange = (e: CheckboxChangeEvent) => {
+        props.setDatasetSelection(e.target.checked ? props.datasetNames : []);
+    };
+
+    // States of the select all datasets
+    const checkedDatasets = props.datasetNames.length > 0 && props.datasetSelection.length === props.datasetNames.length;
+    const indeterminateDatasets = props.datasetSelection.length > 0 && props.datasetSelection.length < props.datasetNames.length;
+
+    // Handler for select all signals
+    const onCheckAllSignalsChange = (e: CheckboxChangeEvent) => {
+        props.setSignalSelection(e.target.checked ? props.signalNames : []);
+    };
+
+    // States of the select all signals
+    const checkedSignals = props.signalNames.length > 0 && props.signalSelection.length === props.signalNames.length;
+    const indeterminateSignals = props.signalSelection.length > 0 && props.signalSelection.length < props.signalNames.length;
+
     return (
         <Flex gap="large" style={{ minHeight: 200 }}>
-            {/* Show datasets section only if there are datasets available */}
-            {props.datasetNames.length > 0 && (
-                <Flex vertical flex={1} style={{ minWidth: 0 }}>
-                    <Title level={5}>Datasets</Title>
-                    <Layout style={{ overflow: 'auto', maxHeight: '350px', background: 'transparent' }}>
-                        <Checkbox.Group
-                            options={props.datasetNames}
-                            value={props.datasetSelection}
-                            onChange={props.setDatasetSelection}
-                            style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
-                        />
-                    </Layout>
-                </Flex>
-            )}
+                {/* Show datasets section only if there are datasets available */}
+                {props.datasetNames.length > 0 && (
+                    <Flex vertical flex={1} style={{ minWidth: 0 }}>
+                        <Flex gap="middle" align="center" style={{ marginBottom: 8 }}>
+                            <Title level={5} style={{ margin: 0 }}>Datasets</Title>
+                            <Checkbox
+                                onChange={onCheckAllDatasetsChange}
+                                checked={checkedDatasets}
+                                indeterminate={indeterminateDatasets}
+                            >
+                                <Text type="secondary" style={{ fontSize: '12px' }}>Select All</Text>
+                            </Checkbox>
+                        </Flex>
+                        <Divider style={{ margin: '0 0 8px 0' }} />
+                        <Layout style={{ overflow: 'auto', maxHeight: '350px', background: 'transparent' }}>
+                            <Checkbox.Group
+                                options={props.datasetNames}
+                                value={props.datasetSelection}
+                                onChange={props.setDatasetSelection}
+                                style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
+                            />
+                        </Layout>
+                    </Flex>
+                )}
 
-            {/* Show divider only if both datasets and signals are present */}
-            {props.datasetNames.length > 0 && props.signalNames.length > 0 && <Divider vertical style={{ height: 'auto' }} />}
+                {/* Show divider only if both datasets and signals are present */}
+                {props.datasetNames.length > 0 && props.signalNames.length > 0 && <Divider vertical style={{ height: 'auto' }} />}
 
-            {/* Show signals section only if there are signals available */}
-            {props.signalNames.length > 0 && (
-                <Flex vertical flex={1} style={{ minWidth: 0 }}>
-                    <Title level={5}>Signals</Title>
-                    <Layout style={{ overflow: 'auto', maxHeight: '350px', background: 'transparent' }}>
-                        <Checkbox.Group
-                            options={props.signalNames}
-                            value={props.signalSelection}
-                            onChange={props.setSignalSelection}
-                            style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
-                        />
-                    </Layout>
-                </Flex>
-            )}
-        </Flex>
+                {/* Show signals section only if there are signals available */}
+                {props.signalNames.length > 0 && (
+                    <Flex vertical flex={1} style={{ minWidth: 0 }}>
+                        <Flex gap="middle" align="center" style={{ marginBottom: 8 }}>
+                            <Title level={5} style={{ margin: 0 }}>Signals</Title>
+                            <Checkbox
+                                onChange={onCheckAllSignalsChange}
+                                checked={checkedSignals}
+                                indeterminate={indeterminateSignals}
+                            >
+                                <Text type="secondary" style={{ fontSize: '12px' }}>Select All</Text>
+                            </Checkbox>
+                        </Flex>
+                        <Divider style={{ margin: '0 0 8px 0' }} />
+                        <Layout style={{ overflow: 'auto', maxHeight: '350px', background: 'transparent' }}>
+                            <Checkbox.Group
+                                options={props.signalNames}
+                                value={props.signalSelection}
+                                onChange={props.setSignalSelection}
+                                style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
+                            />
+                        </Layout>
+                    </Flex>
+                )}
+            </Flex>
     );
 };
 
