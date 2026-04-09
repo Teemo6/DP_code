@@ -1,5 +1,6 @@
 import type { VegaMark } from './VegaMark.ts';
 import type { VegaAxis } from './VegaAxis.ts';
+import type { VegaLegend } from './VegaLegend.ts';
 
 /**
  * Result of parsing Vega specification properties.
@@ -13,6 +14,10 @@ export interface ParsedProperties {
      * Array of axes extracted from the Vega specification, each following the {@link VegaAxis} structure.
      */
     axes: VegaAxis[];
+    /**
+     * Array of legends extracted from the Vega specification, each following the {@link VegaLegend} structure.
+     */
+    legends: VegaLegend[];
 }
 
 /**
@@ -27,8 +32,9 @@ export function parseProperties(code: string): ParsedProperties {
         return {
             marks: Array.isArray(spec.marks) ? spec.marks : [],
             axes: Array.isArray(spec.axes) ? spec.axes : [],
+            legends: Array.isArray(spec.legends) ? spec.legends : [],
         };
     } catch {
-        return { marks: [], axes: [] };
+        return { marks: [], axes: [], legends: [] };
     }
 }

@@ -23,8 +23,15 @@ export function updateAxisProperty(
     newValue: unknown
 ): string {
     try {
+        // Parse Vega spec
         const spec = JSON.parse(code);
-        if (!Array.isArray(spec.axes) || !spec.axes[axisIndex]) return code;
+
+        // Axes array must exist and the specified index must be valid
+        if (!Array.isArray(spec.axes) || !spec.axes[axisIndex]) {
+            return code;
+        }
+
+        // Update the specified property
         spec.axes[axisIndex][property] = newValue;
         return JSON.stringify(spec, null, 2);
     } catch {

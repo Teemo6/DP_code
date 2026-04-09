@@ -27,12 +27,21 @@ export function updateMarkProperty(
     newValue: unknown
 ): string {
     try {
+        // Parse Vega spec
         const spec = JSON.parse(code);
-        if (!Array.isArray(spec.marks) || !spec.marks[markIndex]) return code;
+
+        // Marks array must exist and the specified index must be valid
+        if (!Array.isArray(spec.marks) || !spec.marks[markIndex]) {
+            return code;
+        }
+
+        // Handle encoded objects in fields
         const mark = spec.marks[markIndex];
         if (!mark.encode) mark.encode = {};
         if (!mark.encode[encodeSet]) mark.encode[encodeSet] = {};
         const entry = mark.encode[encodeSet][property];
+
+        // Update the specified property
         if (entry !== null && typeof entry === 'object' && !Array.isArray(entry)) {
             (entry as Record<string, unknown>)[field] = newValue;
         } else {
