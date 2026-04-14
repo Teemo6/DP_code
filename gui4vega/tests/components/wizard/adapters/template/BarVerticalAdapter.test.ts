@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { BarVerticalAdapter } from "../../../../../src/components/wizard/adapters/template/BarVerticalAdapter";
+import { BarVerticalAdapter } from "../../../../../src/components/wizard/adapters/template/simple/BarVerticalAdapter";
 
 describe('BarVerticalAdapter', () => {
     const adapter = new BarVerticalAdapter();

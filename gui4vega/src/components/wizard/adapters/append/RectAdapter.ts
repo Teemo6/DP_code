@@ -11,8 +11,8 @@ export class RectAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'field', label: 'X Axis / Category', required: true },
-            { name: 'yField', type: 'field', label: 'Y Axis / Value', required: true },
+            { name: 'category', type: 'field', label: 'Category (X Axis)', required: true },
+            { name: 'value', type: 'field', label: 'Value (Y Axis)', required: true },
             { name: 'colorBar', type: 'color',  label: 'Base Color', required: false, defaultValue: '#7bbe1f' },
             { name: 'colorHover', type: 'color', label: 'Hover Color', required: false, defaultValue: '#ff5722' }
         ];
@@ -22,8 +22,8 @@ export class RectAdapter implements WizardAdapter {
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 
-        const xField = fields['xField'];
-        const yField = fields['yField'];
+        const category = fields['category'];
+        const value = fields['value'];
         const colorBar = fields['colorBar'];
         const colorHover = fields['colorHover'];
 
@@ -36,22 +36,22 @@ export class RectAdapter implements WizardAdapter {
                 {
                     "name": xScale,
                     "type": "band",
-                    "domain": { "data": datasetName, "field": xField },
+                    "domain": { "data": datasetName, "field": category },
                     "range": "width",
                     "padding": 0.2,
                 },
                 {
                     "name": yScale,
                     "type": "linear",
-                    "domain": { "data": datasetName, "field": yField },
+                    "domain": { "data": datasetName, "field": value },
                     "nice": true,
                     "range": "height"
                 }
             ],
 
             "axes": [
-                { "orient": "bottom", "scale": xScale, "title": xField },
-                { "orient": "left", "scale": yScale, "title": yField }
+                { "orient": "bottom", "scale": xScale, "title": category },
+                { "orient": "left", "scale": yScale, "title": value }
             ],
 
             "marks": [
@@ -60,9 +60,9 @@ export class RectAdapter implements WizardAdapter {
                     "from": { "data": datasetName },
                     "encode": {
                         "enter": {
-                            "x": { "scale": xScale, "field": xField },
+                            "x": { "scale": xScale, "field": category },
                             "width": { "scale": xScale, "band": 1 },
-                            "y": { "scale": yScale, "field": yField },
+                            "y": { "scale": yScale, "field": value },
                             "y2": { "scale": yScale, "value": 0 },
                             "fill": { "value": colorBar }
                         },

@@ -11,11 +11,11 @@ export class SymbolAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'field', label: 'X Axis', required: true },
-            { name: 'yField', type: 'field', label: 'Y Axis', required: true },
-            { name: 'shape', type: 'select', label: 'Symbol Shape', required: false, defaultValue: 'circle', options: ['circle', 'square', 'cross', 'diamond', 'triangle-up', 'triangle-down', 'triangle-right', 'triangle-left', 'arrow', 'wedge', 'triangle'] },
-            { name: 'sizeSymbol', type: 'number', label: 'Symbol Size', required: false, defaultValue: 300 },
-            { name: 'colorSymbol', type: 'color',  label: 'Base Color', required: false, defaultValue: '#7bbe1f' },
+            { name: 'category', type: 'field', label: 'Category (X Axis)', required: true },
+            { name: 'value', type: 'field', label: 'Value (Y Axis)', required: true },
+            { name: 'symbolShape', type: 'select', label: 'Symbol Shape', required: false, defaultValue: 'circle', options: ['circle', 'square', 'cross', 'diamond', 'triangle-up', 'triangle-down', 'triangle-right', 'triangle-left', 'arrow', 'wedge', 'triangle'] },
+            { name: 'symbolSize', type: 'number', label: 'Symbol Size', required: false, defaultValue: 300 },
+            { name: 'colorBase', type: 'color',  label: 'Base Color', required: false, defaultValue: '#7bbe1f' },
             { name: 'colorHover', type: 'color', label: 'Hover Color', required: false, defaultValue: '#ff5722' },
             { name: 'strokeWidth', type: 'number', label: 'Stroke Width', required: false, defaultValue: 2 },
             { name: 'strokeColor', type: 'color', label: 'Stroke Color', required: false, defaultValue: '#000000' }
@@ -26,12 +26,12 @@ export class SymbolAdapter implements WizardAdapter {
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 
-        const xField = fields['xField'];
-        const yField = fields['yField'];
-        const shape = fields['shape'];
-        const colorSymbol = fields['colorSymbol'];
+        const category = fields['category'];
+        const value = fields['value'];
+        const symbolShape = fields['symbolShape'];
+        const symbolSize = fields['symbolSize'];
+        const colorBase = fields['colorBase'];
         const colorHover = fields['colorHover'];
-        const sizeSymbol = fields['sizeSymbol'];
         const strokeWidth = fields['strokeWidth'];
         const strokeColor = fields['strokeColor'];
 
@@ -44,22 +44,22 @@ export class SymbolAdapter implements WizardAdapter {
                 {
                     "name": xScale,
                     "type": "band",
-                    "domain": { "data": datasetName, "field": xField },
+                    "domain": { "data": datasetName, "field": category },
                     "range": "width",
                     "padding": 0.2,
                 },
                 {
                     "name": yScale,
                     "type": "linear",
-                    "domain": { "data": datasetName, "field": yField },
+                    "domain": { "data": datasetName, "field": value },
                     "nice": true,
                     "range": "height"
                 }
             ],
 
             "axes": [
-                { "orient": "bottom", "scale": xScale, "title": xField },
-                { "orient": "left", "scale": yScale, "title": yField }
+                { "orient": "bottom", "scale": xScale, "title": category },
+                { "orient": "left", "scale": yScale, "title": value }
             ],
 
             "marks": [
@@ -68,16 +68,16 @@ export class SymbolAdapter implements WizardAdapter {
                     "from": { "data": datasetName },
                     "encode": {
                         "enter": {
-                            "x": { "scale": xScale, "field": xField, "band": 0.5 },
-                            "y": { "scale": yScale, "field": yField },
-                            "size": { "value": sizeSymbol },
-                            "shape": { "value": shape },
-                            "fill": { "value": colorSymbol },
+                            "x": { "scale": xScale, "field": category, "band": 0.5 },
+                            "y": { "scale": yScale, "field": value },
+                            "size": { "value": symbolSize },
+                            "shape": { "value": symbolShape },
+                            "fill": { "value": colorBase },
                             "stroke": { "value": strokeColor },
                             "strokeWidth": { "value": strokeWidth }
                         },
                         "update": {
-                            "fill": { "value": colorSymbol }
+                            "fill": { "value": colorBase }
                         },
                         "hover": {
                             "fill": { "value": colorHover }

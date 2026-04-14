@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { BarGroupedAdapter } from "../../../../../src/components/wizard/adapters/template/BarGroupedAdapter";
+import { BarGroupedAdapter } from "../../../../../src/components/wizard/adapters/template/stacked/BarGroupedAdapter";
 
 describe('BarGroupedAdapter', () => {
     const adapter = new BarGroupedAdapter();

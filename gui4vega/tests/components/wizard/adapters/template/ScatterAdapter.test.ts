@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ScatterAdapter } from "../../../../../src/components/wizard/adapters/template/ScatterAdapter";
+import { ScatterAdapter } from "../../../../../src/components/wizard/adapters/template/simple/ScatterAdapter";
 
 describe('ScatterAdapter', () => {
     const adapter = new ScatterAdapter();

@@ -11,8 +11,8 @@ export class LineAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'field', label: 'X Axis', required: true },
-            { name: 'yField', type: 'field', label: 'Y Axis', required: true },
+            { name: 'category', type: 'field', label: 'Category (X Axis)', required: true },
+            { name: 'value', type: 'field', label: 'Value (Y Axis)', required: true },
             { name: 'colorLine', type: 'color',  label: 'Base Color', required: false, defaultValue: '#000000' },
             { name: 'strokeWidth', type: 'number', label: 'Line Width', required: false, defaultValue: 3 }
         ];
@@ -22,8 +22,8 @@ export class LineAdapter implements WizardAdapter {
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 
-        const xField = fields['xField'];
-        const yField = fields['yField'];
+        const category = fields['category'];
+        const value = fields['value'];
         const colorLine = fields['colorLine'];
         const strokeWidth = fields['strokeWidth'];
 
@@ -36,22 +36,22 @@ export class LineAdapter implements WizardAdapter {
                 {
                     "name": xScale,
                     "type": "band",
-                    "domain": { "data": datasetName, "field": xField },
+                    "domain": { "data": datasetName, "field": category },
                     "range": "width",
                     "padding": 0.2,
                 },
                 {
                     "name": yScale,
                     "type": "linear",
-                    "domain": { "data": datasetName, "field": yField },
+                    "domain": { "data": datasetName, "field": value },
                     "nice": true,
                     "range": "height"
                 }
             ],
 
             "axes": [
-                { "orient": "bottom", "scale": xScale, "title": xField },
-                { "orient": "left", "scale": yScale, "title": yField }
+                { "orient": "bottom", "scale": xScale, "title": category },
+                { "orient": "left", "scale": yScale, "title": value }
             ],
 
             "marks": [
@@ -60,8 +60,8 @@ export class LineAdapter implements WizardAdapter {
                     "from": { "data": datasetName },
                     "encode": {
                         "enter": {
-                            "x": { "scale": xScale, "field": xField, "band": 0.5 },
-                            "y": { "scale": yScale, "field": yField },
+                            "x": { "scale": xScale, "field": category, "band": 0.5 },
+                            "y": { "scale": yScale, "field": value },
                             "stroke": { "value": colorLine },
                             "strokeWidth": { "value": strokeWidth }
                         }

@@ -1,5 +1,5 @@
-import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
-import type { WizardConfig } from "../../helper/wizardSpec.ts";
+import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../../WizardAdapter.ts";
+import type { WizardConfig } from "../../../helper/wizardSpec.ts";
 
 export class SpiderAdapter implements WizardAdapter {
     // Select the mode for the adapter
@@ -8,9 +8,9 @@ export class SpiderAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'category', type: 'field', label: 'Category', required: true },
-            { name: 'value', type: 'field', label: 'Value', required: true },
-            { name: 'colorGroup', type: 'field', label: 'Color / Group', required: true },
+            { name: 'category', type: 'field', label: 'Category (Axis Count)', required: true },
+            { name: 'value', type: 'field', label: 'Value (Point Distance)', required: true },
+            { name: 'group', type: 'field', label: 'Group (Color)', required: true },
         ];
     }
 
@@ -18,9 +18,9 @@ export class SpiderAdapter implements WizardAdapter {
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 
-        const categoryField = fields['category'];
-        const valueField = fields['value'];
-        const colorGroup = fields['colorGroup'];
+        const category = fields['category'];
+        const value = fields['value'];
+        const group = fields['group'];
 
         const suffix = Math.floor(Math.random() * 10000);
         const keysData = `spider_keys_${suffix}`;
@@ -40,7 +40,7 @@ export class SpiderAdapter implements WizardAdapter {
                     "transform": [
                         {
                             "type": "aggregate",
-                            "groupby": [categoryField]
+                            "groupby": [category]
                         }
                     ]
                 }
@@ -56,20 +56,20 @@ export class SpiderAdapter implements WizardAdapter {
                     "type": "point",
                     "range": {"signal": "[-PI, PI]"},
                     "padding": 0.5,
-                    "domain": {"data": datasetName, "field": categoryField}
+                    "domain": {"data": datasetName, "field": category}
                 },
                 {
                     "name": "radial",
                     "type": "linear",
                     "range": {"signal": `[0, ${radiusSignal}]`},
                     "zero": true,
-                    "domain": {"data": datasetName, "field": valueField}
+                    "domain": {"data": datasetName, "field": value}
                 },
                 {
                     "name": "color",
                     "type": "ordinal",
                     "range": {"scheme": "category10"},
-                    "domain": {"data": datasetName, "field": colorGroup}
+                    "domain": {"data": datasetName, "field": group}
                 }
             ],
 
@@ -90,8 +90,8 @@ export class SpiderAdapter implements WizardAdapter {
                             "encode": {
                                 "enter": {
                                     "interpolate": {"value": "linear-closed"},
-                                    "x": {"signal": `${radiusSignal} * cos(scale('angular', datum['${categoryField}']))`},
-                                    "y": {"signal": `${radiusSignal} * sin(scale('angular', datum['${categoryField}']))`},
+                                    "x": {"signal": `${radiusSignal} * cos(scale('angular', datum['${category}']))`},
+                                    "y": {"signal": `${radiusSignal} * sin(scale('angular', datum['${category}']))`},
                                     "stroke": {"value": "lightgray"},
                                     "strokeWidth": {"value": 1}
                                 }
@@ -105,8 +105,8 @@ export class SpiderAdapter implements WizardAdapter {
                                 "enter": {
                                     "x": {"value": 0},
                                     "y": {"value": 0},
-                                    "x2": {"signal": `${radiusSignal} * cos(scale('angular', datum['${categoryField}']))`},
-                                    "y2": {"signal": `${radiusSignal} * sin(scale('angular', datum['${categoryField}']))`},
+                                    "x2": {"signal": `${radiusSignal} * cos(scale('angular', datum['${category}']))`},
+                                    "y2": {"signal": `${radiusSignal} * sin(scale('angular', datum['${category}']))`},
                                     "stroke": {"value": "lightgray"}
                                 }
                             }
@@ -114,7 +114,7 @@ export class SpiderAdapter implements WizardAdapter {
                         {
                             "type": "group",
                             "from": {
-                                "facet": {"data": datasetName, "name": "facet_data", "groupby": [colorGroup]}
+                                "facet": {"data": datasetName, "name": "facet_data", "groupby": [group]}
                             },
                             "marks": [
                                 {
@@ -123,10 +123,10 @@ export class SpiderAdapter implements WizardAdapter {
                                     "encode": {
                                         "enter": {
                                             "interpolate": {"value": "linear-closed"},
-                                            "x": {"signal": `scale('radial', datum['${valueField}']) * cos(scale('angular', datum['${categoryField}']))`},
-                                            "y": {"signal": `scale('radial', datum['${valueField}']) * sin(scale('angular', datum['${categoryField}']))`},
-                                            "stroke": {"scale": "color", "field": colorGroup},
-                                            "fill": {"scale": "color", "field": colorGroup},
+                                            "x": {"signal": `scale('radial', datum['${value}']) * cos(scale('angular', datum['${category}']))`},
+                                            "y": {"signal": `scale('radial', datum['${value}']) * sin(scale('angular', datum['${category}']))`},
+                                            "stroke": {"scale": "color", "field": group},
+                                            "fill": {"scale": "color", "field": group},
                                             "fillOpacity": {"value": 0.1}
                                         }
                                     }
@@ -138,10 +138,10 @@ export class SpiderAdapter implements WizardAdapter {
                             "from": {"data": datasetName},
                             "encode": {
                                 "enter": {
-                                    "x": {"signal": `scale('radial', datum['${valueField}']) * cos(scale('angular', datum['${categoryField}']))`},
-                                    "y": {"signal": `scale('radial', datum['${valueField}']) * sin(scale('angular', datum['${categoryField}']))`},
-                                    "fill": {"scale": "color", "field": colorGroup},
-                                    "tooltip": {"field": valueField}
+                                    "x": {"signal": `scale('radial', datum['${value}']) * cos(scale('angular', datum['${category}']))`},
+                                    "y": {"signal": `scale('radial', datum['${value}']) * sin(scale('angular', datum['${category}']))`},
+                                    "fill": {"scale": "color", "field": group},
+                                    "tooltip": {"field": value}
                                 },
                                 "update": {
                                     "size": {"value": 75},
@@ -159,11 +159,11 @@ export class SpiderAdapter implements WizardAdapter {
                             "from": {"data": keysData},
                             "encode": {
                                 "enter": {
-                                    "x": {"signal": `(${radiusSignal} + 15) * cos(scale('angular', datum['${categoryField}']))`},
-                                    "y": {"signal": `(${radiusSignal} + 15) * sin(scale('angular', datum['${categoryField}']))`},
-                                    "text": {"field": categoryField},
-                                    "align": {"signal": `abs(scale('angular', datum['${categoryField}'])) > PI/2 ? 'right' : 'left'`},
-                                    "baseline": {"signal": `scale('angular', datum['${categoryField}']) > 0 ? 'top' : (scale('angular', datum['${categoryField}']) == 0 ? 'middle' : 'bottom')`},
+                                    "x": {"signal": `(${radiusSignal} + 15) * cos(scale('angular', datum['${category}']))`},
+                                    "y": {"signal": `(${radiusSignal} + 15) * sin(scale('angular', datum['${category}']))`},
+                                    "text": {"field": category},
+                                    "align": {"signal": `abs(scale('angular', datum['${category}'])) > PI/2 ? 'right' : 'left'`},
+                                    "baseline": {"signal": `scale('angular', datum['${category}']) > 0 ? 'top' : (scale('angular', datum['${category}']) == 0 ? 'middle' : 'bottom')`},
                                     "fontWeight": {"value": "bold"},
                                     "fill": {"value": "black"}
                                 }

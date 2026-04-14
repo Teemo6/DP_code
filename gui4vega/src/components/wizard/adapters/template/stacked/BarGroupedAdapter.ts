@@ -1,5 +1,5 @@
-import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
-import type { WizardConfig } from "../../helper/wizardSpec.ts";
+import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../../WizardAdapter.ts";
+import type { WizardConfig } from "../../../helper/wizardSpec.ts";
 
 /**
  * Adapter for generating a grouped bar chart Vega specification based on user input from the wizard form.
@@ -11,9 +11,9 @@ export class BarGroupedAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'field', label: 'X Axis / Category', required: true },
-            { name: 'yField', type: 'field', label: 'Y Axis / Value', required: true },
-            { name: 'colorGroup', type: 'field', label: 'Color / Group', required: true }
+            { name: 'category', type: 'field', label: 'Category (X Axis)', required: true },
+            { name: 'value', type: 'field', label: 'Value (Y Axis)', required: true },
+            { name: 'group', type: 'field', label: 'Group (Color)', required: true }
         ];
     }
 
@@ -21,9 +21,9 @@ export class BarGroupedAdapter implements WizardAdapter {
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 
-        const xCategory = fields['xField'];
-        const yValue = fields['yField'];
-        const colorGroup = fields['colorGroup'];
+        const category = fields['category'];
+        const value = fields['value'];
+        const group = fields['group'];
 
         return {
             "$schema": "https://vega.github.io/schema/vega/v6.json",
@@ -34,14 +34,14 @@ export class BarGroupedAdapter implements WizardAdapter {
                 {
                     "name": "xscale",
                     "type": "band",
-                    "domain": {"data": datasetName, "field": xCategory},
+                    "domain": {"data": datasetName, "field": category},
                     "range": "width",
                     "padding": 0.2
                 },
                 {
                     "name": "yscale",
                     "type": "linear",
-                    "domain": {"data": datasetName, "field": yValue},
+                    "domain": {"data": datasetName, "field": value},
                     "nice": true,
                     "zero": true,
                     "range": "height",
@@ -50,14 +50,14 @@ export class BarGroupedAdapter implements WizardAdapter {
                 {
                     "name": "color",
                     "type": "ordinal",
-                    "domain": {"data": datasetName, "field": colorGroup},
+                    "domain": {"data": datasetName, "field": group},
                     "range": "category"
                 }
             ],
 
             "axes": [
-                { "orient": "bottom", "scale": "xscale", "title": xCategory },
-                { "orient": "left", "scale": "yscale", "title": yValue }
+                { "orient": "bottom", "scale": "xscale", "title": category },
+                { "orient": "left", "scale": "yscale", "title": value }
             ],
 
             "marks": [
@@ -67,12 +67,12 @@ export class BarGroupedAdapter implements WizardAdapter {
                         "facet": {
                             "data": datasetName,
                             "name": "facet",
-                            "groupby": xCategory
+                            "groupby": category
                         }
                     },
                     "encode": {
                         "enter": {
-                            "x": {"scale": "xscale", "field": xCategory}
+                            "x": {"scale": "xscale", "field": category}
                         }
                     },
                     "signals": [
@@ -83,7 +83,7 @@ export class BarGroupedAdapter implements WizardAdapter {
                             "name": "pos",
                             "type": "band",
                             "range": "width",
-                            "domain": {"data": "facet", "field": colorGroup},
+                            "domain": {"data": "facet", "field": group},
                             "padding": 0.1
                         }
                     ],
@@ -93,11 +93,11 @@ export class BarGroupedAdapter implements WizardAdapter {
                             "from": {"data": "facet"},
                             "encode": {
                                 "enter": {
-                                    "x": {"scale": "pos", "field": colorGroup},
+                                    "x": {"scale": "pos", "field": group},
                                     "width": {"scale": "pos", "band": 1},
-                                    "y": {"scale": "yscale", "field": yValue},
+                                    "y": {"scale": "yscale", "field": value},
                                     "y2": {"scale": "yscale", "value": 0},
-                                    "fill": {"scale": "color", "field": colorGroup}
+                                    "fill": {"scale": "color", "field": group}
                                 },
                                 "update": {
                                     "fillOpacity": {"value": 1}
@@ -114,7 +114,7 @@ export class BarGroupedAdapter implements WizardAdapter {
             "legends": [
                 {
                     "fill": "color",
-                    "title": colorGroup,
+                    "title": group,
                     "orient": "right"
                 }
             ]

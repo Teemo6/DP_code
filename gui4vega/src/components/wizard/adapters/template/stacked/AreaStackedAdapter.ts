@@ -1,5 +1,5 @@
-import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
-import type { WizardConfig } from "../../helper/wizardSpec.ts";
+import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../../WizardAdapter.ts";
+import type { WizardConfig } from "../../../helper/wizardSpec.ts";
 
 /**
  * Adapter for generating a stacked area chart Vega specification based on user input from the wizard form.
@@ -11,9 +11,9 @@ export class AreaStackedAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'xField', type: 'field', label: 'X Axis / Category', required: true },
-            { name: 'yField', type: 'field', label: 'Y Axis / Value', required: true },
-            { name: 'colorGroup', type: 'field', label: 'Color / Group', required: true },
+            { name: 'category', type: 'field', label: 'Category (X Axis)', required: true },
+            { name: 'value', type: 'field', label: 'Value (Y Axis)', required: true },
+            { name: 'group', type: 'field', label: 'Group (Color)', required: true },
             { name: 'interpolate', type: 'select', label: 'Interpolation', required: false, options: ['linear', 'step', 'step-before', 'step-after', 'basis', 'cardinal', 'monotone'], defaultValue: 'linear' },
         ];
     }
@@ -22,9 +22,9 @@ export class AreaStackedAdapter implements WizardAdapter {
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 
-        const xField = fields['xField'];
-        const yField = fields['yField'];
-        const colorGroup = fields['colorGroup'];
+        const category = fields['category'];
+        const value = fields['value'];
+        const group = fields['group'];
         const interpolate = fields['interpolate'];
 
         const suffix = Math.floor(Math.random() * 10000);
@@ -42,9 +42,9 @@ export class AreaStackedAdapter implements WizardAdapter {
                     "transform": [
                         {
                             "type": "stack",
-                            "groupby": [xField],
-                            "sort": {"field": colorGroup},
-                            "field": yField
+                            "groupby": [category],
+                            "sort": {"field": group},
+                            "field": value
                         }
                     ]
                 }
@@ -55,7 +55,7 @@ export class AreaStackedAdapter implements WizardAdapter {
                     "name": "x",
                     "type": "point",
                     "range": "width",
-                    "domain": {"data": transformedDataName, "field": xField}
+                    "domain": {"data": transformedDataName, "field": category}
                 },
                 {
                     "name": "y",
@@ -69,7 +69,7 @@ export class AreaStackedAdapter implements WizardAdapter {
                     "name": "color",
                     "type": "ordinal",
                     "range": "category",
-                    "domain": {"data": transformedDataName, "field": colorGroup}
+                    "domain": {"data": transformedDataName, "field": group}
                 }
             ],
 
@@ -85,7 +85,7 @@ export class AreaStackedAdapter implements WizardAdapter {
                         "facet": {
                             "name": "facet_data",
                             "data": transformedDataName,
-                            "groupby": colorGroup
+                            "groupby": group
                         }
                     },
                     "marks": [
@@ -95,10 +95,10 @@ export class AreaStackedAdapter implements WizardAdapter {
                             "encode": {
                                 "enter": {
                                     "interpolate": {"value": interpolate},
-                                    "x": {"scale": "x", "field": xField},
+                                    "x": {"scale": "x", "field": category},
                                     "y": {"scale": "y", "field": "y0"},
                                     "y2": {"scale": "y", "field": "y1"},
-                                    "fill": {"scale": "color", "field": colorGroup}
+                                    "fill": {"scale": "color", "field": group}
                                 },
                                 "update": {
                                     "fillOpacity": {"value": 1}

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { PieAdapter } from "../../../../../src/components/wizard/adapters/template/PieAdapter";
+import { PieAdapter } from "../../../../../src/components/wizard/adapters/template/simple/PieAdapter";
 
 describe('PieAdapter', () => {
     const adapter = new PieAdapter();

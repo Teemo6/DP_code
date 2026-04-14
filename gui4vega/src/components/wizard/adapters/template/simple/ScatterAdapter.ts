@@ -1,5 +1,5 @@
-import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
-import type { WizardConfig } from "../../helper/wizardSpec.ts";
+import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../../WizardAdapter.ts";
+import type { WizardConfig } from "../../../helper/wizardSpec.ts";
 
 /**
  * Adapter for generating a scatter plot Vega specification based on user input from the wizard form.

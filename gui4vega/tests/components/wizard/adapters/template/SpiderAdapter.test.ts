@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SpiderAdapter } from "../../../../../src/components/wizard/adapters/template/SpiderAdapter";
+import { SpiderAdapter } from "../../../../../src/components/wizard/adapters/template/stacked/SpiderAdapter";
 
 describe('SpiderAdapter', () => {
     const adapter = new SpiderAdapter();

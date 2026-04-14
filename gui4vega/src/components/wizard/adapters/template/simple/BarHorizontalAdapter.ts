@@ -1,5 +1,5 @@
-import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
-import type { WizardConfig } from "../../helper/wizardSpec.ts";
+import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../../WizardAdapter.ts";
+import type { WizardConfig } from "../../../helper/wizardSpec.ts";
 
 /**
  * Adapter for generating a horizontal bar chart Vega specification based on user input from the wizard form.
@@ -11,8 +11,8 @@ export class BarHorizontalAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'yCategory', type: 'field', label: 'Y Axis / Category', required: true },
-            { name: 'xValue', type: 'field', label: 'X Axis / Value', required: true },
+            { name: 'category', type: 'field', label: 'Category (Y Axis)', required: true },
+            { name: 'value', type: 'field', label: 'Value (X Axis)', required: true },
             { name: 'colorBar', type: 'color',  label: 'Base Color', required: false, defaultValue: '#7bbe1f' },
             { name: 'colorHover', type: 'color', label: 'Hover Color', required: false, defaultValue: '#ff5722' }
         ];
@@ -22,8 +22,8 @@ export class BarHorizontalAdapter implements WizardAdapter {
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 
-        const yCategory = fields['yCategory'];
-        const xValue = fields['xValue'];
+        const category = fields['category'];
+        const value = fields['value'];
         const colorBar = fields['colorBar'];
         const colorHover = fields['colorHover'];
 
@@ -36,22 +36,22 @@ export class BarHorizontalAdapter implements WizardAdapter {
                 {
                     "name": "xscale",
                     "type": "linear",
-                    "domain": {"data": datasetName, "field": xValue},
+                    "domain": {"data": datasetName, "field": value},
                     "range": "width",
                     "nice": true
                 },
                 {
                     "name": "yscale",
                     "type": "band",
-                    "domain": {"data": datasetName, "field": yCategory},
+                    "domain": {"data": datasetName, "field": category},
                     "range": "height",
                     "padding": 0.2
                 }
             ],
 
             "axes": [
-                { "orient": "bottom", "scale": "xscale", "title": xValue },
-                { "orient": "left", "scale": "yscale", "title": yCategory }
+                { "orient": "bottom", "scale": "xscale", "title": value },
+                { "orient": "left", "scale": "yscale", "title": category }
             ],
 
             "marks": [
@@ -60,9 +60,9 @@ export class BarHorizontalAdapter implements WizardAdapter {
                     "from": { "data": datasetName },
                     "encode": {
                         "enter": {
-                            "y": { "scale": "yscale", "field": yCategory },
+                            "y": { "scale": "yscale", "field": category },
                             "height": { "scale": "yscale", "band": 1 },
-                            "x": { "scale": "xscale", "field": xValue },
+                            "x": { "scale": "xscale", "field": value },
                             "x2": { "scale": "xscale", "value": 0 },
                             "fill": { "value": colorBar }
                         },

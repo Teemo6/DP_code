@@ -1,5 +1,5 @@
-import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../WizardAdapter.ts";
-import type { WizardConfig } from "../../helper/wizardSpec.ts";
+import type { AdapterMode, WizardAdapter, WizardField, WizardSpec } from "../../WizardAdapter.ts";
+import type { WizardConfig } from "../../../helper/wizardSpec.ts";
 
 /**
  * Adapter for generating a pie chart Vega specification based on user input from the wizard form.
@@ -11,8 +11,8 @@ export class PieAdapter implements WizardAdapter {
     // Define the fields that will be displayed in the wizard form for this adapter
     getFields(): WizardField[] {
         return [
-            { name: 'category', type: 'field', label: 'Category', required: true },
-            { name: 'value', type: 'field', label: 'Value', required: true },
+            { name: 'category', type: 'field', label: 'Category (Arc Count)', required: true },
+            { name: 'value', type: 'field', label: 'Value (Arc Size)', required: true },
             { name: 'sort', type: 'select', label: 'Sort by Value', options: ['none', 'ascending', 'descending'], required: false, defaultValue: 'none' },
             { name: 'hollow', type: 'boolean', label: 'Hollow Center', required: false, defaultValue: false },
             { name: 'roundedCorners', type: 'boolean', label: 'Rounded Corners', required: false, defaultValue: false },
@@ -23,8 +23,8 @@ export class PieAdapter implements WizardAdapter {
     getSpec(config: WizardConfig): WizardSpec {
         const { datasetName, fields } = config;
 
-        const categoryField = fields['category'];
-        const valueField = fields['value'];
+        const category = fields['category'];
+        const value = fields['value'];
         const isHollow = fields['hollow'];
         const sortOption = fields['sort'];
         const isRounded = fields['roundedCorners'];
@@ -33,17 +33,17 @@ export class PieAdapter implements WizardAdapter {
         if (sortOption === 'ascending' || sortOption === 'descending') {
             transforms.push({
                 "type": "collect",
-                "sort": { "field": `datum['${valueField}']`, "order": sortOption }
+                "sort": { "field": `datum['${value}']`, "order": sortOption }
             });
             transforms.push({
                 "type": "pie",
-                "field": `datum['${valueField}']`,
+                "field": `datum['${value}']`,
                 "sort": false
             });
         } else {
             transforms.push({
                 "type": "pie",
-                "field": `datum['${valueField}']`,
+                "field": `datum['${value}']`,
                 "sort": false
             });
         }
@@ -57,7 +57,7 @@ export class PieAdapter implements WizardAdapter {
                 {
                     "name": "color",
                     "type": "ordinal",
-                    "domain": { "data": datasetName, "field": categoryField },
+                    "domain": { "data": datasetName, "field": category },
                     "range": { "scheme": "category20" }
                 }
             ],
@@ -69,10 +69,10 @@ export class PieAdapter implements WizardAdapter {
                     "transform": transforms,
                     "encode": {
                         "enter": {
-                            "fill": { "scale": "color", "field": categoryField },
+                            "fill": { "scale": "color", "field": category },
                             "x": { "signal": "width / 2" },
                             "y": { "signal": "height / 2" },
-                            "tooltip": { "signal": `{'${categoryField}': datum['${categoryField}'], '${valueField}': datum['${valueField}']}` }
+                            "tooltip": { "signal": `{'${category}': datum['${category}'], '${value}': datum['${value}']}` }
                         },
                         "update": {
                             "startAngle": { "field": "startAngle" },
@@ -90,7 +90,7 @@ export class PieAdapter implements WizardAdapter {
             ],
 
             "legends": [
-                { "fill": "color", "title": categoryField }
+                { "fill": "color", "title": category }
             ]
         };
     }

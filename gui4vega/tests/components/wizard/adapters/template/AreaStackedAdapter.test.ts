@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { AreaStackedAdapter } from "../../../../../src/components/wizard/adapters/template/AreaStackedAdapter";
+import { AreaStackedAdapter } from "../../../../../src/components/wizard/adapters/template/stacked/AreaStackedAdapter";
 
 describe('AreaStackedAdapter', () => {
     const adapter = new AreaStackedAdapter();
