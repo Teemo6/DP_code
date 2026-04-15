@@ -1,8 +1,17 @@
-import { Container, Navbar, Nav, Row, Col, ListGroup } from 'react-bootstrap'
+import { Container, Navbar, Nav, Row, Col, ListGroup, Form } from 'react-bootstrap'
 import { VegaEditor } from '@relisa/gui4vega'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { useState, useEffect } from 'react'
 
 function App() {
+    // State to track dark mode
+    const [isDark, setIsDark] = useState(false)
+
+    // Update bootstrap theme
+    useEffect(() => {
+        document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light')
+    }, [isDark])
+
     return (
         <>
             <Navbar bg="dark" variant="dark" expand="lg">
@@ -14,13 +23,23 @@ function App() {
                                       <Nav.Link href="#home">Home</Nav.Link>
                                       <Nav.Link href="#about">About</Nav.Link>
                                 </Nav>
+                                <Form className="d-flex">
+                                    <Form.Check
+                                        type="switch"
+                                        id="theme-switch"
+                                        label={isDark ? "Dark Mode" : "Light Mode"}
+                                        className="text-white"
+                                        checked={isDark}
+                                        onChange={() => setIsDark(!isDark)}
+                                    />
+                                </Form>
                           </Navbar.Collapse>
                     </Container>
               </Navbar>
 
               <Container fluid className="px-4">
                   <Row>
-                      <Col md={3} className="bg-light border-end vh-100 p-3">
+                      <Col md={3} className="border-end vh-100 p-3">
                             <h5 className="mb-3">Examples</h5>
                             <ListGroup>
                                   <ListGroup.Item action href="#simple">
@@ -46,8 +65,8 @@ function App() {
                           <h2>Vega Editor Integration</h2>
                           <p className="text-muted">A minimal example showing the VegaEditor component from <code>@relisa/gui4vega</code>.</p>
 
-                          <div className="border rounded p-2 bg-white" style={{ height: '75vh', width: '70vw' }}>
-                              <VegaEditor height="100%" />
+                          <div className="border rounded p-2" style={{ height: '75vh', width: '70vw' }}>
+                              <VegaEditor height="100%" theme={isDark ? 'dark' : 'light'} />
                           </div>
                       </Col>
                   </Row>
