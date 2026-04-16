@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Typography, Tooltip } from 'antd';
+import { Typography } from 'antd';
 import { parseValue } from "./helper/ParseValue.ts";
 
 const { Text } = Typography;
@@ -44,26 +44,24 @@ const EditableCell: React.FC<EditableCellProps> = (props) => {
     };
 
     return (
-        <Tooltip title="Click to edit" mouseEnterDelay={1}>
-            <Text
-                style={{ cursor: 'pointer', display: 'block' }}
-                ellipsis={display.length > MAX_DISPLAY_LENGTH ? { tooltip: display } : false}
-                editable={{
-                    editing: isEditing,
-                    onStart: () => setIsEditing(true),
-                    onChange: handleSave,
-                    onCancel: () => setIsEditing(false),
-                    triggerType: ['text'],
-                }}
-            >
-                {/* Show either data value or placeholder */}
-                {display || (
-                    <Text type="secondary" italic>
-                        Click to edit
-                    </Text>
-                )}
-            </Text>
-        </Tooltip>
+        <Text
+            style={{ cursor: 'pointer', display: 'block' }}
+            ellipsis={display.length > MAX_DISPLAY_LENGTH ? { tooltip: display } : false}
+            editable={{
+                editing: isEditing,
+                onStart: () => setIsEditing(true),
+                onChange: handleSave,
+                onCancel: () => setIsEditing(false),
+                triggerType: ['text'],
+            }}
+        >
+            {/* Show either data value or placeholder */}
+            {display || (
+                <Text type="secondary" italic>
+                    Click to edit
+                </Text>
+            )}
+        </Text>
     );
 };
 
