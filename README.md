@@ -10,12 +10,15 @@ Refer to this README or [GUI 4 Vega Documentation](https://relisa.github.io/Vega
 
 - **React Component**: Easy integration into any React project via `@relisa/gui4vega` package hosted on GitHub Packages registry.
 - **UI Frameworks Integration**: Examples provided for [Ant Design](https://ant.design/) (`demo_antd`) and [Bootstrap](https://react-bootstrap.netlify.app/) (`demo_bootstrap`).
-- **Embedded Editor**: Interactive JSON editor powered by [CodeMirror](https://codemirror.net/).
+- **Embedded Text Editor**: Interactive JSON editor powered by [CodeMirror](https://codemirror.net/).
+- **Wizard Tab**: Step-by-step interface to easily generate sample visualizations and configure simple graphs.
+- **Data and Signals Editors**: Interactive UI panels to visually manage, inspect, and tweak Vega data sources and signals without writing JSON manually.
+- **Spec Import and Export**: Easily load existing Vega JSON specifications or export your creations for use in other projects.
 - **Data Import**: Built-in support for CSV and JSON data importing.
 - **Live Preview**: Real-time updates to the Vega visualization as you edit the specification.
 - **Customizable Layout**: Layout with resizable panels for the editor and visualization, supporting light and dark themes.
 
-![GUI 4 Vega](img/intro.jpg)
+![GUI 4 Vega](img/intro.gif)
 
 ## Contents
 
