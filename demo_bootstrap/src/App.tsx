@@ -15,22 +15,19 @@ function App() {
     return (
         <>
             <Navbar bg="dark" variant="dark" expand="lg">
-                    <Container>
-                          <Navbar.Brand href="#home">GUI 4 Vega Bootstrap Demo</Navbar.Brand>
-                          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                          <Navbar.Collapse id="basic-navbar-nav">
-                                <Form className="d-flex ms-auto">
-                                    <Form.Check
-                                        type="switch"
-                                        id="theme-switch"
-                                        label={isDark ? "Dark Mode" : "Light Mode"}
-                                        className="text-white"
-                                        checked={isDark}
-                                        onChange={() => setIsDark(!isDark)}
-                                    />
-                                </Form>
-                          </Navbar.Collapse>
-                    </Container>
+                <Container>
+                    <Navbar.Brand>GUI 4 Vega Bootstrap Demo</Navbar.Brand>
+                    <Form className="d-flex ms-auto">
+                        <Form.Check
+                            type="switch"
+                            id="theme-switch"
+                            label={isDark ? "Dark Mode" : "Light Mode"}
+                            className="text-white"
+                            checked={isDark}
+                            onChange={() => setIsDark(!isDark)}
+                        />
+                    </Form>
+                </Container>
               </Navbar>
 
               <Container fluid className="px-4">
