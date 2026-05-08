@@ -1,10 +1,15 @@
 import { describe, it, expect } from 'vitest';
+import { parse } from 'vega';
+import { generateSpec } from "../../../../src/components/wizard/helper/wizardSpec";
 import type { WizardAdapter } from "../../../../src/components/wizard/adapters/WizardAdapter";
+import type { WizardConfig } from "../../../../src/components/wizard/helper/wizardSpec";
+
+import defaultSpec from '../../../../src/assets/default.json';
 
 /**
  * Shared tests for all WizardAdapters
  */
-export function validateWizardAdapter(AdapterClass: new () => WizardAdapter, expectedMode: string, expectedFieldNames: string[]) {
+export function validateWizardAdapter(AdapterClass: new () => WizardAdapter, expectedMode: string, expectedFieldNames: string[], mockConfig: WizardConfig) {
     const adapter = new AdapterClass();
 
     describe('WizardAdapter generic tests', () => {
@@ -25,6 +30,14 @@ export function validateWizardAdapter(AdapterClass: new () => WizardAdapter, exp
                     expect(field.required).toBe(true);
                 }
             });
+        });
+
+        it('should return valid Vega spec', () => {
+            const fullSpecStr = generateSpec(JSON.stringify(defaultSpec), mockConfig);
+
+            expect(() => {
+                parse(JSON.parse(fullSpecStr));
+            }).not.toThrow();
         });
     });
 }
